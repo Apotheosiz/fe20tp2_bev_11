@@ -11,7 +11,7 @@ class Firebase {
         this.db = app.database();
     }
 
-    // Authentication API
+    // *** Auth API ***
 
     doCreateUserWithEmailAndPassword = (email, password) =>
         this.auth.createUserWithEmailAndPassword(email, password);
@@ -24,6 +24,13 @@ class Firebase {
     doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
 
     doPasswordUpdate = password => this.auth.currentUser.updatePassword(password);
+
+    doSendEmailVerification = () =>
+        this.auth.currentUser.sendEmailVerification({
+            //set this equal to the domain name after the production environment receives an actual domain
+            url: 'http://localhost:3000'
+            //url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
+        });
 
     // *** Merge Auth and DB User API *** //
     onAuthUserListener = (next, fallback) =>
@@ -41,6 +48,8 @@ class Firebase {
                         authUser = {
                             uid: authUser.uid,
                             email: authUser.email,
+                            emailVerified: authUser.emailVerified,
+                            providerData: authUser.providerData,
                             ...dbUser,
                         };
                         next(authUser);

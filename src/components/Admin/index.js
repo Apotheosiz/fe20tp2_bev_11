@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'recompose';
 
 import { withFirebase } from '../Firebase';
-import { withAuthorization } from '../Session';
+import { withAuthorization, withEmailVerification } from '../Session';
 import * as ROLES from '../../constants/roles';
 
 
@@ -78,6 +78,7 @@ const condition = authUser =>
 
 
 export default compose(
+    withEmailVerification,
     withAuthorization(condition),
     withFirebase,
 )(AdminPage);

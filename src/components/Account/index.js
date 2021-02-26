@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
-import { AuthUserContext, withAuthorization } from '../Session';
+import { withFirebase } from '../Firebase';
+import { compose } from 'recompose';
+import { AuthUserContext, withAuthorization, withEmailVerification } from '../Session';
 
 
 const AccountPage = () => (
@@ -18,4 +20,7 @@ const AccountPage = () => (
 
 const condition = authUser => !!authUser;
 
-export default withAuthorization(condition)(AccountPage);
+export default compose(
+    withEmailVerification,
+    withAuthorization(condition),
+)(AccountPage);
