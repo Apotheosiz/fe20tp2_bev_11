@@ -33,6 +33,7 @@ class MessagesBase extends Component {
     };
 
     onCreateMessage = (event, authUser) => {
+        event.preventDefault();
         this.props.firebase.messages().push({
             text: this.state.text,
             userId: authUser.uid,
@@ -40,7 +41,7 @@ class MessagesBase extends Component {
 
         this.setState({ text: '' });
 
-        event.preventDefault();
+
     };
 
     onRemoveMessage = uid => {
@@ -91,7 +92,7 @@ class MessagesBase extends Component {
                                 <div>There are no messages ...</div>
                             )}
 
-                        <form onSubmit={this.onCreateMessage}>
+                        <form onSubmit={event => this.onCreateMessage(event, authUser)}>
                             <input
                                 type="text"
                                 value={text}
@@ -137,6 +138,7 @@ const MessageItem = ({ message, onRemoveMessage }) => (
 const condition = authUser => !!authUser;
 
 const Messages = withFirebase(MessagesBase);
+
 export default compose(
     withEmailVerification,
     withAuthorization(condition),
