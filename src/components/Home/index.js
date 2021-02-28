@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
-import { withAuthorization, withEmailVerification } from '../Session';
+import {
+    AuthUserContext,
+    withAuthorization,
+    withEmailVerification,
+} from '../Session';
 import { withFirebase } from '../Firebase';
 
 const HomePage = () => (
@@ -23,6 +27,21 @@ class MessagesBase extends Component {
             messages: [],
         };
     }
+
+    onChangeText = event => {
+        this.setState({ text: event.target.value });
+    };
+
+    onCreateMessage = (event, authUser) => {
+        this.props.firebase.messages().push({
+            text: this.state.text,
+            userId: authUser.uid,
+        });
+
+        this.setState({ text: '' });
+
+        event.preventDefault();
+    };
 
     componentDidMount() {
         this.setState({ loading: true });
@@ -54,25 +73,29 @@ class MessagesBase extends Component {
         const { text, messages, loading } = this.state;
 
         return (
-            <div>
-                {loading && <div>Loading ...</div>}
+            <AuthUserContext.Consumer>
+                {authUser => (
+                    <div>
+                        {loading && <div>Loading ...</div>}
 
-                {messages ? (
-                    <MessageList messages={messages} />
-                ) : (
-                        <div>There are no messages ...</div>
-                    )}
+                        {messages ? (
+                            <MessageList messages={messages} />
+                        ) : (
+                                <div>There are no messages ...</div>
+                            )}
 
-                <form onSubmit={this.onCreateMessage}>
-                    <input
-                        type="text"
-                        value={text}
-                        onChange={this.onChangeText}
-                    />
-                    <button type="submit">Send</button>
-                </form>
+                        <form onSubmit={this.onCreateMessage}>
+                            <input
+                                type="text"
+                                value={text}
+                                onChange={this.onChangeText}
+                            />
+                            <button type="submit">Send</button>
+                        </form>
 
-            </div>
+                    </div>
+                )}
+            </AuthUserContext.Consumer>
         );
 
     }
