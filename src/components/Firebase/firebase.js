@@ -7,6 +7,9 @@ class Firebase {
     constructor() {
         app.initializeApp(config);
 
+        /* Helper */
+        this.serverValue = app.database.ServerValue;
+        this.emailAuthProvider = app.auth.EmailAuthProvider;
         this.auth = app.auth();
         this.db = app.database();
     }
