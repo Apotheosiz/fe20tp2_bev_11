@@ -3,7 +3,10 @@ import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
 import { withFirebase } from '../Firebase';
 import { compose } from 'recompose';
-import { AuthUserContext, withAuthorization, withEmailVerification } from '../Session';
+import {
+    AuthUserContext,
+    withAuthorization,
+} from '../Session';
 
 
 const AccountPage = () => (
@@ -21,6 +24,5 @@ const AccountPage = () => (
 const condition = authUser => !!authUser;
 
 export default compose(
-    withEmailVerification,
     withAuthorization(condition),
 )(AccountPage);
