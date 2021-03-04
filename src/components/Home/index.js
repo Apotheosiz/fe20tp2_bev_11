@@ -5,12 +5,14 @@ import {
     withAuthorization,
 } from '../Session';
 import { withFirebase } from '../Firebase';
+import StockDataDashboard from '../StockDataDasboard';
 
 const HomePage = () => (
     <div>
         <h1>Home Page</h1>
         <p>The Home Page is accessible by every signed in user.</p>
 
+        <StockDataDashboard />
         <Messages />
 
     </div>
