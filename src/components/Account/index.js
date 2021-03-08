@@ -13,7 +13,7 @@ const AccountPage = () => (
     <AuthUserContext.Consumer>
         {authUser => (
             <div>
-                <h1>Account: {authUser.email}</h1>
+                <h1>Account: {authUser.email} {/*Object.keys(authUser.symbols)*/}</h1>
                 <PasswordForgetForm />
                 <PasswordChangeForm />
             </div>
