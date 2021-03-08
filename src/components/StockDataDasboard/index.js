@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import CompanySearch from '../CompanySearch';
 
 const URL = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=';
 const companyTicker = "AAPL";
@@ -11,14 +12,21 @@ const StockDataDashboard = () => {
     const [stockData, setStockData] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
 
-    const onChange = event => {
-        setSearchTerm(event.target.value);
-    };
+    // const onChange = event => {
+    //     // console.log(event.target.value);
+    //     // fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${event.target.value}&apikey=NDKNCJQP3XCZ0Z28`)
+    //     //     .then(response => response.json())
+    //     //     .then(data => {
+    //     //         console.log(data);
+    //     //     })
 
-    const onSubmit = event => {
-        event.preventDefault();
-        console.log('Almost there');
-    }
+    //     //setSearchTerm(event.target.value);
+    // };
+
+    // const onSubmit = event => {
+    //     event.preventDefault();
+    //     console.log('Almost there');
+    // }
 
     useEffect(() => {
         fetch(URL + companyTicker + API_KEY)
@@ -32,17 +40,17 @@ const StockDataDashboard = () => {
             <h1>Our Dashboard</h1>
             { stockData ? <p>{Object.keys(stockData["Time Series (60min)"])[0]} : {stockData["Time Series (60min)"]["2021-03-03 20:00:00"]["4. close"]}</p> :
                 null}
-            <form onSubmit={() => onSubmit()}>
+
+            <CompanySearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+            {/* <form onSubmit={() => onSubmit()}>
                 <input
                     name="searchCompany"
-                    value={searchTerm}
+                    // value={inputText}
                     onChange={() => onChange()}
                     type="text"
                     placeholder="Company name or ticker"
-                />
-                <button type="submit">Search</button>
-            </form>
-        </div>
+                /> */}
+        </div >
     )
 }
 
