@@ -40,9 +40,7 @@ const StockDataDashboard = () => {
 
     return (
         <div>
-            <h1>Our Dashboard</h1>
-
-
+            <h1>Dashboard</h1>
 
             <form onSubmit={onSubmit}>
                 <input
@@ -59,6 +57,7 @@ const StockDataDashboard = () => {
                     setCompanyTicker(result['symbol']);
                     setComp(result);
                     setResults([]);
+                    setSearchTerm('')
                 }}>
                     <span>{result['symbol']}</span>: <span>{result['name']}</span>
                 </div>)}
@@ -68,7 +67,6 @@ const StockDataDashboard = () => {
             {comp ? <div><h2><span>{comp.symbol}</span>: {comp.name}</h2><span>Currency: {comp.currency}</span></div> : null}
 
             { stockData ? <p>
-                {stockData.ticker}:
                 {stockData.results.map(result => <p>{getDate(result.t)}: {result.c}</p>)}
                 {/* {stockData.map(result => <div><span>{new Date(result.t)}: </span><span>{result.c}</span></div>)} */}
             </p> :
