@@ -11,15 +11,23 @@ const StockDataDashboard = () => {
     const [results, setResults] = useState([]);
     const [companyTicker, setCompanyTicker] = useState("");
     const [comp, setComp] = useState(null);
+    // const [notFound, setNotFound] = useState(false);
 
     const onChange = event => {
         setSearchTerm(event.target.value)
     };
 
     const onSubmit = event => {
+        // setNotFound(false);
         fetch(`https://financialmodelingprep.com/api/v3/search?query=${searchTerm}&limit=10&exchange=NASDAQ&apikey=b6c5cbff198727b26d87e2efe64a786d`)
             .then(response => response.json())
-            .then(data => setResults(data));
+            .then(data => {
+                // if (data === []) {
+                // setNotFound(true);
+                // } else {
+                setResults(data);
+                // }
+            });
         event.preventDefault();
     }
 
@@ -61,6 +69,7 @@ const StockDataDashboard = () => {
                 }}>
                     <span>{result['symbol']}</span>: <span>{result['name']}</span>
                 </div>)}
+            {/* {notFound ? <p>Company not found.</p> : null} */}
 
             {/* <CompanyList companies={results} setSelectedCompany={setSelectedCompany} /> */}
 
