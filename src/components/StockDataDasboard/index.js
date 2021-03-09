@@ -8,7 +8,7 @@ const StockDataDashboard = () => {
 
     const [stockData, setStockData] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
-    const [results, setResults] = useState([]);
+    const [results, setResults] = useState(null);
     const [companyTicker, setCompanyTicker] = useState("");
     const [comp, setComp] = useState(null);
     // const [notFound, setNotFound] = useState(false);
@@ -18,7 +18,7 @@ const StockDataDashboard = () => {
     };
 
     const onSubmit = event => {
-        // setNotFound(false);
+
         fetch(`https://financialmodelingprep.com/api/v3/search?query=${searchTerm}&limit=10&exchange=NASDAQ&apikey=b6c5cbff198727b26d87e2efe64a786d`)
             .then(response => response.json())
             .then(data => {
@@ -26,6 +26,7 @@ const StockDataDashboard = () => {
                 // setNotFound(true);
                 // } else {
                 setResults(data);
+                // setNotFound(false);
                 // }
             });
         event.preventDefault();
@@ -60,16 +61,24 @@ const StockDataDashboard = () => {
                 />
                 <input type="submit" value="Search" />
             </form>
-            {results.map(result =>
-                <div onClick={() => {
-                    setCompanyTicker(result['symbol']);
-                    setComp(result);
-                    setResults([]);
-                    setSearchTerm('')
-                }}>
-                    <span>{result['symbol']}</span>: <span>{result['name']}</span>
-                </div>)}
-            {/* {notFound ? <p>Company not found.</p> : null} */}
+            {results ?
+                (results.length > 0) ?
+                    <div>
+                        {results.map(result =>
+                            <div onClick={() => {
+                                setCompanyTicker(result['symbol']);
+                                setComp(result);
+                                setResults(null);
+                                setSearchTerm('')
+                            }}>
+                                <span>{result['symbol']}</span>: <span>{result['name']}</span>
+                            </div>)}
+                    </div>
+                    : <p>Company not found.</p>
+                : null
+            }
+
+            {}
 
             {/* <CompanyList companies={results} setSelectedCompany={setSelectedCompany} /> */}
 
@@ -77,10 +86,8 @@ const StockDataDashboard = () => {
 
                 <div>
                     <h2><span>{comp.symbol}</span>: {comp.name}</h2>
-                    {/* <span>Currency: {comp.currency}</span> */}
                     <p>
                         {stockData.results.map(result => <p>{getDate(result.t)}: {result.c} {comp.currency}</p>)}
-                        {/* {stockData.map(result => <div><span>{new Date(result.t)}: </span><span>{result.c}</span></div>)} */}
                     </p>
                 </div>
 
