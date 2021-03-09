@@ -3,14 +3,17 @@ import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
 import { withFirebase } from '../Firebase';
 import { compose } from 'recompose';
-import { AuthUserContext, withAuthorization, withEmailVerification } from '../Session';
+import {
+    AuthUserContext,
+    withAuthorization,
+} from '../Session';
 
 
 const AccountPage = () => (
     <AuthUserContext.Consumer>
         {authUser => (
             <div>
-                <h1>Account: {authUser.email}</h1>
+                <h1>Account: {authUser.email} {/*Object.keys(authUser.symbols)*/}</h1>
                 <PasswordForgetForm />
                 <PasswordChangeForm />
             </div>
@@ -21,6 +24,5 @@ const AccountPage = () => (
 const condition = authUser => !!authUser;
 
 export default compose(
-    withEmailVerification,
     withAuthorization(condition),
 )(AccountPage);
