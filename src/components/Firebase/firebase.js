@@ -9,7 +9,6 @@ class Firebase {
 
         /* Helper */
         this.serverValue = app.database.ServerValue;
-        this.emailAuthProvider = app.auth.EmailAuthProvider;
         this.auth = app.auth();
         this.db = app.database();
     }
@@ -28,13 +27,6 @@ class Firebase {
 
     doPasswordUpdate = password => this.auth.currentUser.updatePassword(password);
 
-    doSendEmailVerification = () =>
-        this.auth.currentUser.sendEmailVerification({
-            //set this equal to the domain name after the production environment receives an actual domain
-            url: 'http://localhost:3000'
-            //url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
-        });
-
     // *** Merge Auth and DB User API *** //
     onAuthUserListener = (next, fallback) =>
         this.auth.onAuthStateChanged(authUser => {
@@ -51,8 +43,6 @@ class Firebase {
                         authUser = {
                             uid: authUser.uid,
                             email: authUser.email,
-                            emailVerified: authUser.emailVerified,
-                            providerData: authUser.providerData,
                             ...dbUser,
                         };
                         next(authUser);
@@ -68,6 +58,10 @@ class Firebase {
     // *** Message API ***
     message = uid => this.db.ref(`messages/${uid}`);
     messages = () => this.db.ref('messages');
+
+    // ** Symbols API **
+    symbol = (uid, symbol) => this.db.ref(`users/${uid}/symbols/${symbol}`);
+    symbols = (uid) => this.db.ref(`users/${uid}/symbols`);
 }
 
 export default Firebase;
