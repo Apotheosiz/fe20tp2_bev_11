@@ -26,12 +26,12 @@ const StockDataDashboard = () => {
 
     const getDate = (timestamp) => {
         let date = new Date(timestamp);
-        return (<span>{date.toDateString()}</span>);
+        return (<span>{date.toLocaleDateString()}</span>);
     }
 
     useEffect(() => {
         if (companyTicker) {
-            fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/1/day/2020-10-14/2021-01-01?unadjusted=true&sort=asc&limit=120&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
+            fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/1/day/2020-10-14/2020-11-30?unadjusted=true&sort=asc&limit=120&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
                 .then(response => response.json())
                 .then(data => setStockData(data))
         }
