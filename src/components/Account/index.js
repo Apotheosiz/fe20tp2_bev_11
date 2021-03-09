@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
-import { withFirebase } from '../Firebase';
 import { compose } from 'recompose';
 import {
     AuthUserContext,

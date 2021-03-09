@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import CompanyData from '../CompanyData';
+import CompanyData from './CompanyData.js';
 
 
 const StockDataDashboard = () => {
@@ -30,7 +30,6 @@ const StockDataDashboard = () => {
     }
 
     useEffect(() => {
-        console.log('fromUseEffect');
         if (companyTicker) {
             fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/1/month/2020-10-14/2021-01-01?unadjusted=true&sort=asc&limit=120&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
                 .then(response => response.json())
@@ -62,15 +61,13 @@ const StockDataDashboard = () => {
                                 setComp(result);
                                 setResults(null);
                                 setSearchTerm('')
-                            }}>
+                            }} key={result['symbol']} >
                                 <span>{result['symbol']}</span>: <span>{result['name']}</span>
                             </div>)}
                     </div>
                     : <p>Company not found.</p>
                 : null
             }
-
-
 
             {(comp && stockData) ?
                 <CompanyData comp={comp} stockData={stockData} getDate={getDate} />

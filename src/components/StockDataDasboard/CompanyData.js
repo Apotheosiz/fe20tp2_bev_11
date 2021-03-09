@@ -3,12 +3,12 @@
 const CompanyData = ({ comp, stockData, getDate }) => {
 
     return (
-        <div>
+        <section>
             <h2><span>{comp.symbol}</span>: {comp.name}</h2>
-            <p>
-                {stockData.results.map(result => <p>{getDate(result.t)}: {result.c} {comp.currency}</p>)}
-            </p>
-        </div>
+            <div>
+                {stockData.results.map(result => <p key={result.t} >{getDate(result.t)}: {result.c} {comp.currency}</p>)}
+            </div>
+        </section>
     )
 }
 
