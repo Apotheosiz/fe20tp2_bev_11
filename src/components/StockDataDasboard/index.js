@@ -73,13 +73,19 @@ const StockDataDashboard = () => {
 
             {/* <CompanyList companies={results} setSelectedCompany={setSelectedCompany} /> */}
 
-            {comp ? <div><h2><span>{comp.symbol}</span>: {comp.name}</h2><span>Currency: {comp.currency}</span></div> : null}
+            {(comp && stockData) ?
 
-            { stockData ? <p>
-                {stockData.results.map(result => <p>{getDate(result.t)}: {result.c}</p>)}
-                {/* {stockData.map(result => <div><span>{new Date(result.t)}: </span><span>{result.c}</span></div>)} */}
-            </p> :
-                null}
+                <div>
+                    <h2><span>{comp.symbol}</span>: {comp.name}</h2>
+                    {/* <span>Currency: {comp.currency}</span> */}
+                    <p>
+                        {stockData.results.map(result => <p>{getDate(result.t)}: {result.c} {comp.currency}</p>)}
+                        {/* {stockData.map(result => <div><span>{new Date(result.t)}: </span><span>{result.c}</span></div>)} */}
+                    </p>
+                </div>
+
+                : null}
+
         </div >
     )
 }
