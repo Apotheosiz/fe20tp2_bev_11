@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react';
-//import CompanySearch from '../CompanySearch';
+import CompanyData from '../CompanyData';
 
 
 const StockDataDashboard = () => {
-
-    // const queryURL = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${searchTerm}&apikey=NDKNCJQP3XCZ0Z28`;
 
     const [stockData, setStockData] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState(null);
     const [companyTicker, setCompanyTicker] = useState("");
     const [comp, setComp] = useState(null);
-    // const [notFound, setNotFound] = useState(false);
 
     const onChange = event => {
         setSearchTerm(event.target.value)
@@ -22,12 +19,7 @@ const StockDataDashboard = () => {
         fetch(`https://financialmodelingprep.com/api/v3/search?query=${searchTerm}&limit=10&exchange=NASDAQ&apikey=b6c5cbff198727b26d87e2efe64a786d`)
             .then(response => response.json())
             .then(data => {
-                // if (data === []) {
-                // setNotFound(true);
-                // } else {
                 setResults(data);
-                // setNotFound(false);
-                // }
             });
         event.preventDefault();
     }
@@ -78,20 +70,12 @@ const StockDataDashboard = () => {
                 : null
             }
 
-            {}
 
-            {/* <CompanyList companies={results} setSelectedCompany={setSelectedCompany} /> */}
 
             {(comp && stockData) ?
-
-                <div>
-                    <h2><span>{comp.symbol}</span>: {comp.name}</h2>
-                    <p>
-                        {stockData.results.map(result => <p>{getDate(result.t)}: {result.c} {comp.currency}</p>)}
-                    </p>
-                </div>
-
-                : null}
+                <CompanyData comp={comp} stockData={stockData} getDate={getDate} />
+                : null
+            }
 
         </div >
     )
