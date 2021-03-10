@@ -1,4 +1,4 @@
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useState, useEffect } from 'react';
 
 
@@ -23,12 +23,14 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
                 data.results.map(result => {
                     const time = getDate(result.t);
                     let price = result.c;
+                    let volume = result.v;
                     const point = {};
                     point.time = time.props.children;
                     point.price = price;
+                    point.volume = volume;
                     arr.push(point);
                 })
-
+                console.log(arr);
                 setStockData(arr);
             })
     }, [companyTicker])
@@ -61,16 +63,28 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
                 {/* {stockData.results.map(result => <p key={result.t} >{getDate(result.t)}: {result.c} {comp.currency}</p>)} */}
                 {/* <p>Currency: {comp.currency}</p> */}
                 {(stockData.length > 0) ?
-                    <ResponsiveContainer width="90%" height={300}>
-                        <LineChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 20 }}>
-                            <Line type="monotone" dataKey="price" stroke="#8884d8" />
-                            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                            <XAxis dataKey="time" tickLine={false} />
-                            <YAxis tickLine={false} unit={comp.currency} />
-                            <Tooltip />
-                            <Legend />
-                        </LineChart>
-                    </ResponsiveContainer>
+                    <div>
+                        <ResponsiveContainer width="90%" height={300}>
+                            <LineChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 70 }}>
+                                <Line type="monotone" dataKey="price" stroke="#8884d8" />
+                                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                                <XAxis dataKey="time" tickLine={false} />
+                                <YAxis tickLine={false} unit={comp.currency} />
+                                <Tooltip />
+                                <Legend />
+                            </LineChart>
+                        </ResponsiveContainer>
+                        <ResponsiveContainer width="90%" height={150}>
+                            <BarChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 70 }}>
+                                <Bar type="monotone" dataKey="volume" stroke="#8884d8" />
+                                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                                <XAxis dataKey="time" tickLine={false} />
+                                <YAxis tickLine={false} />
+                                <Tooltip />
+                                <Legend />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
                     : null
                 }
 
