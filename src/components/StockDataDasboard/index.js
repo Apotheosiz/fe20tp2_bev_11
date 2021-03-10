@@ -27,7 +27,7 @@ const StockDataDashboard = () => {
 
     const getDate = (timestamp) => {
         let date = new Date(timestamp);
-        return (<span>{date.toLocaleDateString()}</span>);
+        return (<span>{date.toLocaleString()}</span>);
     }
 
     // useEffect(() => {

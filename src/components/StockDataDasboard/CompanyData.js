@@ -1,4 +1,4 @@
-import { BarChart, Bar, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, BarChart, Bar, LineChart, Line, ReferenceLine, ReferenceArea, Scatter, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useState, useEffect } from 'react';
 
 
@@ -9,18 +9,31 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
     console.log(companyTicker, comp);
 
     const [stockData, setStockData] = useState([]);
+    const [maxPrice, setMaxPrice] = useState(0);
+    const [minPrice, setMinPrice] = useState(0);
 
 
     useEffect(() => {
         console.log('useEffect in company Data');
-
-        fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/1/day/2020-10-01/2021-03-09?unadjusted=true&sort=asc&limit=120&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
+        fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/25/minute/2021-01-14/2021-01-15?unadjusted=true&sort=asc&limit=2000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
             .then(response => response.json())
             .then(data => {
 
                 let arr = [];
 
+                let max = 0;
+                let min = data.results[0].c;
+
                 data.results.map(result => {
+
+                    if (result.c > max) {
+                        max = result.c;
+                    }
+
+                    if (result.c < min) {
+                        min = result.c;
+                    }
+
                     const time = getDate(result.t);
                     let price = result.c;
                     let volume = result.v;
@@ -30,7 +43,10 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
                     point.volume = volume;
                     arr.push(point);
                 })
+
                 console.log(arr);
+                setMaxPrice(max);
+                setMinPrice(min);
                 setStockData(arr);
             })
     }, [companyTicker])
@@ -63,24 +79,32 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
                 {/* {stockData.results.map(result => <p key={result.t} >{getDate(result.t)}: {result.c} {comp.currency}</p>)} */}
                 {/* <p>Currency: {comp.currency}</p> */}
                 {(stockData.length > 0) ?
-                    <div>
-                        <ResponsiveContainer width="90%" height={300}>
-                            <LineChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 70 }}>
-                                <Line type="monotone" dataKey="price" stroke="#8884d8" />
-                                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                                <XAxis dataKey="time" tickLine={false} />
-                                <YAxis tickLine={false} unit={comp.currency} />
-                                <Tooltip />
-                                <Legend />
-                            </LineChart>
+                    <div style={{ background: "#FB6F5C" }}>
+                        <ResponsiveContainer width="90%" height={300} >
+                            <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 70 }}>
+                                <Area type="monotone" dataKey="price" stroke="#44062B" name="$" dot={false} fill="#f9897a" />
+                                <CartesianGrid stroke="#ccc" strokeDasharray="1 1" />
+                                <XAxis dataKey="time" tickLine={false} stroke="#47E6B1" />
+                                <YAxis tickLine={false} unit={comp.currency} stroke="#47E6B1" domain={["dataMin", "dataMax"]} />
+                                <Tooltip contentStyle={{
+                                    borderRadius: "10px",
+                                    background: "#F2F2F2"
+                                }} />
+                                <Scatter dataKey={minPrice} fill="red" />
+                                {/* <ReferenceLine y={minPrice} stroke="red" label="Min" />
+                                <ReferenceLine y={maxPrice} label="Max" stroke="red" /> */}
+                            </AreaChart>
                         </ResponsiveContainer>
                         <ResponsiveContainer width="90%" height={150}>
                             <BarChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 70 }}>
-                                <Bar type="monotone" dataKey="volume" stroke="#8884d8" />
-                                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                                <XAxis dataKey="time" tickLine={false} />
-                                <YAxis tickLine={false} />
-                                <Tooltip />
+                                <Bar type="monotone" dataKey="volume" fill="#F2F2F2" name="Volume" />
+                                <CartesianGrid stroke="#ccc" strokeDasharray="1 1" vertical={false} />
+                                <XAxis dataKey="time" tickLine={false} stroke="#47E6B1" />
+                                <YAxis tickLine={false} axisLine={false} stroke="#47E6B1" />
+                                <Tooltip contentStyle={{
+                                    borderRadius: "10px",
+                                    background: "#FB6F5C"
+                                }} />
                                 <Legend />
                             </BarChart>
                         </ResponsiveContainer>
