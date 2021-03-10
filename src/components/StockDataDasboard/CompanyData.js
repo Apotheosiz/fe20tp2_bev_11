@@ -1,4 +1,4 @@
-import { AreaChart, Area, BarChart, Bar, LineChart, Line, ReferenceLine, ReferenceArea, Scatter, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, BarChart, Bar, LineChart, Line, Label, ReferenceLine, ReferenceArea, Scatter, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useState, useEffect } from 'react';
 
 
@@ -55,6 +55,7 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
         <section>
             <h2><span>{comp.symbol}</span>: {comp.name}</h2>
             <div>
+
                 {/* <form>
                     <span>Sort by:</span>
                     <label>
@@ -85,14 +86,17 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
                                 <Area type="linear" dataKey="price" stroke="#44062B" name="$" dot={false} fill="#f9897a" />
                                 <CartesianGrid stroke="#ccc" strokeDasharray="1 1" />
                                 <XAxis dataKey="time" tickLine={false} stroke="#47E6B1" />
-                                <YAxis tickLine={false} unit={comp.currency} stroke="#47E6B1" domain={["dataMin - 0.5", "dataMax + 0.5"]} />
+                                <YAxis tick={false} tickLine={false} unit={comp.currency} stroke="#47E6B1" domain={["dataMin - 0.2", "dataMax + 0.2"]} >
+                                    <Label value={maxPrice + comp.currency} position="insideTop" offset={10} />
+                                    <Label value={minPrice + comp.currency} position="insideBottom" />
+                                </YAxis>
                                 <Tooltip contentStyle={{
                                     borderRadius: "10px",
                                     background: "#F2F2F2"
                                 }} />
                                 <Scatter dataKey={minPrice} fill="red" />
-                                {/* <ReferenceLine y={minPrice} stroke="red" label="Min" />
-                                <ReferenceLine y={maxPrice} label="Max" stroke="red" /> */}
+                                <ReferenceLine y={minPrice} stroke="red" label="Min" />
+                                <ReferenceLine y={maxPrice} label="Max" stroke="red" />
                             </AreaChart>
                         </ResponsiveContainer>
                         <ResponsiveContainer width="90%" height={150}>
