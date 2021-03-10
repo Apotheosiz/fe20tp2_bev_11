@@ -3,8 +3,9 @@ import CompanyData from './CompanyData.js';
 
 
 const StockDataDashboard = () => {
-
-    const [stockData, setStockData] = useState(null);
+    //JSON.parse(localStorage.getItem('data'))
+    console.log('rerendered stock data dashboard');
+    // const [stockData, setStockData] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState(null);
     const [companyTicker, setCompanyTicker] = useState("");
@@ -29,13 +30,17 @@ const StockDataDashboard = () => {
         return (<span>{date.toLocaleDateString()}</span>);
     }
 
-    useEffect(() => {
-        if (companyTicker) {
-            fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/1/day/2020-10-14/2020-11-30?unadjusted=true&sort=asc&limit=120&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
-                .then(response => response.json())
-                .then(data => setStockData(data))
-        }
-    }, [companyTicker])
+    // useEffect(() => {
+    //     console.log('useEffect in StockDash');
+    //     // if (companyTicker) {
+    //     fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/1/day/2020-10-01/2021-03-09?unadjusted=true&sort=asc&limit=120&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             setStockData(data);
+    //             // localStorage.setItem('data', JSON.stringify(data))
+    //         })
+    //     // }
+    // }, [companyTicker])
 
 
     return (
@@ -69,8 +74,8 @@ const StockDataDashboard = () => {
                 : null
             }
 
-            {(comp && stockData) ?
-                <CompanyData comp={comp} stockData={stockData} getDate={getDate} />
+            {(comp && companyTicker) ?
+                <CompanyData comp={comp} companyTicker={companyTicker} getDate={getDate} />
                 : null
             }
 
