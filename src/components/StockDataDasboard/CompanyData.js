@@ -15,7 +15,7 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
 
     useEffect(() => {
         console.log('useEffect in company Data');
-        fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/25/minute/2021-01-14/2021-01-15?unadjusted=true&sort=asc&limit=2000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
+        fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/1/minute/2021-01-01/2021-01-15?unadjusted=true&sort=asc&limit=2000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
             .then(response => response.json())
             .then(data => {
 
@@ -82,10 +82,10 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
                     <div style={{ background: "#FB6F5C" }}>
                         <ResponsiveContainer width="90%" height={300} >
                             <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 70 }}>
-                                <Area type="monotone" dataKey="price" stroke="#44062B" name="$" dot={false} fill="#f9897a" />
+                                <Area type="linear" dataKey="price" stroke="#44062B" name="$" dot={false} fill="#f9897a" />
                                 <CartesianGrid stroke="#ccc" strokeDasharray="1 1" />
                                 <XAxis dataKey="time" tickLine={false} stroke="#47E6B1" />
-                                <YAxis tickLine={false} unit={comp.currency} stroke="#47E6B1" domain={["dataMin", "dataMax"]} />
+                                <YAxis tickLine={false} unit={comp.currency} stroke="#47E6B1" domain={["dataMin - 0.5", "dataMax + 0.5"]} />
                                 <Tooltip contentStyle={{
                                     borderRadius: "10px",
                                     background: "#F2F2F2"
