@@ -56,10 +56,15 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
         <section>
             <h2><span>{comp.symbol}</span>: {comp.name}</h2>
             <div>
+                <div className="settingsPanel">
+                    <div>
+                        <span onClick={() => setMinMaxLines(!minMaxLines)}>
+                            {!minMaxLines ? <span>Show </span> : <span>Hide </span>}
+                        min and max</span>
+                    </div>
 
-                <div><span onClick={() => setMinMaxLines(!minMaxLines)}>
-                    {!minMaxLines ? <span>Show </span> : <span>Hide </span>}
-                min and max</span></div>
+                </div>
+
 
                 {/* <form>
                     <span>Sort by:</span>
@@ -90,8 +95,8 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
                             <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 70 }}>
                                 <Area type="linear" dataKey="price" stroke="#44062B" name="$" dot={false} fill="#f9897a" />
                                 <CartesianGrid stroke="#ccc" strokeDasharray="1 1" />
-                                <XAxis dataKey="time" tickLine={false} stroke="#47E6B1" />
-                                <YAxis tickLine={false} unit={comp.currency} stroke="#47E6B1" domain={["dataMin - 1", "dataMax + 1"]} >
+                                <XAxis dataKey="time" tickLine={false} stroke="#47E6B1" axisLine={false} />
+                                <YAxis tickLine={false} unit={comp.currency} stroke="#47E6B1" domain={["dataMin - 1", "dataMax + 1"]} axisLine={false} >
                                     {/* <Label value={maxPrice + comp.currency} position="insideTop" offset={10} />
                                     <Label value={minPrice + comp.currency} position="insideBottom" /> */}
                                 </YAxis>
@@ -112,10 +117,12 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
                                 <CartesianGrid stroke="#ccc" strokeDasharray="1 1" vertical={false} />
                                 <XAxis dataKey="time" tickLine={false} stroke="#47E6B1" />
                                 <YAxis tickLine={false} axisLine={false} stroke="#47E6B1" />
-                                <Tooltip contentStyle={{
-                                    borderRadius: "10px",
-                                    background: "#FB6F5C"
-                                }} />
+                                <Tooltip
+                                    cursor={{ fill: 'rgba(229, 229, 229, 0.4)' }}
+                                    contentStyle={{
+                                        borderRadius: "10px",
+                                        background: "#FB6F5C"
+                                    }} />
                                 <Legend />
                             </BarChart>
                         </ResponsiveContainer>
