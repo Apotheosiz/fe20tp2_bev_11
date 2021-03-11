@@ -11,11 +11,12 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
     const [stockData, setStockData] = useState([]);
     const [maxPrice, setMaxPrice] = useState(0);
     const [minPrice, setMinPrice] = useState(0);
+    const [minMaxLines, setMinMaxLines] = useState(false);
 
 
     useEffect(() => {
         console.log('useEffect in company Data');
-        fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/1/minute/2021-01-01/2021-01-15?unadjusted=true&sort=asc&limit=2000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
+        fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/60/minute/2021-01-01/2021-01-14?unadjusted=true&sort=asc&limit=2000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
             .then(response => response.json())
             .then(data => {
 
@@ -56,6 +57,10 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
             <h2><span>{comp.symbol}</span>: {comp.name}</h2>
             <div>
 
+                <div><span onClick={() => setMinMaxLines(!minMaxLines)}>
+                    {!minMaxLines ? <span>Show </span> : <span>Hide </span>}
+                min and max</span></div>
+
                 {/* <form>
                     <span>Sort by:</span>
                     <label>
@@ -86,17 +91,19 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
                                 <Area type="linear" dataKey="price" stroke="#44062B" name="$" dot={false} fill="#f9897a" />
                                 <CartesianGrid stroke="#ccc" strokeDasharray="1 1" />
                                 <XAxis dataKey="time" tickLine={false} stroke="#47E6B1" />
-                                <YAxis tick={false} tickLine={false} unit={comp.currency} stroke="#47E6B1" domain={["dataMin - 0.2", "dataMax + 0.2"]} >
-                                    <Label value={maxPrice + comp.currency} position="insideTop" offset={10} />
-                                    <Label value={minPrice + comp.currency} position="insideBottom" />
+                                <YAxis tickLine={false} unit={comp.currency} stroke="#47E6B1" domain={["dataMin - 1", "dataMax + 1"]} >
+                                    {/* <Label value={maxPrice + comp.currency} position="insideTop" offset={10} />
+                                    <Label value={minPrice + comp.currency} position="insideBottom" /> */}
                                 </YAxis>
                                 <Tooltip contentStyle={{
                                     borderRadius: "10px",
                                     background: "#F2F2F2"
                                 }} />
                                 <Scatter dataKey={minPrice} fill="red" />
-                                <ReferenceLine y={minPrice} stroke="red" label="Min" />
-                                <ReferenceLine y={maxPrice} label="Max" stroke="red" />
+                                {minMaxLines ?
+                                    <ReferenceLine y={minPrice} stroke="red" label={"Min: " + minPrice + "$"} /> : null}
+                                {minMaxLines ?
+                                    <ReferenceLine y={maxPrice} label={"Max: " + maxPrice + "$"} stroke="red" /> : null}
                             </AreaChart>
                         </ResponsiveContainer>
                         <ResponsiveContainer width="90%" height={150}>
