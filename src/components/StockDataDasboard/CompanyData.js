@@ -4,10 +4,18 @@ import { useState, useEffect } from 'react';
 
 const CompanyData = ({ comp, companyTicker, getDate }) => {
     const setFormat = (date) => {
-        const day = date.getDate() - 1;
-        const month = date.getMonth();
+        let day = 0;
+        const dayNo = date.getDate() - 1;
+        if (dayNo < 10) {
+            day = "0" + dayNo;
+        } else day = dayNo;
+        let month = 0;
+        const monthNo = date.getMonth();
+        if (monthNo < 10) {
+            month = "0" + (monthNo + 1);
+        } else month = monthNo + 1;
         const year = date.getFullYear();
-        return year + "-" + (month + 1) + "-" + day;
+        return year + "-" + month + "-" + day;
     }
 
     const date = new Date();
@@ -49,12 +57,12 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
     const [minPrice, setMinPrice] = useState(0);
     const [minMaxLines, setMinMaxLines] = useState(false);
     const [optionsState, setOptionsState] = useState("1/minute");
-    const [interval, setInterval] = useState(`${dayBefore}/${yesterday}`);
+    const [interval, setInterval] = useState(dayBefore + "/" + yesterday);
 
 
     useEffect(() => {
         console.log('useEffect in company Data');
-        fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/${optionsState}/2021-01-01/2021-01-14?unadjusted=true&sort=asc&limit=2000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
+        fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/${optionsState}/${interval}?unadjusted=true&sort=asc&limit=5000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
             .then(response => response.json())
             .then(data => {
 
@@ -87,7 +95,7 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
                 setMinPrice(min);
                 setStockData(arr);
             })
-    }, [companyTicker, optionsState])
+    }, [companyTicker, optionsState, interval])
 
     return (
         <section>
@@ -95,12 +103,12 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
             <h1>23.5{comp.currency}down arrw 1.2%, +0.2 today</h1>
             <div>
                 <div onChange={(event) => setInterval(event.target.value)}>
-                    <input type="radio" value="Male" name="gender" /> 1 D
-                    <input type="radio" value="Female" name="gender" /> 1 W
-                    <input type="radio" value="Other" name="gender" /> 1 M
-                    <input type="radio" value="B" name="gender" /> 3 M
-                    <input type="radio" value="x" name="gender" /> 1 Y
-                    <input type="radio" value="n" name="gender" /> 5 Y
+                    <input type="radio" value={dayBefore + "/" + yesterday} name="gender" checked={interval === dayBefore + "/" + yesterday} /> 1 D
+                    <input type="radio" value={oneWeekAgo + "/" + yesterday} name="gender" /> 1 W
+                    <input type="radio" value={oneMonthAgo + "/" + yesterday} name="gender" /> 1 M
+                    <input type="radio" value={threeMonthsAgo + "/" + yesterday} name="gender" /> 3 M
+                    <input type="radio" value={oneYearAgo + "/" + yesterday} name="gender" /> 1 Y
+                    <input type="radio" value={fiveYearsAgo + "/" + yesterday} name="gender" /> 5 Y
                 </div>
                 <span>{interval}</span>
 
