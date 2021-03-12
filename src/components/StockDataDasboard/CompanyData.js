@@ -3,20 +3,36 @@ import { useState, useEffect } from 'react';
 
 
 const CompanyData = ({ comp, companyTicker, getDate }) => {
+    const setFormat = (date) => {
+        const day = date.getDate() - 1;
+        const month = date.getMonth();
+        const year = date.getFullYear();
+        return year + "-" + (month + 1) + "-" + day;
+    }
+
+    const date = new Date();
+    const yesterday = setFormat(date);
+
+    const threeMonthsAgoDate = new Date(date.setMonth(date.getMonth() - 3));
+    const threeMonthsAgo = setFormat(threeMonthsAgoDate);
+    console.log(threeMonthsAgo);
+
+
 
 
     console.log('rendered company data');
-    console.log(companyTicker, comp);
 
     const [stockData, setStockData] = useState([]);
     const [maxPrice, setMaxPrice] = useState(0);
     const [minPrice, setMinPrice] = useState(0);
     const [minMaxLines, setMinMaxLines] = useState(false);
+    const [optionsState, setOptionsState] = useState("1/minute");
+    const [interval, setInterval] = useState("2021-03-10/2021-03-11");
 
 
     useEffect(() => {
         console.log('useEffect in company Data');
-        fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/60/minute/2021-01-01/2021-01-14?unadjusted=true&sort=asc&limit=2000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
+        fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/${optionsState}/2021-01-01/2021-01-14?unadjusted=true&sort=asc&limit=2000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
             .then(response => response.json())
             .then(data => {
 
@@ -45,26 +61,40 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
                     arr.push(point);
                 })
 
-                console.log(arr);
                 setMaxPrice(max);
                 setMinPrice(min);
                 setStockData(arr);
             })
-    }, [companyTicker])
+    }, [companyTicker, optionsState])
 
     return (
         <section>
             <h2><span>{comp.symbol}</span>: {comp.name}</h2>
+            <h1>23.5{comp.currency}down arrw 1.2%, +0.2 today</h1>
             <div>
-                <div className="settingsPanel">
-                    <div>
-                        <span onClick={() => setMinMaxLines(!minMaxLines)}>
-                            {!minMaxLines ? <span>Show </span> : <span>Hide </span>}
-                        min and max</span>
-                    </div>
-
+                <div onChange={(event) => setInterval(event.target.value)}>
+                    <input type="radio" value="Male" name="gender" /> 1 D
+                    <input type="radio" value="Female" name="gender" /> 1 W
+                    <input type="radio" value="Other" name="gender" /> 1 M
+                    <input type="radio" value="B" name="gender" /> 3 M
+                    <input type="radio" value="x" name="gender" /> 1 Y
+                    <input type="radio" value="n" name="gender" /> 5 Y
                 </div>
+                <span>{interval}</span>
 
+                <select value={optionsState} onChange={(event) => setOptionsState(event.target.value)}>
+                    <option value="1/minute" selected={optionsState === "1/minute"}>1 minute</option>
+                    <option value="5/minute" selected={optionsState === "5/minute"}>5 minutes</option>
+                    <option value="10/minute" selected={optionsState === "10/minute"}>10 minutes</option>
+                    <option value="30/minute" selected={optionsState === "30/minute"}>30 minutes</option>
+                    <option value="1/hour" selected={optionsState === "1/hour"}>1 hour</option>
+                    <option value="1/day" selected={optionsState === "1/day"}>1 day</option>
+                    <option value="1/week" selected={optionsState === "1/week"}>1 week</option>
+                    <option value="1/month" selected={optionsState === "1/month"}>1 month</option>
+                    <option value="3/month" selected={optionsState === "3/month"}>3 months</option>
+                </select>
+            </div>
+            <div>
 
                 {/* <form>
                     <span>Sort by:</span>
@@ -111,6 +141,11 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
                                     <ReferenceLine y={maxPrice} label={"Max: " + maxPrice + "$"} stroke="red" /> : null}
                             </AreaChart>
                         </ResponsiveContainer>
+                        <div>
+                            <span onClick={() => setMinMaxLines(!minMaxLines)}>
+                                {!minMaxLines ? <span>Show </span> : <span>Hide </span>}
+                        min and max</span>
+                        </div>
                         <ResponsiveContainer width="90%" height={150}>
                             <BarChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 70 }}>
                                 <Bar type="monotone" dataKey="volume" fill="#F2F2F2" name="Volume" />
