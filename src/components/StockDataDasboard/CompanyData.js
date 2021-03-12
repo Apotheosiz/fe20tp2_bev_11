@@ -13,9 +13,31 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
     const date = new Date();
     const yesterday = setFormat(date);
 
-    const threeMonthsAgoDate = new Date(date.setMonth(date.getMonth() - 3));
+    const dayBeforeDate = new Date(date.setDate(date.getDate() - 1));
+    const dayBefore = setFormat(dayBeforeDate);
+    console.log(dayBefore);
+
+    const oneWeekAgoDate = new Date(date.setDate(date.getDate() - 6));
+    const oneWeekAgo = setFormat(oneWeekAgoDate);
+    console.log(oneWeekAgo);
+
+    date.setDate(date.getDate() + 7);
+
+    const oneMonthAgoDate = new Date(date.setMonth(date.getMonth() - 1));
+    const oneMonthAgo = setFormat(oneMonthAgoDate);
+    console.log(oneMonthAgo);
+
+    const threeMonthsAgoDate = new Date(date.setMonth(date.getMonth() - 2));
     const threeMonthsAgo = setFormat(threeMonthsAgoDate);
     console.log(threeMonthsAgo);
+
+    const oneYearAgoDate = new Date(date.setMonth(date.getMonth() - 9));
+    const oneYearAgo = setFormat(oneYearAgoDate);
+    console.log(oneYearAgo);
+
+    const fiveYearsAgoDate = new Date(date.setMonth(date.getMonth() - 48));
+    const fiveYearsAgo = setFormat(fiveYearsAgoDate);
+    console.log(fiveYearsAgo);
 
 
 
@@ -27,7 +49,7 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
     const [minPrice, setMinPrice] = useState(0);
     const [minMaxLines, setMinMaxLines] = useState(false);
     const [optionsState, setOptionsState] = useState("1/minute");
-    const [interval, setInterval] = useState("2021-03-10/2021-03-11");
+    const [interval, setInterval] = useState(`${dayBefore}/${yesterday}`);
 
 
     useEffect(() => {
