@@ -1,54 +1,19 @@
 import { AreaChart, Area, BarChart, Bar, LineChart, Line, Label, ReferenceLine, ReferenceArea, Scatter, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useState, useEffect } from 'react';
+import {
+    yesterday,
+    dayBefore,
+    oneWeekAgo,
+    oneMonthAgo,
+    threeMonthsAgo,
+    oneYearAgo,
+    fiveYearsAgo
+} from '../DatesAndTimes';
+
+console.log(yesterday);
 
 
 const CompanyData = ({ comp, companyTicker, getDate }) => {
-    const setFormat = (date) => {
-        let day = 0;
-        const dayNo = date.getDate() - 1;
-        if (dayNo < 10) {
-            day = "0" + dayNo;
-        } else day = dayNo;
-        let month = 0;
-        const monthNo = date.getMonth();
-        if (monthNo < 10) {
-            month = "0" + (monthNo + 1);
-        } else month = monthNo + 1;
-        const year = date.getFullYear();
-        return year + "-" + month + "-" + day;
-    }
-
-    const date = new Date();
-    const yesterday = setFormat(date);
-
-    const dayBeforeDate = new Date(date.setDate(date.getDate() - 1));
-    const dayBefore = setFormat(dayBeforeDate);
-    console.log(dayBefore);
-
-    const oneWeekAgoDate = new Date(date.setDate(date.getDate() - 6));
-    const oneWeekAgo = setFormat(oneWeekAgoDate);
-    console.log(oneWeekAgo);
-
-    date.setDate(date.getDate() + 7);
-
-    const oneMonthAgoDate = new Date(date.setMonth(date.getMonth() - 1));
-    const oneMonthAgo = setFormat(oneMonthAgoDate);
-    console.log(oneMonthAgo);
-
-    const threeMonthsAgoDate = new Date(date.setMonth(date.getMonth() - 2));
-    const threeMonthsAgo = setFormat(threeMonthsAgoDate);
-    console.log(threeMonthsAgo);
-
-    const oneYearAgoDate = new Date(date.setMonth(date.getMonth() - 9));
-    const oneYearAgo = setFormat(oneYearAgoDate);
-    console.log(oneYearAgo);
-
-    const fiveYearsAgoDate = new Date(date.setMonth(date.getMonth() - 48));
-    const fiveYearsAgo = setFormat(fiveYearsAgoDate);
-    console.log(fiveYearsAgo);
-
-
-
 
     console.log('rendered company data');
 
@@ -58,6 +23,7 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
     const [minMaxLines, setMinMaxLines] = useState(false);
     const [optionsState, setOptionsState] = useState("1/minute");
     const [interval, setInterval] = useState(dayBefore + "/" + yesterday);
+    const [error, setError] = useState(null);
 
 
     useEffect(() => {
@@ -68,31 +34,38 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
 
                 let arr = [];
 
-                let max = 0;
-                let min = data.results[0].c;
+                if (data.status === "OK") {
+                    console.log('data status ok');
 
-                data.results.map(result => {
+                    let max = 0;
+                    let min = data.results[0].c;
 
-                    if (result.c > max) {
-                        max = result.c;
-                    }
+                    data.results.map(result => {
 
-                    if (result.c < min) {
-                        min = result.c;
-                    }
+                        if (result.c > max) {
+                            max = result.c;
+                        }
 
-                    const time = getDate(result.t);
-                    let price = result.c;
-                    let volume = result.v;
-                    const point = {};
-                    point.time = time.props.children;
-                    point.price = price;
-                    point.volume = volume;
-                    arr.push(point);
-                })
+                        if (result.c < min) {
+                            min = result.c;
+                        }
 
-                setMaxPrice(max);
-                setMinPrice(min);
+                        const time = getDate(result.t);
+                        let price = result.c;
+                        let volume = result.v;
+                        const point = {};
+                        point.time = time;
+                        point.price = price;
+                        point.volume = volume;
+                        arr.push(point);
+                    })
+
+                    setMaxPrice(max);
+                    setMinPrice(min);
+
+                } else if (data.status === "ERROR") {
+                    setError(data);
+                } else console.log(data.status);
                 setStockData(arr);
             })
     }, [companyTicker, optionsState, interval])
@@ -108,7 +81,7 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
                     <input type="radio" value={oneMonthAgo + "/" + yesterday} name="gender" /> 1 M
                     <input type="radio" value={threeMonthsAgo + "/" + yesterday} name="gender" /> 3 M
                     <input type="radio" value={oneYearAgo + "/" + yesterday} name="gender" /> 1 Y
-                    <input type="radio" value={fiveYearsAgo + "/" + yesterday} name="gender" /> 5 Y
+                    <input type="radio" value={fiveYearsAgo + "/" + yesterday} name="gender" /> 2 Y
                 </div>
                 <span>{interval}</span>
 
@@ -125,30 +98,7 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
                 </select>
             </div>
             <div>
-
-                {/* <form>
-                    <span>Sort by:</span>
-                    <label>
-                        <input onChange={handleOptionChange} type="radio" value="closing" checked={priceType === 'closing'} defaultChecked={true} />
-                            Closing
-                        </label>
-                    <label>
-                        <input onChange={handleOptionChange} type="radio" value="high" checked={priceType === 'high'} />
-                            High
-                        </label>
-                    <label>
-                        <input onChange={handleOptionChange} type="radio" value="low" checked={priceType === 'low'} />
-                            Low
-                        </label>
-                    <label>
-                        <input onChange={handleOptionChange} type="radio" value="volume" checked={priceType === 'volume'} />
-                            Volume
-                        </label>
-                    <p>{priceType}</p>
-                </form> */}
-
-                {/* {stockData.results.map(result => <p key={result.t} >{getDate(result.t)}: {result.c} {comp.currency}</p>)} */}
-                {/* <p>Currency: {comp.currency}</p> */}
+                {error && !(stockData.length > 0) && <h2>{error.error}</h2>}
                 {(stockData.length > 0) ?
                     <div style={{ background: "#FB6F5C" }}>
                         <ResponsiveContainer width="90%" height={300} >

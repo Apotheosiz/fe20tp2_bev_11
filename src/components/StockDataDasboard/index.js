@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import CompanyData from './CompanyData.js';
 
 
 const StockDataDashboard = () => {
-    //JSON.parse(localStorage.getItem('data'))
     console.log('rerendered stock data dashboard');
-    // const [stockData, setStockData] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState(null);
     const [companyTicker, setCompanyTicker] = useState("");
@@ -27,21 +25,8 @@ const StockDataDashboard = () => {
 
     const getDate = (timestamp) => {
         let date = new Date(timestamp);
-        return (<span>{date.toLocaleString()}</span>);
+        return date.toLocaleString();
     }
-
-    // useEffect(() => {
-    //     console.log('useEffect in StockDash');
-    //     // if (companyTicker) {
-    //     fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/1/day/2020-10-01/2021-03-09?unadjusted=true&sort=asc&limit=120&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             setStockData(data);
-    //             // localStorage.setItem('data', JSON.stringify(data))
-    //         })
-    //     // }
-    // }, [companyTicker])
-
 
     return (
         <div>
