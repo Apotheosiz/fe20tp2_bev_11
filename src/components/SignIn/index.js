@@ -6,13 +6,43 @@ import { PasswordForgetLink } from '../PasswordForget';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
+import PageContainer from '../PageContainer';
+import Button from '../Button';
+import styled from 'styled-components';
+
+const Title = styled.h1`
+    color: white;
+`;
+
+const FormWrap = styled.div`
+    background-color: #F8C3C3;
+    margin: auto;
+    padding: 20px;
+    max-width: 600px;
+    border-radius: 16px;
+    margin-bottom: 15px;
+`;
+
+const FormControl = styled.input`
+    display: block;
+    width: 90%;
+    height: 47px;
+    padding: 0 24px;
+    font-size: 13px;
+    border: none;
+    background-color: transparent;
+    margin: auto;
+    margin-bottom: 25px;
+    border-radius: 16px;
+`;
+
 const SignInPage = () => (
-    <div>
-        <h1>SignIn</h1>
+    <PageContainer>
+        <Title>SIGN IN</Title>
         <SignInForm />
         <PasswordForgetLink />
         <SignUpLink />
-    </div>
+    </PageContainer>
 );
 
 const INITIAL_STATE = {
@@ -47,23 +77,26 @@ class SignInFormBase extends Component {
         const isInvalid = password === '' || email === '';
         return (
             <form onSubmit={this.onSubmit}>
-                <input
-                    name="email"
-                    value={email}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Email Address"
-                />
-                <input
-                    name="password"
-                    value={password}
-                    onChange={this.onChange}
-                    type="password"
-                    placeholder="Password"
-                />
-                <button disabled={isInvalid} type="submit">
-                    Sign In
-</button>
+                <FormWrap>
+                    <FormControl
+                        name="email"
+                        value={email}
+                        onChange={this.onChange}
+                        type="text"
+                        placeholder="email">
+                    </FormControl>
+                    <FormControl
+                        name="password"
+                        value={password}
+                        onChange={this.onChange}
+                        type="password"
+                        placeholder="password"
+                    >
+                    </FormControl>
+                </FormWrap>
+                <Button disabled={isInvalid} type="submit">
+                 sign in
+                </Button>
                 {error && <p>{error.message}</p>}
             </form>
         );

@@ -6,16 +6,17 @@ import {
     AuthUserContext,
     withAuthorization,
 } from '../Session';
+import PageContainer from '../PageContainer';
 
 
 const AccountPage = () => (
     <AuthUserContext.Consumer>
         {authUser => (
-            <div>
+            <PageContainer>
                 <h1>Account: {authUser.email} {/*Object.keys(authUser.symbols)*/}</h1>
                 <PasswordForgetForm />
                 <PasswordChangeForm />
-            </div>
+            </PageContainer>
         )}
     </AuthUserContext.Consumer>
 );

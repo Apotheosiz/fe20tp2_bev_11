@@ -5,12 +5,47 @@ import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 
+import PageContainer from '../PageContainer';
+import Button from '../Button';
+import styled from 'styled-components';
+
+const Title = styled.h1`
+    color: white;
+`;
+
+const FormWrap = styled.div`
+    background-color: #F8C3C3;
+    margin: auto;
+    padding: 20px;
+    max-width: 600px;
+    border-radius: 16px;
+    margin-bottom: 15px;
+`;
+
+const FormControl = styled.input`
+    display: block;
+    width: 90%;
+    height: 47px;
+    padding: 0 24px;
+    font-size: 13px;
+    border: none;
+    background-color: transparent;
+    margin: auto;
+    margin-bottom: 25px;
+    border-radius: 16px;
+`;
+
+const StyledP = styled.p`
+    a {
+        color: black;
+    }
+`;
 
 const SignUpPage = () => (
-    <div>
-        <h1>SignUp</h1>
+    <PageContainer>
+        <Title>Sign up</Title>
         <SignUpForm />
-    </div>
+    </PageContainer>
 );
 
 const INITIAL_STATE = {
@@ -87,33 +122,36 @@ class SignUpFormBase extends Component {
 
         return(
             <form onSubmit={this.onSubmit}>
-                <input 
+                <FormWrap>
+                <FormControl 
                 name="username"
                 value={username}
                 onChange={this.onChange}
                 type="text"
-                placeholder="Full Name"
+                placeholder="full name"
                 />
-                <input 
+                <FormControl 
                 name="email"
                 value={email}
                 onChange={this.onChange}
                 type="text"
-                placeholder="Email Adress"
+                placeholder="email"
                 />
-                <input 
+                </FormWrap>
+                <FormWrap>
+                <FormControl 
                 name="passwordOne"
                 value={passwordOne}
                 onChange={this.onChange}
                 type="password"
-                placeholder="Password"
+                placeholder="password"
                 />
-                <input 
+                <FormControl 
                 name="passwordTwo"
                 value={passwordTwo}
                 onChange={this.onChange}
                 type="password"
-                placeholder="Confirm Password"
+                placeholder="confirm password"
                 />
                 <label>
                     Admin:
@@ -124,7 +162,8 @@ class SignUpFormBase extends Component {
                         onChange={this.onChangeCheckbox}
                     />
                 </label>
-                <button disabled={isInvalid} type="submit">Sign Up</button>
+                </FormWrap>
+                <Button disabled={isInvalid} type="submit">sign up</Button>
 
                 {error && <p>{error.message}</p>}
             </form>
@@ -133,9 +172,9 @@ class SignUpFormBase extends Component {
 }
 
 const SignUpLink = () => (
-    <p>
+    <StyledP>
         Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
-    </p>
+    </StyledP>
 );
 
 const SignUpForm = withRouter(withFirebase(SignUpFormBase));
