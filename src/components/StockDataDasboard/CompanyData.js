@@ -7,13 +7,14 @@ import {
     oneMonthAgo,
     threeMonthsAgo,
     oneYearAgo,
-    fiveYearsAgo
+    fiveYearsAgo,
+    getDate
 } from '../DatesAndTimes';
 
 console.log(yesterday);
 
 
-const CompanyData = ({ comp, companyTicker, getDate }) => {
+const CompanyData = ({ comp, companyTicker }) => {
 
     console.log('rendered company data');
 
@@ -76,7 +77,7 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
             <h1>23.5{comp.currency}down arrw 1.2%, +0.2 today</h1>
             <div>
                 <div onChange={(event) => setInterval(event.target.value)}>
-                    <input type="radio" value={dayBefore + "/" + yesterday} name="gender" checked={interval === dayBefore + "/" + yesterday} /> 1 D
+                    <input type="radio" value={dayBefore + "/" + yesterday} name="gender" defaultChecked={true} /> 1 D
                     <input type="radio" value={oneWeekAgo + "/" + yesterday} name="gender" /> 1 W
                     <input type="radio" value={oneMonthAgo + "/" + yesterday} name="gender" /> 1 M
                     <input type="radio" value={threeMonthsAgo + "/" + yesterday} name="gender" /> 3 M
@@ -86,15 +87,15 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
                 <span>{interval}</span>
 
                 <select value={optionsState} onChange={(event) => setOptionsState(event.target.value)}>
-                    <option value="1/minute" selected={optionsState === "1/minute"}>1 minute</option>
-                    <option value="5/minute" selected={optionsState === "5/minute"}>5 minutes</option>
-                    <option value="10/minute" selected={optionsState === "10/minute"}>10 minutes</option>
-                    <option value="30/minute" selected={optionsState === "30/minute"}>30 minutes</option>
-                    <option value="1/hour" selected={optionsState === "1/hour"}>1 hour</option>
-                    <option value="1/day" selected={optionsState === "1/day"}>1 day</option>
-                    <option value="1/week" selected={optionsState === "1/week"}>1 week</option>
-                    <option value="1/month" selected={optionsState === "1/month"}>1 month</option>
-                    <option value="3/month" selected={optionsState === "3/month"}>3 months</option>
+                    <option value="1/minute">1 minute</option>
+                    <option value="5/minute">5 minutes</option>
+                    <option value="10/minute">10 minutes</option>
+                    <option value="30/minute">30 minutes</option>
+                    <option value="1/hour">1 hour</option>
+                    <option value="1/day">1 day</option>
+                    <option value="1/week">1 week</option>
+                    <option value="1/month">1 month</option>
+                    <option value="3/month">3 months</option>
                 </select>
             </div>
             <div>

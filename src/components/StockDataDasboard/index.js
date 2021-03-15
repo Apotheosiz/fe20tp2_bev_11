@@ -23,11 +23,6 @@ const StockDataDashboard = () => {
         event.preventDefault();
     }
 
-    const getDate = (timestamp) => {
-        let date = new Date(timestamp);
-        return date.toLocaleString();
-    }
-
     return (
         <div>
             <h1>Dashboard</h1>
@@ -60,7 +55,7 @@ const StockDataDashboard = () => {
             }
 
             {(comp && companyTicker) ?
-                <CompanyData comp={comp} companyTicker={companyTicker} getDate={getDate} />
+                <CompanyData comp={comp} companyTicker={companyTicker} />
                 : null
             }
 

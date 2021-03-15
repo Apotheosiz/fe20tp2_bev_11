@@ -40,4 +40,9 @@ export const oneYearAgo = setFormat(oneYearAgoDate);
 
 const fiveYearsAgoDate = new Date(date.setMonth(date.getMonth() - 48));
 export const fiveYearsAgo = setFormat(fiveYearsAgoDate);
-    // console.log(fiveYearsAgo);
+// console.log(fiveYearsAgo);
+
+export const getDate = (timestamp) => {
+    let date = new Date(timestamp);
+    return date.toLocaleString();
+}
