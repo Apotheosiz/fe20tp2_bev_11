@@ -34,7 +34,7 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
 
                 let arr = [];
 
-                if (data.status === "OK") {
+                if (data.status === "OK" && data.results) {
                     console.log('data status ok');
 
                     let max = 0;
@@ -63,7 +63,7 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
                     setMaxPrice(max);
                     setMinPrice(min);
 
-                } else if (data.status === "ERROR") {
+                } else if (data.status === "ERROR" || !data.results) {
                     setError(data);
                 } else console.log(data.status);
                 setStockData(arr);
@@ -99,6 +99,7 @@ const CompanyData = ({ comp, companyTicker, getDate }) => {
             </div>
             <div>
                 {error && !(stockData.length > 0) && <h2>{error.error}</h2>}
+                {error && !(stockData.length > 0) && (error.resultsCount === 0) && <h4>There are no results for the specified interval. Please choose another interval.</h4>}
                 {(stockData.length > 0) ?
                     <div style={{ background: "#FB6F5C" }}>
                         <ResponsiveContainer width="90%" height={300} >
