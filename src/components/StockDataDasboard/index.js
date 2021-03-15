@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CompanyData from './CompanyData.js';
 
 
-const StockDataDashboard = () => {
+const StockDataDashboard = ({ authUser }) => {
+    console.log(authUser.ticker);
     console.log('rerendered stock data dashboard');
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState(null);
-    const [companyTicker, setCompanyTicker] = useState("");
+    const [companyTicker, setCompanyTicker] = useState('');
     const [comp, setComp] = useState(null);
 
     const onChange = event => {
@@ -15,13 +16,25 @@ const StockDataDashboard = () => {
 
     const onSubmit = event => {
 
-        fetch(`https://financialmodelingprep.com/api/v3/search?query=${searchTerm}&limit=10&exchange=NASDAQ&apikey=b6c5cbff198727b26d87e2efe64a786d`)
+        fetch(`https://financialmodelingprep.com/api/v3/search?query=${searchTerm}&limit=10&exchange=NASDAQ&apikey=909a30a0b9971c3dfd378bba83efb9ac`)
             .then(response => response.json())
             .then(data => {
                 setResults(data);
+                console.log(data);
             });
         event.preventDefault();
     }
+
+    useEffect(() => {
+        setCompanyTicker(authUser.ticker);
+        fetch(`https://financialmodelingprep.com/api/v3/search?query=${authUser.ticker}&limit=10&exchange=NASDAQ&apikey=909a30a0b9971c3dfd378bba83efb9ac`)
+            .then(response => response.json())
+            .then(data => {
+                if (data[0].symbol === authUser.ticker) {
+                    setComp(data[0]);
+                }
+            });
+    }, []);
 
     return (
         <div>

@@ -13,7 +13,13 @@ const HomePage = () => (
         <h1>Home Page</h1>
         <p>The Home Page is accessible by every signed in user.</p>
 
-        <StockDataDashboard />
+
+        <AuthUserContext.Consumer>
+            {authUser => (
+                <StockDataDashboard authUser={authUser} />
+            )}
+        </AuthUserContext.Consumer>
+
         <Messages />
 
     </PageContainer>
@@ -103,8 +109,8 @@ class MessagesBase extends Component {
                                 onRemoveMessage={this.onRemoveMessage}
                             />
                         ) : (
-                                <div>There are no messages ...</div>
-                            )}
+                            <div>There are no messages ...</div>
+                        )}
 
                         <form onSubmit={event => this.onCreateMessage(event, authUser)}>
                             <input
@@ -178,11 +184,11 @@ class MessageItem extends Component {
                         onChange={this.onChangeEditText}
                     />
                 ) : (
-                        <span>
-                            <strong>{message.userId}</strong> {message.text}
-                            {message.editedAt && <span>(Edited)</span>}
-                        </span>
-                    )}
+                    <span>
+                        <strong>{message.userId}</strong> {message.text}
+                        {message.editedAt && <span>(Edited)</span>}
+                    </span>
+                )}
 
                 {authUser.uid === message.userId && (
                     <span>
@@ -192,8 +198,8 @@ class MessageItem extends Component {
                                 <button onClick={this.onToggleEditMode}>Reset</button>
                             </span>
                         ) : (
-                                <button onClick={this.onToggleEditMode}>Edit</button>
-                            )}
+                            <button onClick={this.onToggleEditMode}>Edit</button>
+                        )}
 
                         {!editMode && (
                             <button
