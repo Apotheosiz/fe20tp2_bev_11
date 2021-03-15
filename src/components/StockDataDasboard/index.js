@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import CompanyData from './CompanyData.js';
+import { withFirebase } from '../Firebase';
 
-
-const StockDataDashboard = ({ authUser }) => {
+const StockDataDashboard = ({ authUser, firebase }) => {
     console.log(authUser.ticker);
     console.log('rerendered stock data dashboard');
     const [searchTerm, setSearchTerm] = useState('');
@@ -10,9 +10,20 @@ const StockDataDashboard = ({ authUser }) => {
     const [companyTicker, setCompanyTicker] = useState('');
     const [comp, setComp] = useState(null);
 
+    const [user, setUser] = useState(null);
+
     const onChange = event => {
         setSearchTerm(event.target.value)
     };
+
+    const addTicker = ticker => {
+        console.log(ticker, comp)
+        firebase.user(authUser.uid).child('tickers').update({ [ticker]: comp })
+    }
+    const delTicker = ticker => {
+        console.log(ticker)
+        firebase.user(authUser.uid).child('tickers').update({ [ticker]: null })
+    }
 
     const onSubmit = event => {
 
@@ -26,6 +37,10 @@ const StockDataDashboard = ({ authUser }) => {
     }
 
     useEffect(() => {
+        firebase.user(authUser.uid).on('value', snapshot => {
+            const dbUser = snapshot.val()
+            setUser(dbUser);
+        })
         setCompanyTicker(authUser.ticker);
         fetch(`https://financialmodelingprep.com/api/v3/search?query=${authUser.ticker}&limit=10&exchange=NASDAQ&apikey=909a30a0b9971c3dfd378bba83efb9ac`)
             .then(response => response.json())
@@ -61,6 +76,8 @@ const StockDataDashboard = ({ authUser }) => {
                                 setSearchTerm('')
                             }} key={result['symbol']} >
                                 <span>{result['symbol']}</span>: <span>{result['name']}</span>
+                                {Object.keys(user.tickers).includes(result['symbol'], result) ? <button onClick={() => delTicker(result['symbol'])}>REMOVE</button> :
+                                    <button onClick={() => addTicker(result['symbol'], result)}>Add to favs</button>}
                             </div>)}
                     </div>
                     : <p>Company not found.</p>
@@ -71,10 +88,10 @@ const StockDataDashboard = ({ authUser }) => {
                 <CompanyData comp={comp} companyTicker={companyTicker} />
                 : null
             }
-
+            {user && Object.keys(user.tickers).map(ticker => <CompanyData comp={user.tickers[ticker]} companyTicker={ticker} />)}
         </div >
     )
 }
 
 
-export default StockDataDashboard;
+export default withFirebase(StockDataDashboard);

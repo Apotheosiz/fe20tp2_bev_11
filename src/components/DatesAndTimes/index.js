@@ -1,14 +1,23 @@
 const setFormat = (date) => {
     let day = 0;
-    const dayNo = date.getDate() - 1;
+    // const weekDay = date.getDay();
+    let dayNo = date.getDate() - 1;
+    // if (weekDay === 0) {
+    //     dayNo = dayNo - 2;
+    // } else if (weekDay === 6) {
+    //     dayNo = dayNo - 1;
+    // }
+
     if (dayNo < 10) {
         day = "0" + dayNo;
     } else day = dayNo;
+
     let month = 0;
     const monthNo = date.getMonth();
     if (monthNo < 10) {
         month = "0" + (monthNo + 1);
     } else month = monthNo + 1;
+
     const year = date.getFullYear();
     return year + "-" + month + "-" + day;
 }
