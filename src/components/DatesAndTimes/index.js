@@ -1,12 +1,9 @@
+import startOfYesterday from 'date-fns/startOfYesterday';
+import subBusinessDays from 'date-fns/subBusinessDays';
+
 const setFormat = (date) => {
     let day = 0;
-    // const weekDay = date.getDay();
-    let dayNo = date.getDate() - 1;
-    // if (weekDay === 0) {
-    //     dayNo = dayNo - 2;
-    // } else if (weekDay === 6) {
-    //     dayNo = dayNo - 1;
-    // }
+    let dayNo = date.getDate();
 
     if (dayNo < 10) {
         day = "0" + dayNo;
@@ -23,13 +20,17 @@ const setFormat = (date) => {
 }
 
 const date = new Date();
-export const yesterday = setFormat(date);
 
-const dayBeforeDate = new Date(date.setDate(date.getDate() - 1));
-export const dayBefore = setFormat(dayBeforeDate);
-// console.log(dayBefore);
+const goBack = (date, days) => {
+    const result = subBusinessDays(date, days);
+    return new Date(result);
+};
 
-const oneWeekAgoDate = new Date(date.setDate(date.getDate() - 6));
+export const yesterday = setFormat(goBack(new Date(), 1))
+export const dayBefore = setFormat(goBack(new Date(), 2))
+
+
+const oneWeekAgoDate = new Date(date.setDate(date.getDate() - 7));
 export const oneWeekAgo = setFormat(oneWeekAgoDate);
 // console.log(oneWeekAgo);
 
