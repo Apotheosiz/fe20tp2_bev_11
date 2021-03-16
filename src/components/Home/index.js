@@ -7,6 +7,7 @@ import {
 import { withFirebase } from '../Firebase';
 import StockDataDashboard from '../StockDataDasboard';
 import PageContainer from '../PageContainer';
+import NewsDashbord from '../NewsDashbord';
 
 const HomePage = () => (
     <PageContainer>
@@ -19,6 +20,8 @@ const HomePage = () => (
                 <StockDataDashboard authUser={authUser} />
             )}
         </AuthUserContext.Consumer>
+        
+        <NewsDashbord />
 
         <Messages />
 
