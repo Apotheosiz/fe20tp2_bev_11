@@ -88,7 +88,7 @@ const StockDataDashboard = ({ authUser, firebase }) => {
                 <CompanyData comp={comp} companyTicker={companyTicker} />
                 : null
             }
-            {user && Object.keys(user.tickers).map(ticker => <CompanyData comp={user.tickers[ticker]} companyTicker={ticker} />)}
+        {/*user && Object.keys(user.tickers).map(ticker => <CompanyData comp={user.tickers[ticker]} companyTicker={ticker} />)*/}
         </div >
     )
 }
