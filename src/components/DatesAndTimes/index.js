@@ -1,4 +1,3 @@
-import startOfYesterday from 'date-fns/startOfYesterday';
 import subBusinessDays from 'date-fns/subBusinessDays';
 
 const setFormat = (date) => {
