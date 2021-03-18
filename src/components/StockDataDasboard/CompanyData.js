@@ -10,6 +10,7 @@ import {
     fiveYearsAgo,
     getDate
 } from '../DatesAndTimes';
+import GraphTitle from './GraphTitle';
 
 console.log(yesterday);
 
@@ -73,8 +74,9 @@ const CompanyData = ({ comp, companyTicker }) => {
 
     return (
         <section>
-            <h2><span>{comp.symbol}</span>: {comp.name}</h2>
-            <h1>23.5{comp.currency}down arrw 1.2%, +0.2 today</h1>
+            {(stockData.length > 0) ?
+                <GraphTitle comp={comp} data={stockData} />
+                : null }
             <div>
                 <div onChange={(event) => setInterval(event.target.value)}>
                     <input type="radio" value={dayBefore + "/" + yesterday} name="gender" defaultChecked={true} /> 1 D
