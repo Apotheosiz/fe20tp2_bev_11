@@ -14,7 +14,7 @@ const GraphTitle = ({ comp, data }) => {
     const diff = twoDecim(current-former);
 return (<>
 {/* {console.log(prev)} */}
-    <h2><span>{comp.symbol}</span>: {comp.name}</h2>
+    <h2> {comp.name}<span> ({comp.symbol})</span></h2>
     <h1>
         {lastPrice}{comp.currency} 
 
