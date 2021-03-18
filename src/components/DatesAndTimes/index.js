@@ -26,7 +26,7 @@ const goBack = (date, days) => {
 };
 
 export const yesterday = setFormat(goBack(new Date(), 1))
-export const dayBefore = setFormat(goBack(new Date(), 2))
+// export const dayBefore = setFormat(goBack(new Date(), 2))
 
 
 const oneWeekAgoDate = new Date(date.setDate(date.getDate() - 7));
@@ -47,7 +47,7 @@ const oneYearAgoDate = new Date(date.setMonth(date.getMonth() - 9));
 export const oneYearAgo = setFormat(oneYearAgoDate);
 // console.log(oneYearAgo);
 
-const fiveYearsAgoDate = new Date(date.setMonth(date.getMonth() - 48));
+const fiveYearsAgoDate = new Date(date.setMonth(date.getMonth() - 12));
 export const fiveYearsAgo = setFormat(fiveYearsAgoDate);
 // console.log(fiveYearsAgo);
 

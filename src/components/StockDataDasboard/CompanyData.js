@@ -2,7 +2,6 @@ import { AreaChart, Area, BarChart, Bar, ReferenceLine, Scatter, CartesianGrid, 
 import { useState, useEffect } from 'react';
 import {
     yesterday,
-    dayBefore,
     oneWeekAgo,
     oneMonthAgo,
     threeMonthsAgo,
@@ -11,6 +10,7 @@ import {
     getDate
 } from '../DatesAndTimes';
 import GraphTitle from './GraphTitle';
+import { twoDecim } from './GraphTitle';
 
 console.log(yesterday);
 
@@ -24,7 +24,7 @@ const CompanyData = ({ comp, companyTicker }) => {
     const [minPrice, setMinPrice] = useState(0);
     const [minMaxLines, setMinMaxLines] = useState(false);
     const [optionsState, setOptionsState] = useState("1/minute");
-    const [interval, setInterval] = useState(dayBefore + "/" + yesterday);
+    const [interval, setInterval] = useState(yesterday + "/" + yesterday);
     const [error, setError] = useState(null);
 
 
@@ -40,20 +40,23 @@ const CompanyData = ({ comp, companyTicker }) => {
                     console.log('data status ok');
 
                     let max = 0;
-                    let min = data.results[0].c;
+                    let min = twoDecim(data.results[0].c);
 
+                    console.log(data);
                     data.results.map(result => {
 
-                        if (result.c > max) {
-                            max = result.c;
+                    const closePrice = result.c;
+
+                        if (closePrice > max) {
+                            max = closePrice;
                         }
 
-                        if (result.c < min) {
-                            min = result.c;
+                        if (closePrice < min) {
+                            min = closePrice;
                         }
 
                         const time = getDate(result.t);
-                        let price = result.c;
+                        let price = closePrice;
                         let volume = result.v;
                         const point = {};
                         point.time = time;
@@ -79,12 +82,42 @@ const CompanyData = ({ comp, companyTicker }) => {
                 : null }
             <div>
                 <div onChange={(event) => setInterval(event.target.value)}>
-                    <input type="radio" value={dayBefore + "/" + yesterday} name="gender" defaultChecked={true} /> 1 D
-                    <input type="radio" value={oneWeekAgo + "/" + yesterday} name="gender" /> 1 W
-                    <input type="radio" value={oneMonthAgo + "/" + yesterday} name="gender" /> 1 M
-                    <input type="radio" value={threeMonthsAgo + "/" + yesterday} name="gender" /> 3 M
-                    <input type="radio" value={oneYearAgo + "/" + yesterday} name="gender" /> 1 Y
-                    <input type="radio" value={fiveYearsAgo + "/" + yesterday} name="gender" /> 2 Y
+                    <input 
+                        type="radio" 
+                        value={yesterday + "/" + yesterday} 
+                        name="gender" defaultChecked={true}
+                        onClick={() => setOptionsState("1/minute")}
+                     /> 1 D
+                    <input 
+                        type="radio" 
+                        value={oneWeekAgo + "/" + yesterday} 
+                        name="gender"
+                        onClick={() => setOptionsState("10/minute")}
+                    /> 1 W
+                    <input 
+                        type="radio" 
+                        value={oneMonthAgo + "/" + yesterday} 
+                        name="gender" 
+                        onClick={() => setOptionsState("1/hour")}
+                    /> 1 M
+                    <input 
+                        type="radio" 
+                        value={threeMonthsAgo + "/" + yesterday} 
+                        name="gender" 
+                        onClick={() => setOptionsState("1/day")}
+                        /> 3 M
+                    <input 
+                        type="radio" 
+                        value={oneYearAgo + "/" + yesterday} 
+                        name="gender" 
+                        onClick={() => setOptionsState("1/month")}
+                        /> 1 Y
+                    <input 
+                        type="radio" 
+                        value={fiveYearsAgo + "/" + yesterday} 
+                        name="gender"
+                        onClick={() => setOptionsState("3/month")}
+                        /> 2 Y
                 </div>
                 <span>{interval}</span>
 
@@ -104,13 +137,14 @@ const CompanyData = ({ comp, companyTicker }) => {
                 {error && !(stockData.length > 0) && <h2>{error.error}</h2>}
                 {error && !(stockData.length > 0) && (error.resultsCount === 0) && <h4>There are no results for the specified interval. Please choose another interval.</h4>}
                 {(stockData.length > 0) ?
-                    <div style={{ background: "#FB6F5C" }}>
+                    <div>
+                        {console.log(stockData)}
                         <ResponsiveContainer width="90%" height={300} >
                             <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 70 }}>
                                 <Area type="linear" dataKey="price" stroke="#44062B" name="$" dot={false} fill="#f9897a" />
                                 <CartesianGrid stroke="#ccc" strokeDasharray="1 1" />
-                                <XAxis dataKey="time" tickLine={false} stroke="#47E6B1" axisLine={false} />
-                                <YAxis tickLine={false} unit={comp.currency} stroke="#47E6B1" domain={["dataMin - 1", "dataMax + 1"]} axisLine={false} >
+                                <XAxis dataKey="time" tickLine={false} stroke="#5f6368" axisLine={false} />
+                                <YAxis tickLine={false} unit={comp.currency} stroke="#5f6368" domain={[minPrice, maxPrice]} axisLine={false} >
                                     {/* <Label value={maxPrice + comp.currency} position="insideTop" offset={10} />
                                     <Label value={minPrice + comp.currency} position="insideBottom" /> */}
                                 </YAxis>
@@ -132,10 +166,10 @@ const CompanyData = ({ comp, companyTicker }) => {
                         </div>
                         <ResponsiveContainer width="90%" height={150}>
                             <BarChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 70 }}>
-                                <Bar type="monotone" dataKey="volume" fill="#F2F2F2" name="Volume" />
+                                <Bar type="monotone" dataKey="volume" fill="#47E6B1" name="Volume" />
                                 <CartesianGrid stroke="#ccc" strokeDasharray="1 1" vertical={false} />
-                                <XAxis dataKey="time" tickLine={false} stroke="#47E6B1" />
-                                <YAxis tickLine={false} axisLine={false} stroke="#47E6B1" />
+                                <XAxis dataKey="time" tickLine={false} stroke="#5f6368" />
+                                <YAxis tickLine={false} axisLine={false} stroke="#5f6368" />
                                 <Tooltip
                                     cursor={{ fill: 'rgba(229, 229, 229, 0.4)' }}
                                     contentStyle={{

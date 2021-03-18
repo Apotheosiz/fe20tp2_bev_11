@@ -1,17 +1,16 @@
+export const twoDecim = (num) => {
+    return  (Math.round(num * 100) / 100).toFixed(2);
+  };
+
+  
 const GraphTitle = ({ comp, data }) => {
 
     const current = data[data.length - 1].price;
-    const former = data[0].price;
-
-  
-    // const prev = data[data.length - 1].time.split(', ');
-    const twoDecim = (num) => {
-      return  (Math.round(num * 100) / 100).toFixed(2);
-    }
-
+    const former = data[0].price;   
     const lastPrice = twoDecim(data[data.length - 1].price);
     const percDiff = twoDecim((current-former)/current*100.0);
     const diff = twoDecim(current-former);
+
 return (<>
 {/* {console.log(prev)} */}
     <h2> {comp.name}<span> ({comp.symbol})</span></h2>
