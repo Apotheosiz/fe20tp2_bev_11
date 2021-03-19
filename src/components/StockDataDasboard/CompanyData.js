@@ -12,7 +12,7 @@ import {
 import GraphTitle from './GraphTitle';
 import { twoDecim } from './GraphTitle';
 
-console.log(yesterday);
+// console.log(yesterday);
 
 
 const CompanyData = ({ comp, companyTicker }) => {
@@ -37,12 +37,12 @@ const CompanyData = ({ comp, companyTicker }) => {
                 let arr = [];
 
                 if (data.status === "OK" && data.results) {
-                    console.log('data status ok');
+                    // console.log('data status ok');
 
                     let max = 0;
                     let min = twoDecim(data.results[0].c);
 
-                    console.log(data);
+                    // console.log(data);
                     data.results.map(result => {
 
                     const closePrice = result.c;
@@ -138,7 +138,7 @@ const CompanyData = ({ comp, companyTicker }) => {
                 {error && !(stockData.length > 0) && (error.resultsCount === 0) && <h4>There are no results for the specified interval. Please choose another interval.</h4>}
                 {(stockData.length > 0) ?
                     <div>
-                        {console.log(stockData)}
+                        {/* {console.log(stockData)} */}
                         <ResponsiveContainer width="90%" height={300} >
                             <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 70 }}>
                                 <Area type="linear" dataKey="price" stroke="#44062B" name="$" dot={false} fill="#f9897a" />

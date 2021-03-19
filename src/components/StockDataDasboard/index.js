@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import CompanyData from './CompanyData.js';
 import { withFirebase } from '../Firebase';
+import PreviewPanel from './PreviewPanel';
 
 const StockDataDashboard = ({ authUser, firebase }) => {
     console.log(authUser.ticker);
@@ -83,12 +84,15 @@ const StockDataDashboard = ({ authUser, firebase }) => {
                     : <p>Company not found.</p>
                 : null
             }
-
+            
+            {user && <PreviewPanel user={user} />}
+            
             {(comp && companyTicker) ?
                 <CompanyData comp={comp} companyTicker={companyTicker} />
                 : null
             }
-        {/*user && Object.keys(user.tickers).map(ticker => <CompanyData comp={user.tickers[ticker]} companyTicker={ticker} />)*/}
+            
+    
         </div >
     )
 }
