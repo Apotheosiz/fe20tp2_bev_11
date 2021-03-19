@@ -1,8 +1,8 @@
 export const twoDecim = (num) => {
-    return  (Math.round(num * 100) / 100).toFixed(2);
+    return  parseFloat((Math.round(num * 100) / 100).toFixed(2));
   };
 
-  
+
 const GraphTitle = ({ comp, data }) => {
 
     const current = data[data.length - 1].price;

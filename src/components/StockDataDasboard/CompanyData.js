@@ -144,7 +144,7 @@ const CompanyData = ({ comp, companyTicker }) => {
                                 <Area type="linear" dataKey="price" stroke="#44062B" name="$" dot={false} fill="#f9897a" />
                                 <CartesianGrid stroke="#ccc" strokeDasharray="1 1" />
                                 <XAxis dataKey="time" tickLine={false} stroke="#5f6368" axisLine={false} />
-                                <YAxis tickLine={false} unit={comp.currency} stroke="#5f6368" domain={[minPrice, maxPrice]} axisLine={false} >
+                                <YAxis tickLine={false} unit={comp.currency} stroke="#5f6368" domain={[(twoDecim(minPrice*0.99)) , twoDecim(maxPrice*1.01)]} axisLine={false} >
                                     {/* <Label value={maxPrice + comp.currency} position="insideTop" offset={10} />
                                     <Label value={minPrice + comp.currency} position="insideBottom" /> */}
                                 </YAxis>
