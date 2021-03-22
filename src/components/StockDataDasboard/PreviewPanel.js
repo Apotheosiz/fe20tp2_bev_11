@@ -1,11 +1,19 @@
 import PreviewItem from "./PreviewItem";
+import styled from 'styled-components';
 
+const Panel = styled.div`
+width: 95%;
+margin: 30px auto;
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+`;
 
 const PreviewPanel = ({ user }) => {
 
     return (
         <section>
-            <div>
+            <Panel>
                 {/* <ul>
                     <p onClick={() => { 
                         setCompanyTicker('AAPL');
@@ -14,7 +22,7 @@ const PreviewPanel = ({ user }) => {
                 </ul> */}
                 
                 {user && Object.keys(user.tickers).map(ticker => <PreviewItem comp={user.tickers[ticker]} ticker={ticker} />)}
-            </div>
+            </Panel>
         </section>
     )
 }

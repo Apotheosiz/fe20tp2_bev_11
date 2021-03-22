@@ -1,11 +1,6 @@
-import { LineChart, Line, ResponsiveContainer, AreaChart, Area, BarChart, Bar, ReferenceLine, Scatter, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { LineChart, Line } from 'recharts';
 import {
     yesterday,
-    oneWeekAgo,
-    oneMonthAgo,
-    threeMonthsAgo,
-    oneYearAgo,
-    fiveYearsAgo,
     getDate
 } from '../DatesAndTimes';
 import { useState, useEffect } from 'react';
@@ -13,18 +8,40 @@ import GraphTitle from './GraphTitle';
 import { twoDecim } from './GraphTitle';
 import styled from "styled-components";
 
+const ItemWrapper = styled.div`
+display: flex;
+align-items: center;
+justify-content:space-between;
+width: 220px;
+padding:0 7px;
+margin: 0 7px 7px 0;
+background: #efefef;
+border-radius: 10px;
 
-const MiniGraphTitle = styled(GraphTitle)`
+h1{
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+h2{
+    font-size: 12px;
+    white-space: nowrap;
+    max-width: 120px;
+    overflow: hidden;
+    span{
+        display: none;
+    }
+}
+`
+
+const DetailsLines = styled.div`
+
 `;
 
-const PreviewItem = ({comp, ticker}) => {
-    // let interval = '';
-  
+const PreviewItem = ({comp, ticker}) => {  
     
-    const [maxPrice, setMaxPrice] = useState(0);
-    const [minPrice, setMinPrice] = useState(0);
     const [stockData, setStockData] = useState(null);
-    const [error, setError] = useState(null);
     const [color, setColor] =useState("#f9897a");
     const interval =`10/minute/${yesterday}/${yesterday}`;
 
@@ -34,7 +51,7 @@ const PreviewItem = ({comp, ticker}) => {
     console.log('rendered preview item');
     useEffect(() => {
         console.log('useEffect in preview Item');
-        fetch(`https://api.polygon.io/v2/aggs/ticker/${ticker}/range/${interval}?unadjusted=true&sort=asc&limit=5000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
+        fetch(`https://api.polygon.io/v2/aggs/ticker/${ticker}/range/${interval}?unadjusted=true&sort=asc&limit=5000&apiKey=xDToCZJHm7pBpVlUiM8vcrK75nKJrpGV`)
             .then(response => response.json())
             .then(data => {
 
@@ -42,21 +59,23 @@ const PreviewItem = ({comp, ticker}) => {
 
                 if (data.status === "OK" && data.results) {
 
-                    let max = 0;
                     let min = twoDecim(data.results[0].c);
 
                     console.log('data status ok');
                     console.log(data);
                     data.results.map(result => {
+                        
                         const closePrice = result.c;
-
-                        if (closePrice > max) {
-                            max = closePrice;
-                        }
 
                         if (closePrice < min) {
                             min = closePrice;
                         }
+
+                    });
+
+                    data.results.map(result => {
+
+                        const closePrice = twoDecim(result.c - min);
 
                         const time = getDate(result.t);
                         let price = closePrice;
@@ -66,46 +85,40 @@ const PreviewItem = ({comp, ticker}) => {
                         point.price = price;
                         point.volume = volume;
                         arr.push(point);
-                    })
+                    });
 
-                    setMaxPrice(max);
-                    setMinPrice(min);
+                    console.log(arr);
 
-                } else if (data.status === "ERROR" || !data.results) {
-                    setError(data);
+                    if (arr[arr.length - 1].price > arr[0].price) {
+                        setColor('#137333');
+                    } else if (arr[arr.length - 1].price < arr[0].price) {
+                        setColor('#a50e0e');
+                    } 
+
+                    setStockData(arr);
                 } else console.log(data.status);
-                setStockData(arr);
-                console.log(arr);
+                 
             })
     }, [ticker, interval])
 
-    return (<div>
-         {/* {(stockData.length > 0) ?
-                <GraphTitle comp={comp} data={stockData} />
-                : null } */}
-                {/* {error && !(stockData.length > 0) && <h2>{error.error}</h2>} */}
-                {/* {error && !(stockData.length > 0) && (error.resultsCount === 0) && <h4>There are no results for the specified interval.</h4>} */}
-                {console.log(stockData)}
-                {stockData && 
-                    <div style={{ width:"120px", background:"pink"}}>
-                        <p>{(stockData.length > 0) ?
-                            <MiniGraphTitle comp={comp} data={stockData} />
-                            : null }</p>
-                        {/* <ResponsiveContainer width="100%" height={100} >  */}
-                            <LineChart width={100} height={60} data={stockData} margin={{ top: 0, right: 0, bottom: 0, left: 0 }} >
-                                <Line type="linear" dataKey="price" stroke="#44062B" strokeWidth="1.5px" name="$" dot={false} fill={color} />
-                                <XAxis dataKey="time" tickLine={false} stroke="#5f6368" axisLine={false} tick={false} />
-                                <YAxis tickLine={false} unit={comp.currency} stroke="#5f6368" domain={[(twoDecim(minPrice*0.99)) , twoDecim(maxPrice*1.01)]} axisLine={false} tick={false} >
-                                    {/* <Label value={maxPrice + comp.currency} position="insideTop" offset={10} />
-                                    <Label value={minPrice + comp.currency} position="insideBottom" /> */}
-                                </YAxis>
-                                <Scatter dataKey={minPrice} fill="red" />
-                            </LineChart>
-                        {/* </ResponsiveContainer>  */}
-                     </div>
-                }
+    return (
+    <div>
+        {stockData && 
+            
+            <ItemWrapper>
 
-        one little company</div>)
+                <DetailsLines>{(stockData.length > 0) ?
+                    <GraphTitle comp={comp} data={stockData} />
+                    : null }
+                </DetailsLines>
+                
+                <LineChart width={80} height={40} data={stockData}>
+                    <Line type="linear" dataKey="price" stroke={color} strokeWidth={2} dot={false} />
+                </LineChart>
+
+            </ItemWrapper>
+        }
+    </div>)
 }
 
 export default PreviewItem;

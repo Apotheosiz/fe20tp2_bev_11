@@ -1,6 +1,14 @@
+import styled from 'styled-components';
+
 export const twoDecim = (num) => {
     return  parseFloat((Math.round(num * 100) / 100).toFixed(2));
   };
+
+const InfoLine = styled.h1`
+span{
+    margin-right: 7px;
+}
+`;
 
 
 const GraphTitle = ({ comp, data }) => {
@@ -14,18 +22,19 @@ const GraphTitle = ({ comp, data }) => {
 return (<>
 {/* {console.log(prev)} */}
     <h2> {comp.name}<span> ({comp.symbol})</span></h2>
-    <h1>
-        {lastPrice}{comp.currency} 
+    <InfoLine>
+        <span>{lastPrice}{comp.currency}</span>
 
-        {percDiff >=0 ? 
-            <span style={{ color: '#137333'}}>↑{percDiff}%</span>
-            : <span style={{ color: '#a50e0e' }}>↓{percDiff}%</span>} 
-            
-        {(diff >= 0) ? 
-            <span style={{ color: '#137333'}}>+{diff}{comp.currency}</span> 
-            : <span style={{ color: '#a50e0e' }}>{diff}{comp.currency}</span>}
-            
-    </h1>
+        <span>
+            {percDiff >=0 ? 
+                <span style={{ color: '#137333'}}>↑{percDiff}%</span>
+                : <span style={{ color: '#a50e0e' }}>↓{percDiff}%</span>} 
+                
+            {(diff >= 0) ? 
+                <span style={{ color: '#137333'}}>+{diff}{comp.currency}</span> 
+                : <span style={{ color: '#a50e0e' }}>{diff}{comp.currency}</span>}
+        </span>
+    </InfoLine>
     </>
 )
 }

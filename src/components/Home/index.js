@@ -6,13 +6,11 @@ import {
 } from '../Session';
 import { withFirebase } from '../Firebase';
 import StockDataDashboard from '../StockDataDasboard';
-import PageContainer from '../PageContainer';
+//import PageContainer from '../PageContainer';
 
 const HomePage = () => (
-    <PageContainer>
-        <h1>Home Page</h1>
-        <p>The Home Page is accessible by every signed in user.</p>
-
+    //<PageContainer>
+    <>
 
         <AuthUserContext.Consumer>
             {authUser => (
@@ -21,8 +19,8 @@ const HomePage = () => (
         </AuthUserContext.Consumer>
 
         <Messages />
-
-    </PageContainer>
+    </>
+    //</PageContainer>
 );
 
 class MessagesBase extends Component {

@@ -54,7 +54,8 @@ const StockDataDashboard = ({ authUser, firebase }) => {
 
     return (
         <div>
-            <h1>Dashboard</h1>
+            
+            {user && <PreviewPanel user={user} />}
 
             <form onSubmit={onSubmit}>
                 <input
@@ -84,8 +85,6 @@ const StockDataDashboard = ({ authUser, firebase }) => {
                     : <p>Company not found.</p>
                 : null
             }
-            
-            {user && <PreviewPanel user={user} />}
             
             {(comp && companyTicker) ?
                 <CompanyData comp={comp} companyTicker={companyTicker} />
