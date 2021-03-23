@@ -13,15 +13,8 @@ const PreviewPanel = ({ user, setCompanyTicker, setComp }) => {
 
     return (
         <section>
-            <Panel>
-                {/* <ul>
-                    <p onClick={() => { 
-                        setCompanyTicker('AAPL');
-                        console.log(companyTicker);
-                        }}>some text here</p>
-                </ul> */}
-                
-                {user && Object.keys(user.tickers).map(ticker => <PreviewItem comp={user.tickers[ticker]} ticker={ticker} setCompanyTicker={setCompanyTicker} setComp={setComp}/>)}
+            <Panel>                
+                {user && user.tickers && Object.keys(user.tickers).map(ticker => <PreviewItem comp={user.tickers[ticker]} ticker={ticker} setCompanyTicker={setCompanyTicker} setComp={setComp}/>)}
             </Panel>
         </section>
     )
