@@ -39,7 +39,7 @@ const DetailsLines = styled.div`
 
 `;
 
-const PreviewItem = ({comp, ticker}) => {  
+const PreviewItem = ({comp, ticker, setCompanyTicker, setComp}) => {  
     
     const [stockData, setStockData] = useState(null);
     const [color, setColor] =useState("#f9897a");
@@ -101,11 +101,16 @@ const PreviewItem = ({comp, ticker}) => {
             })
     }, [ticker, interval])
 
+    const apple = "AAPL";
+
     return (
     <div>
         {stockData && 
             
-            <ItemWrapper>
+            <ItemWrapper className="prevLink" data-ticker={ticker} data-comp={comp} onClick={(event) => { 
+                setCompanyTicker(event.target.closest('.prevLink').dataset.ticker);
+                setComp(comp);
+            }}>
 
                 <DetailsLines>{(stockData.length > 0) ?
                     <GraphTitle comp={comp} data={stockData} />
