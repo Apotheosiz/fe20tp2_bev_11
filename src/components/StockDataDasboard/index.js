@@ -2,13 +2,12 @@ import { useState, useEffect } from 'react';
 import CompanyData from './CompanyData.js';
 import { withFirebase } from '../Firebase';
 
-const StockDataDashboard = ({ authUser, firebase }) => {
+const StockDataDashboard = ({ authUser, firebase, comp, setComp }) => {
     console.log(authUser.ticker);
     console.log('rerendered stock data dashboard');
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState(null);
     const [companyTicker, setCompanyTicker] = useState('');
-    const [comp, setComp] = useState(null);
 
     const [user, setUser] = useState(null);
 

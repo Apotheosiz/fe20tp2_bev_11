@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
 
-const NewsDashbord = () => {
+const NewsDashbord = ({comp}) => {
 const [newsData, setNewsData] = useState(null);
 
     useEffect(() => {
-        fetch('http://newsapi.org/v2/everything?q=bitcoin&from=2021-03-16&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742')
+        comp ? fetch(`http://newsapi.org/v2/everything?q=${comp.name}&from=2021-03-16&language=en&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742`)
             .then(response => response.json())
             .then(data => { 
                 setNewsData(data);               
                 console.log(data);
-            });
-    }, [])
+            }) : fetch(`http://newsapi.org/v2/top-headlines?country=us&category=business&language=en&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742`)
+                .then(response => response.json())
+                .then(data => {
+                    setNewsData(data);
+                    console.log(data);
+                })
+    }, [comp])
     return (<div>
         <h1>News Dashbord</h1> 
         {newsData ? <Article articles={newsData.articles}/> : null }

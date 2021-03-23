@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { compose } from 'recompose';
 import {
     AuthUserContext,
@@ -9,7 +9,9 @@ import StockDataDashboard from '../StockDataDasboard';
 import PageContainer from '../PageContainer';
 import NewsDashbord from '../NewsDashbord';
 
-const HomePage = () => (
+const HomePage = () => { 
+    const [comp, setComp] = useState(null); 
+    return   (
     <PageContainer>
         <h1>Home Page</h1>
         <p>The Home Page is accessible by every signed in user.</p>
@@ -17,16 +19,19 @@ const HomePage = () => (
 
         <AuthUserContext.Consumer>
             {authUser => (
-                <StockDataDashboard authUser={authUser} />
+                    <StockDataDashboard 
+                    authUser={authUser} 
+                    comp={comp} 
+                    setComp={setComp}/>
             )}
         </AuthUserContext.Consumer>
         
-        <NewsDashbord />
+            <NewsDashbord comp={comp} />
 
         <Messages />
 
     </PageContainer>
-);
+)};
 
 class MessagesBase extends Component {
     constructor(props) {
