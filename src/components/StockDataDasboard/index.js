@@ -8,8 +8,14 @@ const StockDataDashboard = ({ authUser, firebase }) => {
     console.log('rerendered stock data dashboard');
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState(null);
-    const [companyTicker, setCompanyTicker] = useState('');
-    const [comp, setComp] = useState(null);
+    const [companyTicker, setCompanyTicker] = useState('AAPL');
+    const [comp, setComp] = useState({
+        currency: 'USD',
+        exchangeShortName: 'NASDAQ',
+        name: 'Apple Inc.',
+        stockExchange: 'NasdaqGS',
+        symbol:'AAPL',
+    });
     const [tickerAlert, setTickerAlert] = useState(null);
     const [user, setUser] = useState(null);
 
@@ -47,14 +53,6 @@ const StockDataDashboard = ({ authUser, firebase }) => {
             const dbUser = snapshot.val()
             setUser(dbUser);
         })
-        setCompanyTicker(authUser.ticker);
-        fetch(`https://financialmodelingprep.com/api/v3/search?query=${authUser.ticker}&limit=10&exchange=NASDAQ&apikey=909a30a0b9971c3dfd378bba83efb9ac`)
-            .then(response => response.json())
-            .then(data => {
-                if (data[0].symbol === authUser.ticker) {
-                    setComp(data[0]);
-                }
-            });
     }, []);
 
     return (

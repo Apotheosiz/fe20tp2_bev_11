@@ -53,7 +53,6 @@ const INITIAL_STATE = {
     email: '',
     passwordOne: '',
     passwordTwo: '',
-    ticker:'',
     isAdmin: false,
     error: null,
     tickers: '',
@@ -66,7 +65,7 @@ class SignUpFormBase extends Component {
     }
 
     onSubmit = event => {
-        const { username, email, passwordOne, isAdmin, ticker } = this.state;
+        const { username, email, passwordOne, isAdmin } = this.state;
 
         const roles = {};
 
@@ -84,7 +83,6 @@ class SignUpFormBase extends Component {
                         username,
                         email,
                         roles,
-                        ticker,
                         tickers: {
                             AAPL: {
                                 currency: 'USD',
@@ -124,7 +122,6 @@ class SignUpFormBase extends Component {
             passwordTwo,
             isAdmin,
             error,
-            ticker,
             } = this.state;
 
         const isInvalid = 
@@ -176,15 +173,7 @@ class SignUpFormBase extends Component {
                     />
                 </label>
                 </FormWrap>
-                <FormWrap>
-                    <FormControl
-                        name="ticker"
-                        value={ticker}
-                        onChange={this.onChange}
-                        type="text"
-                        placeholder="Company ticker"
-                    />
-                </FormWrap>
+                
                 <Button disabled={isInvalid} type="submit">sign up</Button>
 
                 {error && <p>{error.message}</p>}
