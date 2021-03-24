@@ -24,12 +24,16 @@ const StockDataDashboard = ({ authUser, firebase }) => {
 
     const addTicker = (ticker, comp) => {
             console.log(ticker, comp)
-            firebase.user(authUser.uid).child('tickers').update({ [ticker]: comp })
+            firebase.user(authUser.uid).child('tickers').update({ [ticker]: comp });
+            setResults(null);
+            setSearchTerm("");
     }
 
     const delTicker = ticker => {
             console.log(ticker)
-            firebase.user(authUser.uid).child('tickers').update({ [ticker]: null })
+            firebase.user(authUser.uid).child('tickers').update({ [ticker]: null });
+            setResults(null);
+            setSearchTerm("");
     }
 
     const onSubmit = event => {
