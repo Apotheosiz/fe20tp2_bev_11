@@ -55,7 +55,7 @@ const CompanyData = ({ comp, companyTicker }) => {
                             min = closePrice;
                         }
 
-                        const time = getDate(result.t);
+                        const time =getDate(result.t);
                         let price = closePrice;
                         let volume = result.v;
                         const point = {};
@@ -74,6 +74,26 @@ const CompanyData = ({ comp, companyTicker }) => {
                 setStockData(arr);
             })
     }, [companyTicker, optionsState, interval])
+
+    const changeXAxisTick = (tick) => {
+        const timeArr = tick.split(" ");
+
+        switch (interval.split("/")[0]) {
+
+            case yesterday:
+                return timeArr[3];
+                
+            case oneYearAgo:
+                return timeArr[1] + " " + timeArr[2];
+               
+            case fiveYearsAgo:
+                return timeArr[1] + " " + timeArr[2];
+
+            default:
+                return timeArr[0] + " " + timeArr[1];
+          }
+
+    }
 
     return (
         <section>
@@ -143,17 +163,29 @@ const CompanyData = ({ comp, companyTicker }) => {
 
                             <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 25 }}>
 
-                                <Area type="linear" dataKey="price" stroke="#44062B" name={comp.currency} dot={false} fill="#f9897a" />
+                                <Area type="linear" dataKey="price" stroke="#44062B" name={comp.currency} dot={false} fill="#f9897a" strokeWidth={2} />
 
                                 <CartesianGrid stroke="#ccc" strokeDasharray="1 1" />
 
-                                <XAxis dataKey="time"  stroke="#5f6368" axisLine={false} minTickGap={80} />
+                                <XAxis 
+                                    dataKey="time"  
+                                    stroke="#5f6368" 
+                                    axisLine={false} 
+                                    minTickGap={180}
+                                    tickFormatter={(tick) => changeXAxisTick(tick)}  
+                                />
 
-                                <YAxis tickLine={false} stroke="#5f6368" domain={[(twoDecim(minPrice*0.99)) , twoDecim(maxPrice*1.01)]} axisLine={false} />
+                                <YAxis 
+                                    tickLine={false} 
+                                    stroke="#5f6368" 
+                                    domain={[(twoDecim(minPrice*0.99)) , twoDecim(maxPrice*1.01)]} 
+                                    axisLine={false}  
+                                />
 
                                 <Tooltip contentStyle={{
                                     borderRadius: "10px",
-                                    background: "#F2F2F2"
+                                    background: "#F2F2F2",
+                                    fontWeight: "600",
                                 }} />
 
                                 <Scatter dataKey={minPrice} fill="red" />
@@ -189,6 +221,7 @@ const CompanyData = ({ comp, companyTicker }) => {
                                         borderRadius: "10px",
                                         background: "#808080",
                                         color: "#fff",
+                                        fontWeight: "600",
                                     }} />
 
                                 <Legend />

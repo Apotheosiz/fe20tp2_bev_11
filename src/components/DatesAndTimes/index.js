@@ -2,13 +2,32 @@ import subBusinessDays from 'date-fns/subBusinessDays';
 
 export const getDate = (timestamp) => {
     const date = new Date(timestamp);
-    const year = date.getFullYear().toString().slice(2);
-    const month = date.toLocaleString('default', { month: 'short' });
     const day = date.toLocaleString("en", { day: "numeric" });
+    const month = date.toLocaleString('default', { month: 'short' });
+    const year = date.getFullYear();
     const time = date.toISOString().split("T")[1].slice(0,5);
-
-    return day + "-" + month + "-" + year + " " + time;
+    return day + " " + month + " " + year + " " + time
 }
+
+// export const getTime = (timestamp) => {
+//     const date = new Date(timestamp);
+//     const time = date.toISOString().split("T")[1].slice(0,5);
+//     return time
+// }
+
+// export const getDayMonth = (timestamp) => {
+//     const date = new Date(timestamp);
+//     const day = date.toLocaleString("en", { day: "numeric" });
+//     const month = date.toLocaleString('default', { month: 'short' });
+//     return day + " " + month
+// }
+
+// export const getMonthYear = (timestamp) => {
+//     const date = new Date(timestamp);
+//     const year = date.getFullYear();
+//     const month = date.toLocaleString('default', { month: 'short' });
+//     return month + " " + year
+// }
 
 const setFormat = (date) => {
     let day = 0;
