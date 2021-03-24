@@ -24,13 +24,14 @@ const StockDataDashboard = ({ authUser, firebase }) => {
     };
 
     const addTicker = (ticker, comp) => {
-        console.log(ticker, comp)
-        firebase.user(authUser.uid).child('tickers').update({ [ticker]: comp })
+            console.log(ticker, comp)
+            firebase.user(authUser.uid).child('tickers').update({ [ticker]: comp })
     }
+
     const delTicker = ticker => {
         if (Object.keys(user.tickers).length > 1) {
-        console.log(ticker)
-        firebase.user(authUser.uid).child('tickers').update({ [ticker]: null })
+            console.log(ticker)
+            firebase.user(authUser.uid).child('tickers').update({ [ticker]: null })
         } else {
             setTickerAlert('Sorry, cannot remove last ticker')
         }
@@ -39,7 +40,7 @@ const StockDataDashboard = ({ authUser, firebase }) => {
 
     const onSubmit = event => {
         setTickerAlert(null);
-        fetch(`https://financialmodelingprep.com/api/v3/search?query=${searchTerm}&limit=10&exchange=NASDAQ&apikey=909a30a0b9971c3dfd378bba83efb9ac`)
+        fetch(`https://financialmodelingprep.com/api/v3/search?query=${searchTerm}&limit=20&exchange=NASDAQ&apikey=909a30a0b9971c3dfd378bba83efb9ac`)
             .then(response => response.json())
             .then(data => {
                 setResults(data);
@@ -74,15 +75,37 @@ const StockDataDashboard = ({ authUser, firebase }) => {
                 (results.length > 0) ?
                     <div>
                         {results.map(result =>
-                            <div onClick={() => {
-                                setCompanyTicker(result['symbol']);
-                                setComp(result);
-                                setResults(null);
-                                setSearchTerm('')
-                            }} key={result['symbol']} >
-                                <span>{result['symbol']}</span>: <span>{result['name']}</span>
-                                {Object.keys(user.tickers).includes(result['symbol']) ? <button onClick={() => delTicker(result['symbol'])}>REMOVE</button> :
-                                    <button onClick={() => addTicker(result['symbol'], result)}>Add to favs</button>}
+                            <div 
+                                key={result['symbol']} 
+                            >
+                                <span
+                                    onClick={() => {
+                                        setCompanyTicker(result['symbol']);
+                                        setComp(result);
+                                        setResults(null);
+                                        setSearchTerm('')
+                                    }} 
+                                >
+                                    <span>{result['symbol']}</span>: <span>{result['name']}</span>
+                                </span>
+                                
+                                {Object.keys(user.tickers).includes(result['symbol']) 
+                                    ? <>
+                                        {(Object.keys(user.tickers).length > 1) 
+                                        && <button 
+                                                onClick={() => delTicker(result['symbol'])}
+                                            >
+                                                REMOVE
+                                            </button>}
+                                    </> 
+                                    : <>
+                                        {(Object.keys(user.tickers).length < 5) 
+                                        && <button 
+                                                onClick={() => addTicker(result['symbol'], result)}
+                                            >
+                                                Add to favs
+                                            </button>}
+                                    </>}
                                     
                             </div>)}
                     </div>
