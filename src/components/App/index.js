@@ -10,6 +10,14 @@ import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
+import { createGlobalStyle } from 'styled-components';
+
+const GlobalStyle = createGlobalStyle`
+* {
+    margin: 0;
+    padding: 0;
+  }
+`;
 
 const App = () => (
     <Router>
@@ -26,6 +34,7 @@ const App = () => (
                 <Route path={ROUTES.ADMIN} component={AdminPage} />
             </div>
         </div>
+        <GlobalStyle />
     </Router>
 );
 

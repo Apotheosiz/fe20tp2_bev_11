@@ -6,13 +6,13 @@ import {
 } from '../Session';
 import { withFirebase } from '../Firebase';
 import StockDataDashboard from '../StockDataDasboard';
-import PageContainer from '../PageContainer';
+//import PageContainer from '../PageContainer';
 import NewsDashbord from '../NewsDashbord';
 
 const HomePage = () => { 
     const [comp, setComp] = useState(null); 
     return   (
-    <PageContainer>
+    <div>
         <h1>Home Page</h1>
         <p>The Home Page is accessible by every signed in user.</p>
 
@@ -30,7 +30,7 @@ const HomePage = () => {
 
         <Messages />
 
-    </PageContainer>
+    </div>
 )};
 
 class MessagesBase extends Component {
