@@ -9,12 +9,12 @@ flex-wrap:wrap;
 justify-content:center;
 `;
 
-const PreviewPanel = ({ user, setCompanyTicker, setComp }) => {
+const PreviewPanel = ({ user, setCompanyTicker, setComp, delTicker }) => {
 
     return (
         <section>
             <Panel>                
-                {user && user.tickers && Object.keys(user.tickers).map(ticker => <PreviewItem comp={user.tickers[ticker]} ticker={ticker} setCompanyTicker={setCompanyTicker} setComp={setComp}/>)}
+                {user && user.tickers && Object.keys(user.tickers).map(ticker => <PreviewItem user={user} comp={user.tickers[ticker]} ticker={ticker} setCompanyTicker={setCompanyTicker} setComp={setComp} delTicker={delTicker} />)}
             </Panel>
         </section>
     )

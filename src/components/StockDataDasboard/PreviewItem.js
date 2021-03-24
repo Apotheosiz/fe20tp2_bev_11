@@ -9,14 +9,18 @@ import { twoDecim } from './GraphTitle';
 import styled from "styled-components";
 
 const ItemWrapper = styled.div`
-display: flex;
-align-items: center;
-justify-content:space-between;
 width: 220px;
 padding:0 7px;
 margin: 0 7px 7px 0;
 background: #efefef;
 border-radius: 10px;
+position: relative;
+
+.seeInGraph{
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+}
 
 h1{
     font-size: 12px;
@@ -33,13 +37,21 @@ h2{
         display: none;
     }
 }
+.deleteIcon{
+    position: absolute;
+    top: -4px;
+    right: 4px;
+    font-size: 17px;
+    font-weight: 800;
+    cursor: pointer;
+}
 `
 
-const DetailsLines = styled.div`
+const Details = styled.div`
 
 `;
 
-const PreviewItem = ({comp, ticker, setCompanyTicker, setComp}) => {  
+const PreviewItem = ({ user, comp, ticker, setCompanyTicker, setComp, delTicker }) => {  
     
     const [stockData, setStockData] = useState(null);
     const [color, setColor] =useState("#f9897a");
@@ -107,19 +119,35 @@ const PreviewItem = ({comp, ticker, setCompanyTicker, setComp}) => {
     <div>
         {stockData && 
             
-            <ItemWrapper className="prevLink" data-ticker={ticker} data-comp={comp} onClick={(event) => { 
+            <ItemWrapper className="prevLink">
+                <div className="seeInGraph" data-ticker={ticker} data-comp={comp} onClick={(event) => { 
                 setCompanyTicker(event.target.closest('.prevLink').dataset.ticker);
                 setComp(comp);
             }}>
+                    <Details>{(stockData.length > 0) ?
+                        <GraphTitle comp={comp} data={stockData} />
+                        : null }
+                    </Details>
+                    
+                    <LineChart width={80} height={40} data={stockData}>
+                        <Line type="linear" dataKey="price" stroke={color} strokeWidth={2} dot={false} />
+                    </LineChart>
+                </div>
 
-                <DetailsLines>{(stockData.length > 0) ?
-                    <GraphTitle comp={comp} data={stockData} />
-                    : null }
-                </DetailsLines>
+                {(Object.keys(user.tickers).length > 1) 
+                &&
+                <div 
+                    className="deleteIcon" 
+                    onClick={() => delTicker(ticker)}
+                >
+                    ×
+                    {/* <svg height="18" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
+                        <title>Remove</title>
+                        <path d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z"/><path d="M0 0h48v48H0z" fill="none"/>
+                    </svg> */}
+                </div>
+                }
                 
-                <LineChart width={80} height={40} data={stockData}>
-                    <Line type="linear" dataKey="price" stroke={color} strokeWidth={2} dot={false} />
-                </LineChart>
 
             </ItemWrapper>
         }

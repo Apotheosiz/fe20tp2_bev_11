@@ -16,7 +16,6 @@ const StockDataDashboard = ({ authUser, firebase }) => {
         stockExchange: 'NasdaqGS',
         symbol:'AAPL',
     });
-    const [tickerAlert, setTickerAlert] = useState(null);
     const [user, setUser] = useState(null);
 
     const onChange = event => {
@@ -29,17 +28,11 @@ const StockDataDashboard = ({ authUser, firebase }) => {
     }
 
     const delTicker = ticker => {
-        if (Object.keys(user.tickers).length > 1) {
             console.log(ticker)
             firebase.user(authUser.uid).child('tickers').update({ [ticker]: null })
-        } else {
-            setTickerAlert('Sorry, cannot remove last ticker')
-        }
-
     }
 
     const onSubmit = event => {
-        setTickerAlert(null);
         fetch(`https://financialmodelingprep.com/api/v3/search?query=${searchTerm}&limit=20&exchange=NASDAQ&apikey=909a30a0b9971c3dfd378bba83efb9ac`)
             .then(response => response.json())
             .then(data => {
@@ -56,10 +49,13 @@ const StockDataDashboard = ({ authUser, firebase }) => {
         })
     }, []);
 
+    // const contextDataObject = { user, setCompanyTicker, setComp, delTicker };
+    // console.log(contextDataObject);
+
     return (
         <div>
             
-            {user && <PreviewPanel user={user} setCompanyTicker={setCompanyTicker} setComp={setComp} />}
+            {user && <PreviewPanel user={user} setCompanyTicker={setCompanyTicker} setComp={setComp} delTicker={delTicker} />}
 
             <form onSubmit={onSubmit}>
                 <input
@@ -112,7 +108,7 @@ const StockDataDashboard = ({ authUser, firebase }) => {
                     : <p>Company not found.</p>
                 : null
             }
-            {tickerAlert && <span>{tickerAlert}</span>}
+
             {(comp && companyTicker) ?
                 <CompanyData comp={comp} companyTicker={companyTicker} />
                 : null
