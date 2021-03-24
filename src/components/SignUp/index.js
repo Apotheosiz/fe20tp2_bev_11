@@ -56,6 +56,7 @@ const INITIAL_STATE = {
     ticker:'',
     isAdmin: false,
     error: null,
+    tickers: '',
 };
 
 class SignUpFormBase extends Component {
@@ -84,6 +85,15 @@ class SignUpFormBase extends Component {
                         email,
                         roles,
                         ticker,
+                        tickers: {
+                            AAPL: {
+                                currency: 'USD',
+                                exchangeShortName: 'NASDAQ',
+                                name: 'Apple Inc.',
+                                stockExchange: 'NasdaqGS',
+                                symbol:'AAPL',
+                            }
+                        }
                     });
             })
             .then(() => {

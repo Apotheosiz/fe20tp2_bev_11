@@ -39,6 +39,17 @@ class Firebase {
                         if (!dbUser.roles) {
                             dbUser.roles = {};
                         }
+                        if (!dbUser.tickers) {
+                            dbUser.tickers = {
+                                AAPL: {
+                                    currency: 'USD',
+                                    exchangeShortName: 'NASDAQ',
+                                    name: 'Apple Inc.',
+                                    stockExchange: 'NasdaqGS',
+                                    symbol:'AAPL',
+                                }
+                            };
+                        }
                         // merge auth and db user
                         authUser = {
                             uid: authUser.uid,

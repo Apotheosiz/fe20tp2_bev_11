@@ -10,24 +10,29 @@ const StockDataDashboard = ({ authUser, firebase }) => {
     const [results, setResults] = useState(null);
     const [companyTicker, setCompanyTicker] = useState('');
     const [comp, setComp] = useState(null);
-
+    const [tickerAlert, setTickerAlert] = useState(null);
     const [user, setUser] = useState(null);
 
     const onChange = event => {
         setSearchTerm(event.target.value)
     };
 
-    const addTicker = ticker => {
+    const addTicker = (ticker, comp) => {
         console.log(ticker, comp)
         firebase.user(authUser.uid).child('tickers').update({ [ticker]: comp })
     }
     const delTicker = ticker => {
+        if (Object.keys(user.tickers).length > 1) {
         console.log(ticker)
         firebase.user(authUser.uid).child('tickers').update({ [ticker]: null })
+        } else {
+            setTickerAlert('Sorry, cannot remove last ticker')
+        }
+
     }
 
     const onSubmit = event => {
-
+        setTickerAlert(null);
         fetch(`https://financialmodelingprep.com/api/v3/search?query=${searchTerm}&limit=10&exchange=NASDAQ&apikey=909a30a0b9971c3dfd378bba83efb9ac`)
             .then(response => response.json())
             .then(data => {
@@ -78,14 +83,15 @@ const StockDataDashboard = ({ authUser, firebase }) => {
                                 setSearchTerm('')
                             }} key={result['symbol']} >
                                 <span>{result['symbol']}</span>: <span>{result['name']}</span>
-                                {Object.keys(user.tickers).includes(result['symbol'], result) ? <button onClick={() => delTicker(result['symbol'])}>REMOVE</button> :
+                                {Object.keys(user.tickers).includes(result['symbol']) ? <button onClick={() => delTicker(result['symbol'])}>REMOVE</button> :
                                     <button onClick={() => addTicker(result['symbol'], result)}>Add to favs</button>}
+                                    
                             </div>)}
                     </div>
                     : <p>Company not found.</p>
                 : null
             }
-            
+            {tickerAlert && <span>{tickerAlert}</span>}
             {(comp && companyTicker) ?
                 <CompanyData comp={comp} companyTicker={companyTicker} />
                 : null
