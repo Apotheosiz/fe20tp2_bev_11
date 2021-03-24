@@ -161,7 +161,7 @@ const CompanyData = ({ comp, companyTicker }) => {
                         {/* {console.log(stockData)} */}
                         <ResponsiveContainer width="100%" height={300} >
 
-                            <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 25 }}>
+                            <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 15 }}>
 
                                 <Area type="linear" dataKey="price" stroke="#44062B" name={comp.currency} dot={false} fill="#f9897a" strokeWidth={2} />
 
@@ -171,8 +171,11 @@ const CompanyData = ({ comp, companyTicker }) => {
                                     dataKey="time"  
                                     stroke="#5f6368" 
                                     axisLine={false} 
-                                    minTickGap={180}
+                                    minTickGap={40}
                                     tickFormatter={(tick) => changeXAxisTick(tick)}  
+                                    style={{
+                                        fontSize: '12px',
+                                    }}
                                 />
 
                                 <YAxis 
@@ -180,6 +183,9 @@ const CompanyData = ({ comp, companyTicker }) => {
                                     stroke="#5f6368" 
                                     domain={[(twoDecim(minPrice*0.99)) , twoDecim(maxPrice*1.01)]} 
                                     axisLine={false}  
+                                    style={{
+                                        fontSize: '12px',
+                                    }}
                                 />
 
                                 <Tooltip contentStyle={{
