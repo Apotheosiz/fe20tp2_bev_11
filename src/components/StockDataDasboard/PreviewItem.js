@@ -54,6 +54,7 @@ const Details = styled.div`
 const PreviewItem = ({ user, comp, ticker, setCompanyTicker, setComp, delTicker }) => {  
     
     const [stockData, setStockData] = useState(null);
+    const [actualStockData, setActualStockData] = useState(null);
     const [color, setColor] =useState("#f9897a");
     const interval =`10/minute/${yesterday}/${yesterday}`;
 
@@ -74,8 +75,7 @@ const PreviewItem = ({ user, comp, ticker, setCompanyTicker, setComp, delTicker 
                     let min = twoDecim(data.results[0].c);
 
                     console.log('data status ok');
-                    console.log(data);
-                    data.results.map(result => {
+                    const arrForTitle = data.results.map(result => {
                         
                         const closePrice = result.c;
 
@@ -83,7 +83,20 @@ const PreviewItem = ({ user, comp, ticker, setCompanyTicker, setComp, delTicker 
                             min = closePrice;
                         }
 
+                        const time = getDate(result.t);
+                        let price = closePrice;
+                        let volume = result.v;
+                        const point = {};
+                        point.time = time;
+                        point.price = price;
+                        point.volume = volume;
+
+                        return point;
+
                     });
+
+                    setActualStockData(arrForTitle);
+                    console.log(arrForTitle);
 
                     data.results.map(result => {
 
@@ -113,19 +126,17 @@ const PreviewItem = ({ user, comp, ticker, setCompanyTicker, setComp, delTicker 
             })
     }, [ticker, interval])
 
-    const apple = "AAPL";
-
     return (
     <div>
         {stockData && 
             
-            <ItemWrapper className="prevLink">
-                <div className="seeInGraph" data-ticker={ticker} data-comp={comp} onClick={(event) => { 
-                setCompanyTicker(event.target.closest('.prevLink').dataset.ticker);
-                setComp(comp);
+            <ItemWrapper className="prevLink"  >
+                <div className="seeInGraph" data-ticker={ticker} data-comp={JSON.stringify(comp)} onClick={(event) => { 
+                setCompanyTicker(event.target.closest('.seeInGraph').dataset.ticker);
+                setComp(JSON.parse(event.target.closest('.seeInGraph').dataset.comp));
             }}>
-                    <Details>{(stockData.length > 0) ?
-                        <GraphTitle comp={comp} data={stockData} />
+                    <Details>{(actualStockData.length > 0) ?
+                        <GraphTitle comp={comp} data={actualStockData} />
                         : null }
                     </Details>
                     
@@ -136,9 +147,9 @@ const PreviewItem = ({ user, comp, ticker, setCompanyTicker, setComp, delTicker 
 
                 {(Object.keys(user.tickers).length > 1) 
                 &&
-                <div 
+                <div data-ticker={ticker}
                     className="deleteIcon" 
-                    onClick={() => delTicker(ticker)}
+                    onClick={(event) => delTicker(event.target.dataset.ticker)}
                 >
                     ×
                     {/* <svg height="18" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
