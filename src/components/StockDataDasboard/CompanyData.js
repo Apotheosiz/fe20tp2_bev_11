@@ -139,25 +139,32 @@ const CompanyData = ({ comp, companyTicker }) => {
                 {(stockData.length > 0) ?
                     <div>
                         {/* {console.log(stockData)} */}
-                        <ResponsiveContainer width="90%" height={300} >
-                            <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 70 }}>
-                                <Area type="linear" dataKey="price" stroke="#44062B" name="$" dot={false} fill="#f9897a" />
+                        <ResponsiveContainer width="100%" height={300} >
+
+                            <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 25 }}>
+
+                                <Area type="linear" dataKey="price" stroke="#44062B" name={comp.currency} dot={false} fill="#f9897a" />
+
                                 <CartesianGrid stroke="#ccc" strokeDasharray="1 1" />
-                                <XAxis dataKey="time" tickLine={false} stroke="#5f6368" axisLine={false} />
-                                <YAxis tickLine={false} unit={comp.currency} stroke="#5f6368" domain={[(twoDecim(minPrice*0.99)) , twoDecim(maxPrice*1.01)]} axisLine={false} >
-                                    {/* <Label value={maxPrice + comp.currency} position="insideTop" offset={10} />
-                                    <Label value={minPrice + comp.currency} position="insideBottom" /> */}
-                                </YAxis>
+
+                                <XAxis dataKey="time"  stroke="#5f6368" axisLine={false} minTickGap={80} />
+
+                                <YAxis tickLine={false} stroke="#5f6368" domain={[(twoDecim(minPrice*0.99)) , twoDecim(maxPrice*1.01)]} axisLine={false} />
+
                                 <Tooltip contentStyle={{
                                     borderRadius: "10px",
                                     background: "#F2F2F2"
                                 }} />
+
                                 <Scatter dataKey={minPrice} fill="red" />
+
                                 {minMaxLines ?
                                     <ReferenceLine y={minPrice} stroke="red" label={"Min: " + minPrice + "$"} /> : null}
                                 {minMaxLines ?
                                     <ReferenceLine y={maxPrice} label={"Max: " + maxPrice + "$"} stroke="red" /> : null}
+
                             </AreaChart>
+
                         </ResponsiveContainer>
                         <div>
                             <span onClick={() => setMinMaxLines(!minMaxLines)}>
@@ -165,19 +172,29 @@ const CompanyData = ({ comp, companyTicker }) => {
                         min and max</span>
                         </div>
                         <ResponsiveContainer width="90%" height={150}>
+
                             <BarChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 70 }}>
+
                                 <Bar type="monotone" dataKey="volume" fill="#47E6B1" name="Volume" />
+
                                 <CartesianGrid stroke="#ccc" strokeDasharray="1 1" vertical={false} />
+
                                 <XAxis dataKey="time" tickLine={false} stroke="#5f6368" />
+
                                 <YAxis tickLine={false} axisLine={false} stroke="#5f6368" />
+
                                 <Tooltip
                                     cursor={{ fill: 'rgba(229, 229, 229, 0.4)' }}
                                     contentStyle={{
                                         borderRadius: "10px",
-                                        background: "#FB6F5C"
+                                        background: "#808080",
+                                        color: "#fff",
                                     }} />
+
                                 <Legend />
+
                             </BarChart>
+                            
                         </ResponsiveContainer>
                     </div>
                     : null

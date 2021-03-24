@@ -1,5 +1,15 @@
 import subBusinessDays from 'date-fns/subBusinessDays';
 
+export const getDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const year = date.getFullYear().toString().slice(2);
+    const month = date.toLocaleString('default', { month: 'short' });
+    const day = date.toLocaleString("en", { day: "numeric" });
+    const time = date.toISOString().split("T")[1].slice(0,5);
+
+    return day + "-" + month + "-" + year + " " + time;
+}
+
 const setFormat = (date) => {
     let day = 0;
     let dayNo = date.getDate();
@@ -51,7 +61,3 @@ const fiveYearsAgoDate = new Date(date.setMonth(date.getMonth() - 12));
 export const fiveYearsAgo = setFormat(fiveYearsAgoDate);
 // console.log(fiveYearsAgo);
 
-export const getDate = (timestamp) => {
-    let date = new Date(timestamp);
-    return date.toLocaleString();
-}
