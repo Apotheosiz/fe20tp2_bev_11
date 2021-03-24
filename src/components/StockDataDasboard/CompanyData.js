@@ -95,6 +95,16 @@ const CompanyData = ({ comp, companyTicker }) => {
 
     }
 
+    const changeVolumeAxisTick = (value) => {
+        let suffixes = ["", "k", "m", "b","t"];
+        let suffixNum = Math.floor((""+value).length/3);
+        let shortValue = parseFloat((suffixNum !== 0 ? (value / Math.pow(1000,suffixNum)) : value).toPrecision(2));
+        if (shortValue % 1 !== 0) {
+            shortValue = shortValue.toFixed(1);
+        }
+        return shortValue+suffixes[suffixNum];
+    }
+
     return (
         <section>
             {(stockData.length > 0) ?
@@ -161,7 +171,7 @@ const CompanyData = ({ comp, companyTicker }) => {
                         {/* {console.log(stockData)} */}
                         <ResponsiveContainer width="100%" height={300} >
 
-                            <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 15 }}>
+                            <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 3 }}>
 
                                 <Area type="linear" dataKey="price" stroke="#44062B" name={comp.currency} dot={false} fill="#f9897a" strokeWidth={2} />
 
@@ -209,17 +219,28 @@ const CompanyData = ({ comp, companyTicker }) => {
                                 {!minMaxLines ? <span>Show </span> : <span>Hide </span>}
                         min and max</span>
                         </div>
-                        <ResponsiveContainer width="90%" height={150}>
+                        <ResponsiveContainer width="100%" height={150}>
 
-                            <BarChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 70 }}>
+                            <BarChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 3 }}>
 
                                 <Bar type="monotone" dataKey="volume" fill="#47E6B1" name="Volume" />
 
                                 <CartesianGrid stroke="#ccc" strokeDasharray="1 1" vertical={false} />
 
-                                <XAxis dataKey="time" tickLine={false} stroke="#5f6368" />
+                                <XAxis 
+                                    dataKey="time" 
+                                    tickLine={false} 
+                                    stroke="#5f6368" 
+                                    minTickGap={40}
+                                    tickFormatter={(tick) => changeXAxisTick(tick)}
+                                />
 
-                                <YAxis tickLine={false} axisLine={false} stroke="#5f6368" />
+                                <YAxis 
+                                    tickLine={false} 
+                                    axisLine={false} 
+                                    stroke="#5f6368" 
+                                    tickFormatter={(tick) => changeVolumeAxisTick(tick)} 
+                                />
 
                                 <Tooltip
                                     cursor={{ fill: 'rgba(229, 229, 229, 0.4)' }}
