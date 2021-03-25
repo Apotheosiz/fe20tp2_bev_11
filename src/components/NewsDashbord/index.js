@@ -27,35 +27,84 @@ const ArticlesWrapper = styled.div`
 width: 95%;
 margin: 0 auto;
 max-width: 800px;
+.sourceDate{
+    margin: 25px 0 5px 0;
+    font-weight: bold;
+    color: #5f6368;
+    font-size: 14px;
+    span{
+        font-weight: 400;    
+    }
+}
+
 `
 const StyledArticle = styled.article`
 
-margin-bottom: 15px;
-div{
-    display: flex;
-    align-items: center;
+margin-bottom: 25px;
+.articleDiv {
+    h1 {
+        font-size: 18px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* number of lines to show */
+        -webkit-box-orient: vertical;
+    }
+    p {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* number of lines to show */
+        -webkit-box-orient: vertical;
+    }
 }
-img{ 
-    width: 20%;
-    height: 20%;
+img { 
+    max-width: 100%;
+    object-fit: contain;
     margin-right: 10px;
 }
+@media (min-width: 768px) {
+    .articleDiv {
+        display: flex;
+        align-items: center;
+    }
+    img {
+        max-width: 20%;
+    }
+  }
 ` 
 
 const Article = ({articles}) => {
+
     return (<ArticlesWrapper>
-        {articles.map(article =>
+        {articles && articles.map(article => <>
+        <div className="sourceDate">
+            {article.source.name} • <span>{new Date(article.publishedAt).toLocaleString('en-US', {
+                month: 'long', // "June"
+                day: '2-digit', // "01"
+                year: 'numeric', // "2019"
+                hour: '2-digit',
+                minute: '2-digit',
+            })}</span>
+        </div>
         <StyledArticle>
-            <div>
-                <img src={article.urlToImage} />
-                <h1>{article.title}</h1>
-             
+            {console.log(article)}
+            <div className="articleDiv">
+                {article.urlToImage && <img src={article.urlToImage} />}
+                <div>
+                    {article.title && <h1>{article.title}</h1>}
+                    {article.content ?
+                        <p>{article.content.split('… [+')[0]}…</p>
+                        : article.description ? 
+                            <p>{article.description.split('… [+')[0]}…</p>
+                            : null
+                    } 
+                </div>                
              </div>
-             <p>{article.content}</p>
+             
 
         </StyledArticle>
-        
-            )}
+        <hr></hr>
+            </>)}
         
     </ArticlesWrapper>)
 }
