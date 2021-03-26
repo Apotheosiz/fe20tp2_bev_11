@@ -10,13 +10,16 @@ import StockDataDashboard from '../StockDataDasboard';
 import NewsDashbord from '../NewsDashbord';
 
 const HomePage = () => { 
-    const [comp, setComp] = useState(null); 
+    const [comp, setComp] = useState({
+        currency: 'USD',
+        exchangeShortName: 'NASDAQ',
+        name: 'Apple Inc.',
+        stockExchange: 'NasdaqGS',
+        symbol:'AAPL',
+    }); 
     return   (
-    <div>
-        <h1>Home Page</h1>
-        <p>The Home Page is accessible by every signed in user.</p>
-
-
+    //<PageContainer>
+    <>
         <AuthUserContext.Consumer>
             {authUser => (
                     <StockDataDashboard 
@@ -29,8 +32,8 @@ const HomePage = () => {
             <NewsDashbord comp={comp} />
 
         <Messages />
-
-    </div>
+    </>
+    //</PageContainer>
 )};
 
 class MessagesBase extends Component {

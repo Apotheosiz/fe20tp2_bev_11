@@ -1,5 +1,33 @@
-import startOfYesterday from 'date-fns/startOfYesterday';
 import subBusinessDays from 'date-fns/subBusinessDays';
+
+export const getDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const day = date.toLocaleString("en", { day: "numeric" });
+    const month = date.toLocaleString('default', { month: 'short' });
+    const year = date.getFullYear();
+    const time = date.toISOString().split("T")[1].slice(0,5);
+    return day + " " + month + " " + year + " " + time
+}
+
+// export const getTime = (timestamp) => {
+//     const date = new Date(timestamp);
+//     const time = date.toISOString().split("T")[1].slice(0,5);
+//     return time
+// }
+
+// export const getDayMonth = (timestamp) => {
+//     const date = new Date(timestamp);
+//     const day = date.toLocaleString("en", { day: "numeric" });
+//     const month = date.toLocaleString('default', { month: 'short' });
+//     return day + " " + month
+// }
+
+// export const getMonthYear = (timestamp) => {
+//     const date = new Date(timestamp);
+//     const year = date.getFullYear();
+//     const month = date.toLocaleString('default', { month: 'short' });
+//     return month + " " + year
+// }
 
 const setFormat = (date) => {
     let day = 0;
@@ -27,7 +55,7 @@ const goBack = (date, days) => {
 };
 
 export const yesterday = setFormat(goBack(new Date(), 1))
-export const dayBefore = setFormat(goBack(new Date(), 2))
+// export const dayBefore = setFormat(goBack(new Date(), 2))
 
 
 const oneWeekAgoDate = new Date(date.setDate(date.getDate() - 7));
@@ -48,11 +76,7 @@ const oneYearAgoDate = new Date(date.setMonth(date.getMonth() - 9));
 export const oneYearAgo = setFormat(oneYearAgoDate);
 // console.log(oneYearAgo);
 
-const fiveYearsAgoDate = new Date(date.setMonth(date.getMonth() - 48));
+const fiveYearsAgoDate = new Date(date.setMonth(date.getMonth() - 12));
 export const fiveYearsAgo = setFormat(fiveYearsAgoDate);
 // console.log(fiveYearsAgo);
 
-export const getDate = (timestamp) => {
-    let date = new Date(timestamp);
-    return date.toLocaleString();
-}

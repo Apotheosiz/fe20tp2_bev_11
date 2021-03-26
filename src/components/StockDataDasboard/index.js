@@ -1,32 +1,36 @@
 import { useState, useEffect } from 'react';
 import CompanyData from './CompanyData.js';
 import { withFirebase } from '../Firebase';
+import PreviewPanel from './PreviewPanel';
 
 const StockDataDashboard = ({ authUser, firebase, comp, setComp }) => {
     console.log(authUser.ticker);
     console.log('rerendered stock data dashboard');
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState(null);
-    const [companyTicker, setCompanyTicker] = useState('');
-
+    const [companyTicker, setCompanyTicker] = useState('AAPL');
     const [user, setUser] = useState(null);
 
     const onChange = event => {
         setSearchTerm(event.target.value)
     };
 
-    const addTicker = ticker => {
-        console.log(ticker, comp)
-        firebase.user(authUser.uid).child('tickers').update({ [ticker]: comp })
+    const addTicker = (ticker, comp) => {
+            console.log(ticker, comp)
+            firebase.user(authUser.uid).child('tickers').update({ [ticker]: comp });
+            setResults(null);
+            setSearchTerm("");
     }
+
     const delTicker = ticker => {
-        console.log(ticker)
-        firebase.user(authUser.uid).child('tickers').update({ [ticker]: null })
+            console.log(ticker)
+            firebase.user(authUser.uid).child('tickers').update({ [ticker]: null });
+            setResults(null);
+            setSearchTerm("");
     }
 
     const onSubmit = event => {
-
-        fetch(`https://financialmodelingprep.com/api/v3/search?query=${searchTerm}&limit=10&exchange=NASDAQ&apikey=909a30a0b9971c3dfd378bba83efb9ac`)
+        fetch(`https://financialmodelingprep.com/api/v3/search?query=${searchTerm}&limit=20&exchange=NASDAQ&apikey=909a30a0b9971c3dfd378bba83efb9ac`)
             .then(response => response.json())
             .then(data => {
                 setResults(data);
@@ -40,19 +44,15 @@ const StockDataDashboard = ({ authUser, firebase, comp, setComp }) => {
             const dbUser = snapshot.val()
             setUser(dbUser);
         })
-        setCompanyTicker(authUser.ticker);
-        fetch(`https://financialmodelingprep.com/api/v3/search?query=${authUser.ticker}&limit=10&exchange=NASDAQ&apikey=909a30a0b9971c3dfd378bba83efb9ac`)
-            .then(response => response.json())
-            .then(data => {
-                if (data[0].symbol === authUser.ticker) {
-                    setComp(data[0]);
-                }
-            });
     }, []);
+
+    // const contextDataObject = { user, setCompanyTicker, setComp, delTicker };
+    // console.log(contextDataObject);
 
     return (
         <div>
-            <h1>Dashboard</h1>
+            
+            {user && <PreviewPanel user={user} setCompanyTicker={setCompanyTicker} setComp={setComp} delTicker={delTicker} />}
 
             <form onSubmit={onSubmit}>
                 <input
@@ -68,15 +68,38 @@ const StockDataDashboard = ({ authUser, firebase, comp, setComp }) => {
                 (results.length > 0) ?
                     <div>
                         {results.map(result =>
-                            <div onClick={() => {
-                                setCompanyTicker(result['symbol']);
-                                setComp(result);
-                                setResults(null);
-                                setSearchTerm('')
-                            }} key={result['symbol']} >
-                                <span>{result['symbol']}</span>: <span>{result['name']}</span>
-                                {Object.keys(user.tickers).includes(result['symbol'], result) ? <button onClick={() => delTicker(result['symbol'])}>REMOVE</button> :
-                                    <button onClick={() => addTicker(result['symbol'], result)}>Add to favs</button>}
+                            <div 
+                                key={result['symbol']} 
+                            >
+                                <span
+                                    onClick={() => {
+                                        setCompanyTicker(result['symbol']);
+                                        setComp(result);
+                                        setResults(null);
+                                        setSearchTerm('')
+                                    }} 
+                                >
+                                    <span>{result['symbol']}</span>: <span>{result['name']}</span>
+                                </span>
+                                
+                                {Object.keys(user.tickers).includes(result['symbol']) 
+                                    ? <>
+                                        {(Object.keys(user.tickers).length > 1) 
+                                        && <button 
+                                                onClick={() => delTicker(result['symbol'])}
+                                            >
+                                                REMOVE
+                                            </button>}
+                                    </> 
+                                    : <>
+                                        {(Object.keys(user.tickers).length < 5) 
+                                        && <button 
+                                                onClick={() => addTicker(result['symbol'], result)}
+                                            >
+                                                Add to favs
+                                            </button>}
+                                    </>}
+                                    
                             </div>)}
                     </div>
                     : <p>Company not found.</p>
@@ -87,7 +110,8 @@ const StockDataDashboard = ({ authUser, firebase, comp, setComp }) => {
                 <CompanyData comp={comp} companyTicker={companyTicker} />
                 : null
             }
-        {/*user && Object.keys(user.tickers).map(ticker => <CompanyData comp={user.tickers[ticker]} companyTicker={ticker} />)*/}
+            
+    
         </div >
     )
 }

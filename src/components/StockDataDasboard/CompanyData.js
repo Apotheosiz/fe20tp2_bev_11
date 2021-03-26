@@ -2,7 +2,6 @@ import { AreaChart, Area, BarChart, Bar, ReferenceLine, Scatter, CartesianGrid, 
 import { useState, useEffect } from 'react';
 import {
     yesterday,
-    dayBefore,
     oneWeekAgo,
     oneMonthAgo,
     threeMonthsAgo,
@@ -10,8 +9,10 @@ import {
     fiveYearsAgo,
     getDate
 } from '../DatesAndTimes';
+import GraphTitle from './GraphTitle';
+import { twoDecim } from './GraphTitle';
 
-console.log(yesterday);
+// console.log(yesterday);
 
 
 const CompanyData = ({ comp, companyTicker }) => {
@@ -23,7 +24,7 @@ const CompanyData = ({ comp, companyTicker }) => {
     const [minPrice, setMinPrice] = useState(0);
     const [minMaxLines, setMinMaxLines] = useState(false);
     const [optionsState, setOptionsState] = useState("1/minute");
-    const [interval, setInterval] = useState(dayBefore + "/" + yesterday);
+    const [interval, setInterval] = useState(yesterday + "/" + yesterday);
     const [error, setError] = useState(null);
 
 
@@ -36,23 +37,26 @@ const CompanyData = ({ comp, companyTicker }) => {
                 let arr = [];
 
                 if (data.status === "OK" && data.results) {
-                    console.log('data status ok');
+                    // console.log('data status ok');
 
                     let max = 0;
-                    let min = data.results[0].c;
+                    let min = twoDecim(data.results[0].c);
 
+                    // console.log(data);
                     data.results.map(result => {
 
-                        if (result.c > max) {
-                            max = result.c;
+                    const closePrice = result.c;
+
+                        if (closePrice > max) {
+                            max = closePrice;
                         }
 
-                        if (result.c < min) {
-                            min = result.c;
+                        if (closePrice < min) {
+                            min = closePrice;
                         }
 
-                        const time = getDate(result.t);
-                        let price = result.c;
+                        const time =getDate(result.t);
+                        let price = closePrice;
                         let volume = result.v;
                         const point = {};
                         point.time = time;
@@ -71,20 +75,87 @@ const CompanyData = ({ comp, companyTicker }) => {
             })
     }, [companyTicker, optionsState, interval])
 
+    const changeXAxisTick = (tick) => {
+        const timeArr = tick.split(" ");
+
+        switch (interval.split("/")[0]) {
+
+            case yesterday:
+                return timeArr[3];
+                
+            case oneYearAgo:
+                return timeArr[1] + " " + timeArr[2];
+               
+            case fiveYearsAgo:
+                return timeArr[1] + " " + timeArr[2];
+
+            default:
+                return timeArr[0] + " " + timeArr[1];
+          }
+
+    }
+
+    const changeVolumeAxisTick = (value) => {
+        let suffixes = ["", "k", "m", "b","t"];
+        let suffixNum = Math.floor((""+value).length/3);
+        let shortValue = parseFloat((suffixNum !== 0 ? (value / Math.pow(1000,suffixNum)) : value).toPrecision(2));
+        if (shortValue % 1 !== 0) {
+            shortValue = shortValue.toFixed(1);
+        }
+        return shortValue+suffixes[suffixNum];
+    }
+
     return (
         <section>
-            <h2><span>{comp.symbol}</span>: {comp.name}</h2>
-            <h1>23.5{comp.currency}down arrw 1.2%, +0.2 today</h1>
+            {(stockData.length > 0) ?
+                <>
+                    <GraphTitle comp={comp} data={stockData} />
+                    {comp.exchangeShortName && 
+                        <>
+                            <small>{comp.stockExchange}</small> • <small>{interval}</small>
+                        </>
+                    }
+                </>
+                : null }
             <div>
                 <div onChange={(event) => setInterval(event.target.value)}>
-                    <input type="radio" value={dayBefore + "/" + yesterday} name="gender" defaultChecked={true} /> 1 D
-                    <input type="radio" value={oneWeekAgo + "/" + yesterday} name="gender" /> 1 W
-                    <input type="radio" value={oneMonthAgo + "/" + yesterday} name="gender" /> 1 M
-                    <input type="radio" value={threeMonthsAgo + "/" + yesterday} name="gender" /> 3 M
-                    <input type="radio" value={oneYearAgo + "/" + yesterday} name="gender" /> 1 Y
-                    <input type="radio" value={fiveYearsAgo + "/" + yesterday} name="gender" /> 2 Y
+                    <input 
+                        type="radio" 
+                        value={yesterday + "/" + yesterday} 
+                        name="gender" defaultChecked={true}
+                        onClick={() => setOptionsState("1/minute")}
+                     /> 1 D
+                    <input 
+                        type="radio" 
+                        value={oneWeekAgo + "/" + yesterday} 
+                        name="gender"
+                        onClick={() => setOptionsState("10/minute")}
+                    /> 1 W
+                    <input 
+                        type="radio" 
+                        value={oneMonthAgo + "/" + yesterday} 
+                        name="gender" 
+                        onClick={() => setOptionsState("1/hour")}
+                    /> 1 M
+                    <input 
+                        type="radio" 
+                        value={threeMonthsAgo + "/" + yesterday} 
+                        name="gender" 
+                        onClick={() => setOptionsState("1/day")}
+                        /> 3 M
+                    <input 
+                        type="radio" 
+                        value={oneYearAgo + "/" + yesterday} 
+                        name="gender" 
+                        onClick={() => setOptionsState("1/month")}
+                        /> 1 Y
+                    <input 
+                        type="radio" 
+                        value={fiveYearsAgo + "/" + yesterday} 
+                        name="gender"
+                        onClick={() => setOptionsState("3/month")}
+                        /> 2 Y
                 </div>
-                <span>{interval}</span>
 
                 <select value={optionsState} onChange={(event) => setOptionsState(event.target.value)}>
                     <option value="1/minute">1 minute</option>
@@ -102,46 +173,94 @@ const CompanyData = ({ comp, companyTicker }) => {
                 {error && !(stockData.length > 0) && <h2>{error.error}</h2>}
                 {error && !(stockData.length > 0) && (error.resultsCount === 0) && <h4>There are no results for the specified interval. Please choose another interval.</h4>}
                 {(stockData.length > 0) ?
-                    <div style={{ background: "#FB6F5C" }}>
-                        <ResponsiveContainer width="90%" height={300} >
-                            <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 70 }}>
-                                <Area type="linear" dataKey="price" stroke="#44062B" name="$" dot={false} fill="#f9897a" />
+                    <div>
+                        {/* {console.log(stockData)} */}
+                        <ResponsiveContainer width="100%" height={300} >
+
+                            <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 3 }}>
+
+                                <Area type="linear" dataKey="price" stroke="#44062B" name={comp.currency} dot={false} fill="#f9897a" strokeWidth={2} />
+
                                 <CartesianGrid stroke="#ccc" strokeDasharray="1 1" />
-                                <XAxis dataKey="time" tickLine={false} stroke="#47E6B1" axisLine={false} />
-                                <YAxis tickLine={false} unit={comp.currency} stroke="#47E6B1" domain={["dataMin - 1", "dataMax + 1"]} axisLine={false} >
-                                    {/* <Label value={maxPrice + comp.currency} position="insideTop" offset={10} />
-                                    <Label value={minPrice + comp.currency} position="insideBottom" /> */}
-                                </YAxis>
+
+                                <XAxis 
+                                    dataKey="time"  
+                                    stroke="#5f6368" 
+                                    axisLine={false} 
+                                    minTickGap={40}
+                                    tickFormatter={(tick) => changeXAxisTick(tick)}  
+                                    style={{
+                                        fontSize: '12px',
+                                    }}
+                                />
+
+                                <YAxis 
+                                    tickLine={false} 
+                                    stroke="#5f6368" 
+                                    domain={[(twoDecim(minPrice*0.99)) , twoDecim(maxPrice*1.01)]} 
+                                    axisLine={false}  
+                                    style={{
+                                        fontSize: '12px',
+                                    }}
+                                />
+
                                 <Tooltip contentStyle={{
                                     borderRadius: "10px",
-                                    background: "#F2F2F2"
+                                    background: "#F2F2F2",
+                                    fontWeight: "600",
                                 }} />
+
                                 <Scatter dataKey={minPrice} fill="red" />
+
                                 {minMaxLines ?
                                     <ReferenceLine y={minPrice} stroke="red" label={"Min: " + minPrice + "$"} /> : null}
                                 {minMaxLines ?
                                     <ReferenceLine y={maxPrice} label={"Max: " + maxPrice + "$"} stroke="red" /> : null}
+
                             </AreaChart>
+
                         </ResponsiveContainer>
                         <div>
                             <span onClick={() => setMinMaxLines(!minMaxLines)}>
                                 {!minMaxLines ? <span>Show </span> : <span>Hide </span>}
                         min and max</span>
                         </div>
-                        <ResponsiveContainer width="90%" height={150}>
-                            <BarChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 5, left: 70 }}>
-                                <Bar type="monotone" dataKey="volume" fill="#F2F2F2" name="Volume" />
+                        <ResponsiveContainer width="100%" height={150}>
+
+                            <BarChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 3 }}>
+
+                                <Bar type="monotone" dataKey="volume" fill="#47E6B1" name="Volume" />
+
                                 <CartesianGrid stroke="#ccc" strokeDasharray="1 1" vertical={false} />
-                                <XAxis dataKey="time" tickLine={false} stroke="#47E6B1" />
-                                <YAxis tickLine={false} axisLine={false} stroke="#47E6B1" />
+
+                                <XAxis 
+                                    dataKey="time" 
+                                    tickLine={false} 
+                                    stroke="#5f6368" 
+                                    minTickGap={40}
+                                    tickFormatter={(tick) => changeXAxisTick(tick)}
+                                />
+
+                                <YAxis 
+                                    tickLine={false} 
+                                    axisLine={false} 
+                                    stroke="#5f6368" 
+                                    tickFormatter={(tick) => changeVolumeAxisTick(tick)} 
+                                />
+
                                 <Tooltip
                                     cursor={{ fill: 'rgba(229, 229, 229, 0.4)' }}
                                     contentStyle={{
                                         borderRadius: "10px",
-                                        background: "#FB6F5C"
+                                        background: "#808080",
+                                        color: "#fff",
+                                        fontWeight: "600",
                                     }} />
+
                                 <Legend />
+
                             </BarChart>
+                            
                         </ResponsiveContainer>
                     </div>
                     : null
