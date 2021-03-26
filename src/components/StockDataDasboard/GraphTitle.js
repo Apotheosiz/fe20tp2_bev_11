@@ -10,7 +10,6 @@ span{
 }
 `;
 
-
 const GraphTitle = ({ comp, data }) => {
 
     const current = data[data.length - 1].price;
@@ -23,6 +22,7 @@ return (<>
 {/* {console.log(prev)} */}
     <h2> {comp.name}<span> ({comp.symbol})</span></h2>
     <InfoLine>
+       
         <span>{lastPrice}{comp.currency}</span>
 
         <span>
@@ -31,8 +31,8 @@ return (<>
                 : <span style={{ color: '#a50e0e' }}>↓{percDiff}%</span>} 
                 
             {(diff >= 0) ? 
-                <span style={{ color: '#137333'}}>+{diff}{comp.currency}</span> 
-                : <span style={{ color: '#a50e0e' }}>{diff}{comp.currency}</span>}
+                <span style={{ color: '#137333'}}>+{diff}</span> 
+                : <span style={{ color: '#a50e0e' }}>{diff}</span>}
         </span>
     </InfoLine>
     </>

@@ -108,7 +108,14 @@ const CompanyData = ({ comp, companyTicker }) => {
     return (
         <section>
             {(stockData.length > 0) ?
-                <GraphTitle comp={comp} data={stockData} />
+                <>
+                    <GraphTitle comp={comp} data={stockData} />
+                    {comp.exchangeShortName && 
+                        <>
+                            <small>{comp.stockExchange}</small> • <small>{interval}</small>
+                        </>
+                    }
+                </>
                 : null }
             <div>
                 <div onChange={(event) => setInterval(event.target.value)}>
@@ -149,7 +156,6 @@ const CompanyData = ({ comp, companyTicker }) => {
                         onClick={() => setOptionsState("3/month")}
                         /> 2 Y
                 </div>
-                <span>{interval}</span>
 
                 <select value={optionsState} onChange={(event) => setOptionsState(event.target.value)}>
                     <option value="1/minute">1 minute</option>
