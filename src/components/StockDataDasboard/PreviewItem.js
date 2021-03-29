@@ -10,7 +10,7 @@ import styled from "styled-components";
 
 const ItemWrapper = styled.div`
 width: 220px;
-padding:0 7px;
+padding: 10px 7px;
 margin: 0 7px 7px 0;
 background: #efefef;
 border-radius: 10px;
@@ -44,6 +44,10 @@ h2{
     font-size: 17px;
     font-weight: 800;
     cursor: pointer;
+    color: #a4a4a4;
+    &:hover{
+        color: #5c6065;
+    }
 }
 `
 
