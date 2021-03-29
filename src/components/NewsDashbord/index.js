@@ -16,7 +16,7 @@ const [newsData, setNewsData] = useState(null);
                     setNewsData(data);
                     console.log(data);
                 })
-    }, [comp])
+    }, [])
     return (<div>
         <h1>News Dashbord</h1> 
         {newsData ? <Article articles={newsData.articles}/> : null }
