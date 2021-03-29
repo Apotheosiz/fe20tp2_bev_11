@@ -12,10 +12,36 @@ import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 import { createGlobalStyle } from 'styled-components';
 
+// export const fluidFontSize = 'font-size: calc(16px + 6 * ((100vw - 320px) / 680))';
+// export const fluidFontTitle = 'font-size: calc(20px + 15 * ((100vw - 320px) / 880))';
+
 const GlobalStyle = createGlobalStyle`
+
+
+h1{
+   font-size: 20px; 
+}
+/* @media screen and (min-width: 320px) {
+
+    font-size: ;
+    h1{
+        font-size: ;
+     }
+
+}
+@media screen and (min-width: 1200px) {
+
+    font-size: 22px;
+    h1{
+        font-size: 32px;
+     }
+
+}*/
+
 * {
     margin: 0;
     padding: 0;
+    color: #44062B;
   }
 
 input:-webkit-autofill,
