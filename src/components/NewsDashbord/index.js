@@ -9,12 +9,10 @@ const [newsData, setNewsData] = useState(null);
             .then(response => response.json())
             .then(data => { 
                 setNewsData(data);               
-                console.log(data);
             }) : fetch(`http://newsapi.org/v2/top-headlines?country=us&category=business&language=en&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742`)
                 .then(response => response.json())
                 .then(data => {
                     setNewsData(data);
-                    console.log(data);
                 })
     }, [comp])
     return (<div>
@@ -39,9 +37,18 @@ max-width: 800px;
 
 `
 const StyledArticle = styled.article`
-
 margin-bottom: 25px;
 .articleDiv {
+    display: flex;
+    flex-direction: column;
+    
+    img { 
+        max-width: 100%;
+        max-height: 250px;
+        object-fit: contain;
+        align-self: center;
+    }
+
     h1 {
         font-size: 18px;
         overflow: hidden;
@@ -50,6 +57,7 @@ margin-bottom: 25px;
         -webkit-line-clamp: 2; /* number of lines to show */
         -webkit-box-orient: vertical;
     }
+    
     p {
         overflow: hidden;
         display: -webkit-box;
@@ -57,18 +65,17 @@ margin-bottom: 25px;
         -webkit-box-orient: vertical;
     }
 }
-img { 
-    max-width: 100%;
-    object-fit: contain;
-    margin-right: 10px;
-}
+
 @media (min-width: 768px) {
     .articleDiv {
         display: flex;
+        flex-direction: row;
         align-items: center;
-    }
-    img {
-        max-width: 20%;
+
+        img {
+            max-width: 20%;
+            margin: 0 10px 0 0;
+        }
     }
   }
 ` 
@@ -76,7 +83,7 @@ img {
 const Article = ({articles}) => {
 
     return (<ArticlesWrapper>
-        {articles && articles.map(article => <>
+        {articles && articles.map(article => <div key={article.publishedAt + article.title}>
         <div className="sourceDate">
             {article.source.name} • <span>{new Date(article.publishedAt).toLocaleString('en-US', {
                 month: 'long', // "June"
@@ -87,7 +94,6 @@ const Article = ({articles}) => {
             })}</span>
         </div>
         <StyledArticle>
-            {console.log(article)}
             <div className="articleDiv">
                 {article.urlToImage && <img src={article.urlToImage} />}
                 <div>
@@ -104,7 +110,7 @@ const Article = ({articles}) => {
 
         </StyledArticle>
         <hr></hr>
-            </>)}
+            </div>)}
         
     </ArticlesWrapper>)
 }

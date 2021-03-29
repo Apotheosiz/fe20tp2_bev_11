@@ -61,9 +61,8 @@ const PreviewItem = ({ user, comp, ticker, setCompanyTicker, setComp, delTicker 
 //   if (comp.interval === '1D') {
 //         setInterval(`1/minute/${yesterday}/${yesterday}`);
 //     }
-    console.log('rendered preview item');
+
     useEffect(() => {
-        console.log('useEffect in preview Item');
         fetch(`https://api.polygon.io/v2/aggs/ticker/${ticker}/range/${interval}?unadjusted=true&sort=asc&limit=5000&apiKey=xDToCZJHm7pBpVlUiM8vcrK75nKJrpGV`)
             .then(response => response.json())
             .then(data => {
@@ -74,7 +73,6 @@ const PreviewItem = ({ user, comp, ticker, setCompanyTicker, setComp, delTicker 
 
                     let min = twoDecim(data.results[0].c);
 
-                    console.log('data status ok');
                     const arrForTitle = data.results.map(result => {
                         
                         const closePrice = result.c;
@@ -96,7 +94,6 @@ const PreviewItem = ({ user, comp, ticker, setCompanyTicker, setComp, delTicker 
                     });
 
                     setActualStockData(arrForTitle);
-                    console.log(arrForTitle);
 
                     data.results.map(result => {
 
@@ -111,8 +108,6 @@ const PreviewItem = ({ user, comp, ticker, setCompanyTicker, setComp, delTicker 
                         point.volume = volume;
                         arr.push(point);
                     });
-
-                    console.log(arr);
 
                     if (arr[arr.length - 1].price > arr[0].price) {
                         setColor('#137333');

@@ -14,7 +14,7 @@ const PreviewPanel = ({ user, setCompanyTicker, setComp, delTicker }) => {
     return (
         <section>
             <Panel>                
-                {user && user.tickers && Object.keys(user.tickers).map(ticker => <PreviewItem user={user} comp={user.tickers[ticker]} ticker={ticker} setCompanyTicker={setCompanyTicker} setComp={setComp} delTicker={delTicker} />)}
+                {user && user.tickers && Object.keys(user.tickers).map(ticker => <PreviewItem user={user} comp={user.tickers[ticker]} ticker={ticker} setCompanyTicker={setCompanyTicker} setComp={setComp} delTicker={delTicker} key={ticker} />)}
             </Panel>
         </section>
     )

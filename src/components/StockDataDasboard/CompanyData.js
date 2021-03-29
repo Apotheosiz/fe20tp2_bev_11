@@ -16,21 +16,18 @@ import { twoDecim } from './GraphTitle';
 
 
 const CompanyData = ({ comp, companyTicker }) => {
-
-    console.log('rendered company data');
-
+    
     const [stockData, setStockData] = useState([]);
     const [maxPrice, setMaxPrice] = useState(0);
     const [minPrice, setMinPrice] = useState(0);
     const [minMaxLines, setMinMaxLines] = useState(false);
     const [optionsState, setOptionsState] = useState("1/minute");
-    const [interval, setInterval] = useState(yesterday + "/" + yesterday);
+    const [timeInterval, setTimeInterval] = useState(yesterday + "/" + yesterday);
     const [error, setError] = useState(null);
 
 
     useEffect(() => {
-        console.log('useEffect in company Data');
-        fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/${optionsState}/${interval}?unadjusted=true&sort=asc&limit=5000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
+        fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/${optionsState}/${timeInterval}?unadjusted=true&sort=asc&limit=5000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
             .then(response => response.json())
             .then(data => {
 
@@ -73,12 +70,12 @@ const CompanyData = ({ comp, companyTicker }) => {
                 } else console.log(data.status);
                 setStockData(arr);
             })
-    }, [companyTicker, optionsState, interval])
+    }, [companyTicker, optionsState, timeInterval])
 
     const changeXAxisTick = (tick) => {
         const timeArr = tick.split(" ");
 
-        switch (interval.split("/")[0]) {
+        switch (timeInterval.split("/")[0]) {
 
             case yesterday:
                 return timeArr[3];
@@ -112,13 +109,14 @@ const CompanyData = ({ comp, companyTicker }) => {
                     <GraphTitle comp={comp} data={stockData} />
                     {comp.exchangeShortName && 
                         <>
-                            <small>{comp.stockExchange}</small> • <small>{interval}</small>
+                            <small>{comp.stockExchange}</small> • <small>{timeInterval}</small>
                         </>
                     }
                 </>
                 : null }
             <div>
-                <div onChange={(event) => setInterval(event.target.value)}>
+                {/* todo: check this guy out */}
+                <div onChange={(event) => setTimeInterval(event.target.value)}>
                     <input 
                         type="radio" 
                         value={yesterday + "/" + yesterday} 
@@ -174,7 +172,6 @@ const CompanyData = ({ comp, companyTicker }) => {
                 {error && !(stockData.length > 0) && (error.resultsCount === 0) && <h4>There are no results for the specified interval. Please choose another interval.</h4>}
                 {(stockData.length > 0) ?
                     <div>
-                        {/* {console.log(stockData)} */}
                         <ResponsiveContainer width="100%" height={300} >
 
                             <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 3 }}>
