@@ -103,7 +103,7 @@ const StockDataDashboard = ({ authUser, firebase, comp, setComp }) => {
 
     const onChange = event => {
         setSearchTerm(event.target.value);
-        fetch(`https://financialmodelingprep.com/api/v3/search?query=${searchTerm}&limit=20&exchange=NASDAQ&apikey=909a30a0b9971c3dfd378bba83efb9ac`)
+        fetch(`https://financialmodelingprep.com/api/v3/search?query=${searchTerm}&limit=7&exchange=NASDAQ&apikey=909a30a0b9971c3dfd378bba83efb9ac`)
             .then(response => response.json())
             .then(data => {
                 setResults(data);

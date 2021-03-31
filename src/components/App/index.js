@@ -42,6 +42,7 @@ h1{
     margin: 0;
     padding: 0;
     color: #44062B;
+    box-sizing: border-box;
   }
 
 input:-webkit-autofill,
