@@ -12,6 +12,10 @@ const BM = styled.div`
     @media (min-width: 981px) {
         display: none;
     }
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 3;
 `;
 
 const BurgerList = styled.ul`
@@ -23,6 +27,7 @@ const BurgerList = styled.ul`
     align-items: center;
     display: flex;
     font-family: 'Saira Condensed', sans-serif;
+    
 `;
 
 const BurgerItem = styled.li`
@@ -90,6 +95,8 @@ var styles = {
     bmOverlay: {
       background: 'rgba(0, 0, 0, 0.3)',
       
+      top: '0',
+      right: '0',
     }
   }  
 

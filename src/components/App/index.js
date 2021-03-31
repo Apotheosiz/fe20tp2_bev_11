@@ -52,6 +52,13 @@ input:-webkit-autofill:active  {
     transition: background-color 5000s;
 }
 
+#outerWrap:first-child {
+    padding-top: 70px;
+    @media (min-width: 830px) {
+        padding-top: 0;
+    }
+}
+
 `;
 
 const App = () => (
