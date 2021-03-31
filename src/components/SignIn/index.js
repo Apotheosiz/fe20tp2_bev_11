@@ -17,22 +17,21 @@ const Title = styled.h1`
 const FormWrap = styled.div`
     background-color: #F8C3C3;
     margin: auto;
-    padding: 20px;
+    padding: 20px 0;
     max-width: 600px;
-    border-radius: 16px;
-    margin-bottom: 15px;
+    width: 80%;
+    border-radius: 16px;    
 `;
 
 const FormControl = styled.input`
     display: block;
     width: 90%;
     height: 47px;
-    padding: 0 24px;
     font-size: 13px;
     border: none;
     background-color: transparent;
     margin: auto;
-    margin-bottom: 25px;
+    padding: 15px;
     border-radius: 16px;
 `;
 
@@ -40,7 +39,7 @@ const SignInPage = () => (
     <PageContainer>
         <Title>SIGN IN</Title>
         <SignInForm />
-        <PasswordForgetLink />
+        
         <SignUpLink />
     </PageContainer>
 );
@@ -94,6 +93,7 @@ class SignInFormBase extends Component {
                     >
                     </FormControl>
                 </FormWrap>
+                <PasswordForgetLink />
                 <Button disabled={isInvalid} type="submit">
                  sign in
                 </Button>

@@ -7,14 +7,22 @@ import PageContainer from '../PageContainer';
 import styled from 'styled-components';
 
 const StyledP = styled.p`
-    a {
-        color: black;
+
+padding: 20px 0;
+a {
+    color: white;
+    font-size: 16px;
+    text-decoration: none;
+    font-family:'Saira Condensed',sans-serif;
+    &:hover {
+        color: #44062B;
     }
+}
 `;
 
 const PasswordForgetPage = () => (
     <PageContainer>
-        <h1>Forgot password?</h1>
+        <h1>Forgot your password?</h1>
         <PasswordForgetForm />
     </PageContainer>
 );

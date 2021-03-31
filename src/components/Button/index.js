@@ -19,7 +19,11 @@ const StyledButton = styled.button`
     border: none;
     border-radius: 15px;
     font-size: 22px;
-    width: 150px;
+    width: 80%;
+    max-width: 600px;
+
+    
+    text-transform: uppercase;
 `;
 
 

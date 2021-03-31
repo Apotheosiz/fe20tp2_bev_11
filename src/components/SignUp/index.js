@@ -36,14 +36,27 @@ const FormControl = styled.input`
 `;
 
 const StyledP = styled.p`
+    padding: 20px 0;
+    color: white;
+    font-size: 16px;    
+    font-family:'Saira Condensed',sans-serif;
+
     a {
-        color: black;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-left: 10px;
+         &:hover {
+            color: #44062B;
+            text-decoration: underline;
+
+         }
     }
 `;
 
 const SignUpPage = () => (
     <PageContainer>
-        <Title>Sign up</Title>
+        <Title>Sign up!</Title>
         <SignUpForm />
     </PageContainer>
 );
