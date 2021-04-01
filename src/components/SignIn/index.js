@@ -21,8 +21,8 @@ const StyledLogo = styled(Logo)`
     `;
 
 const Title = styled.h1`
-    color: white;
     margin-top: 25px;
+    font-size: 25px;
 `;
 
 const FormWrap = styled.div`

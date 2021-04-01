@@ -37,7 +37,6 @@ const FormControl = styled.input`
 
 const StyledP = styled.p`
     padding: 20px 0;
-    color: white;
     font-size: 16px;    
     font-family:'Saira Condensed',sans-serif;
 
@@ -47,7 +46,6 @@ const StyledP = styled.p`
         font-weight: 600;
         margin-left: 10px;
          &:hover {
-            color: #44062B;
             text-decoration: underline;
 
          }

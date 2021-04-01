@@ -10,12 +10,12 @@ const StyledP = styled.p`
 
 padding: 20px 0;
 a {
-    color: white;
+    
     font-size: 16px;
     text-decoration: none;
     font-family:'Saira Condensed',sans-serif;
     &:hover {
-        color: #44062B;
+        text-decoration: underline;
     }
 }
 `;
