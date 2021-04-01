@@ -5,13 +5,24 @@ import { SignUpLink } from '../SignUp';
 import { PasswordForgetLink } from '../PasswordForget';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
-
+import Logo from '../Landing/Logo.js';
 import PageContainer from '../PageContainer';
 import Button from '../Button';
 import styled from 'styled-components';
+import { WelcomePic } from '../svgImg/WelcomePic.js';
+
+const StyledLogo = styled(Logo)`
+    h2 {
+        color: inherit;
+        font-family:'Saira Condensed',sans-serif;
+        font-weight:400;
+    }
+
+    `;
 
 const Title = styled.h1`
     color: white;
+    margin-top: 25px;
 `;
 
 const FormWrap = styled.div`
@@ -32,15 +43,17 @@ const FormControl = styled.input`
     background-color: transparent;
     margin: auto;
     padding: 15px;
-    border-radius: 16px;
 `;
 
 const SignInPage = () => (
     <PageContainer>
-        <Title>SIGN IN</Title>
+        <StyledLogo />
+        <Title>Welcome Back!</Title>
+        <WelcomePic />
         <SignInForm />
         
         <SignUpLink />
+
     </PageContainer>
 );
 
@@ -78,6 +91,9 @@ class SignInFormBase extends Component {
             <form onSubmit={this.onSubmit}>
                 <FormWrap>
                     <FormControl
+                        style={{
+                            borderBottom: '1px solid #757575',
+                        }}
                         name="email"
                         value={email}
                         onChange={this.onChange}

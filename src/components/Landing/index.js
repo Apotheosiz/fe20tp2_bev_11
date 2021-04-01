@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'
-
+import Logo from './Logo';
 import HeaderImg from '../../img/header.png';
 
 const Header = styled.div`
@@ -27,24 +27,11 @@ const Row = styled.div`
     }
 `;
 
-const HeaderByline = styled.div`
-    font-family: 'Wallpoet', sans-serif;
+const StyledLogo = styled(Logo)`
     position: absolute;
     bottom: 500px;
     margin-left: 55px;
-
-    h2 {
-        color: #44062B;
-        font-size: 96px;
-        margin: 0;
-    }
-
-    h5 {
-        color: #CB6A5D;
-        font-size: 20px;
-        margin: 0;
-    }
-`;
+    `;
 
 const Bubble = styled.div`
     max-width: 375px;
@@ -70,10 +57,10 @@ const Landing = () => (
     <React.Fragment>
         <div>
             <Header>
-                <HeaderByline>
-                    <h2>FINK</h2>
+                <StyledLogo />
+                    {/* <h2>FINK</h2>
                     <h5>YOUR FINANCIAL DASHBOARD</h5>
-                </HeaderByline>
+                </HeaderByLine> */}
             </Header>
         </div>
         <Section>
