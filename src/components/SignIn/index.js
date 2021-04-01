@@ -12,14 +12,6 @@ import styled from 'styled-components';
 import { WelcomePic } from '../svgImg/WelcomePic.js';
 import { Link } from 'react-router-dom';
 
-
-export const StyledLogo = styled(Logo)`
-    h2 {
-        color: inherit;
-        font-family:'Saira Condensed',sans-serif;
-        font-weight:400;
-    }
-    `;
 export const StyledLink = styled(Link)`
 text-decoration: none;
 `
@@ -51,7 +43,7 @@ export const FormControl = styled.input`
 
 const SignInPage = () => (
     <PageContainer>
-        <StyledLink to={ROUTES.LANDING} title="Back to Landing Page"><StyledLogo /></StyledLink>
+        <StyledLink to={ROUTES.LANDING} title="Back to Landing Page"><Logo /></StyledLink>
         <Title>Welcome Back!</Title>
         <WelcomePic />
         <SignInForm />

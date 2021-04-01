@@ -8,7 +8,9 @@ import * as ROLES from '../../constants/roles';
 import PageContainer from '../PageContainer';
 import Button from '../Button';
 import styled from 'styled-components';
-import { StyledLink, Title, StyledLogo, FormWrap, FormControl, SignInLink} from '../SignIn';
+import { StyledLink, Title, FormControl, SignInLink} from '../SignIn';
+import { FormWrap } from './FormWrap';
+import Logo from '../Landing/Logo.js';
 
 export const StyledP = styled.p`
     padding: 20px 0;
@@ -38,7 +40,7 @@ margin: 0 auto;
 
 const SignUpPage = () => (
     <PageContainer>
-       <StyledLink to={ROUTES.LANDING} title="Back to Landing Page"><StyledLogo /></StyledLink>
+       <StyledLink to={ROUTES.LANDING} title="Back to Landing Page"><Logo /></StyledLink>
         <Title>Welcome Aboard!</Title>
         <SignUpForm />
         <SignInLink />
@@ -129,7 +131,7 @@ class SignUpFormBase extends Component {
 
         return(
             <form onSubmit={this.onSubmit}>
-                <StyledFormWrap>
+                <StyledFormWrap bottomMargin>
                     <FormControl 
                         style={{
                             borderBottom: '1px solid #757575',

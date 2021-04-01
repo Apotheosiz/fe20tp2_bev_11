@@ -11,10 +11,12 @@ const StyledDiv = styled.div`
     }
 
     h2 {
-        color: #CB6A5D;
         font-size: 20px;
         margin: 0;
         text-transform: uppercase;
+        color: inherit;
+        font-family:'Saira Condensed',sans-serif;
+        font-weight:400;
     }
 
 `

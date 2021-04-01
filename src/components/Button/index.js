@@ -19,10 +19,8 @@ const StyledButton = styled.button`
     border: none;
     border-radius: 15px;
     font-size: 22px;
-    width: 80%;
-    max-width: 600px;
-
-    
+    width: ${props => props.width ? props.width : "80%"};
+    max-width: ${props => props.maxWidth ? props.maxWidth : "600px"};
     text-transform: uppercase;
 `;
 
@@ -34,7 +32,7 @@ class Button extends Component {
     }
     render() { 
         return (
-            <StyledButton className="Button">
+            <StyledButton className="Button" width={this.props.width} maxWidth={this.props.maxWidth}>
                 {this.props.children}
             </StyledButton>
          );

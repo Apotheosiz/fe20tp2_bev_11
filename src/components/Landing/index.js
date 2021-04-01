@@ -1,19 +1,18 @@
 import React from 'react';
 import styled from 'styled-components'
 import Logo from './Logo';
-import HeaderImg from '../../img/header.png';
+import PageContainer from '../PageContainer';
+import { LandingPic } from '../svgImg/WelcomePic.js';
+import Button from '../Button';
+import * as ROUTES from '../../constants/routes';
+import { Link } from 'react-router-dom';
+import { SignInLink} from '../SignIn';
 
 const Header = styled.div`
-    background-image: url(${HeaderImg});
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: top, center;
-    height: 80vh;
-    max-width: 100vw;
+    padding-top: 80px;
 `;
 
 const Section = styled.div`
-    background: #F2ADA4;
     padding-top: 10px;
     padding-bottom: 20px;
 `;
@@ -28,9 +27,6 @@ const Row = styled.div`
 `;
 
 const StyledLogo = styled(Logo)`
-    position: absolute;
-    bottom: 500px;
-    margin-left: 55px;
     `;
 
 const Bubble = styled.div`
@@ -38,7 +34,7 @@ const Bubble = styled.div`
     margin: 15px;
     padding: 25px;
 
-    background: #DBD1D0;
+    background: #F8C3C3;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
     font-family: 'Saira Condensed', sans-serif;
@@ -53,16 +49,23 @@ const Title = styled.h1`
     font-size: 42px;
 `;
 
+const MainContent = styled.div`
+min-height: 90vh;
+display:flex;
+flex-direction: column;
+justify-content: space-around;
+`
+
 const Landing = () => (
-    <React.Fragment>
-        <div>
+    <PageContainer> 
+        <MainContent>
             <Header>
                 <StyledLogo />
-                    {/* <h2>FINK</h2>
-                    <h5>YOUR FINANCIAL DASHBOARD</h5>
-                </HeaderByLine> */}
             </Header>
-        </div>
+            <LandingPic width='80%' maxWidth='500px' />
+            <div><Link to={ROUTES.SIGN_UP}><Button width='75%' maxWidth='400px' >Get started</Button></Link>
+            <SignInLink /></div>
+        </MainContent>
         <Section>
             <Title>WHY MARKET LEADERS ARE CHOOSING FINK</Title>
             <Row>
@@ -74,7 +77,7 @@ const Landing = () => (
                 </Bubble>
             </Row>
         </Section>
-    </React.Fragment>
+    </PageContainer>
 );
 
 export default Landing;
