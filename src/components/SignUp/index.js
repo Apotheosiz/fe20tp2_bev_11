@@ -8,34 +8,9 @@ import * as ROLES from '../../constants/roles';
 import PageContainer from '../PageContainer';
 import Button from '../Button';
 import styled from 'styled-components';
+import { StyledLink, Title, StyledLogo, FormWrap, FormControl, SignInLink} from '../SignIn';
 
-const Title = styled.h1`
-    color: white;
-`;
-
-const FormWrap = styled.div`
-    background-color: #F8C3C3;
-    margin: auto;
-    padding: 20px;
-    max-width: 600px;
-    border-radius: 16px;
-    margin-bottom: 15px;
-`;
-
-const FormControl = styled.input`
-    display: block;
-    width: 90%;
-    height: 47px;
-    padding: 0 24px;
-    font-size: 13px;
-    border: none;
-    background-color: transparent;
-    margin: auto;
-    margin-bottom: 25px;
-    border-radius: 16px;
-`;
-
-const StyledP = styled.p`
+export const StyledP = styled.p`
     padding: 20px 0;
     font-size: 16px;    
     font-family:'Saira Condensed',sans-serif;
@@ -52,10 +27,21 @@ const StyledP = styled.p`
     }
 `;
 
+const StyledFormWrap = styled(FormWrap)`
+margin-bottom: 30px;
+`
+
+const BeAdmin = styled.div`
+width:fit-content;
+margin: 0 auto;
+`
+
 const SignUpPage = () => (
     <PageContainer>
-        <Title>Sign up!</Title>
+       <StyledLink to={ROUTES.LANDING} title="Back to Landing Page"><StyledLogo /></StyledLink>
+        <Title>Welcome Aboard!</Title>
         <SignUpForm />
+        <SignInLink />
     </PageContainer>
 );
 
@@ -143,49 +129,58 @@ class SignUpFormBase extends Component {
 
         return(
             <form onSubmit={this.onSubmit}>
-                <FormWrap>
-                <FormControl 
-                name="username"
-                value={username}
-                onChange={this.onChange}
-                type="text"
-                placeholder="full name"
-                />
-                <FormControl 
-                name="email"
-                value={email}
-                onChange={this.onChange}
-                type="text"
-                placeholder="email"
-                />
-                </FormWrap>
-                <FormWrap>
-                <FormControl 
-                name="passwordOne"
-                value={passwordOne}
-                onChange={this.onChange}
-                type="password"
-                placeholder="password"
-                />
-                <FormControl 
-                name="passwordTwo"
-                value={passwordTwo}
-                onChange={this.onChange}
-                type="password"
-                placeholder="confirm password"
-                />
-                <label>
-                    Admin:
-                    <input
-                        name="isAdmin"
-                        type="checkbox"
-                        checked={isAdmin}
-                        onChange={this.onChangeCheckbox}
+                <StyledFormWrap>
+                    <FormControl 
+                        style={{
+                            borderBottom: '1px solid #757575',
+                        }}
+                        name="username"
+                        value={username}
+                        onChange={this.onChange}
+                        type="text"
+                        placeholder="full name"
                     />
-                </label>
-                </FormWrap>
-                
-                <Button disabled={isInvalid} type="submit">sign up</Button>
+                    <FormControl 
+                        name="email"
+                        value={email}
+                        onChange={this.onChange}
+                        type="text"
+                        placeholder="email"
+                    />
+                </StyledFormWrap>
+                <StyledFormWrap>
+                    <FormControl StyledFormWrap
+                        style={{
+                            borderBottom: '1px solid #757575',
+                        }}
+                        name="passwordOne"
+                        value={passwordOne}
+                        onChange={this.onChange}
+                        type="password"
+                        placeholder="password"
+                    />
+                    <FormControl
+                        name="passwordTwo"
+                        value={passwordTwo}
+                        onChange={this.onChange}
+                        type="password"
+                        placeholder="confirm password"
+                    />
+                   
+                </StyledFormWrap>
+                <BeAdmin>
+                    <label>
+                        Admin:
+                        <input
+                            name="isAdmin"
+                            type="checkbox"
+                            checked={isAdmin}
+                            onChange={this.onChangeCheckbox}
+                        />
+                    </label>
+                </BeAdmin>
+
+                <Button disabled={isInvalid} type="submit">register</Button>
 
                 {error && <p>{error.message}</p>}
             </form>
