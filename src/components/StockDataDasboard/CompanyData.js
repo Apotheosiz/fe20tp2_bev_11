@@ -11,9 +11,24 @@ import {
 } from '../DatesAndTimes';
 import GraphTitle from './GraphTitle';
 import { twoDecim } from './GraphTitle';
+import styled from 'styled-components';
 
-// console.log(yesterday);
+const TitleWrapper = styled.div`
+width: 95%;
+margin: 0 auto;
+display:flex;
+flex-direction: column;
+align-items:center;
+`
+const MainGraphTitle = styled(GraphTitle)`
+h2{
+    font-weight: 400;
+}
+h1{
 
+}
+
+`
 
 const CompanyData = ({ comp, companyTicker }) => {
     
@@ -104,69 +119,71 @@ const CompanyData = ({ comp, companyTicker }) => {
 
     return (
         <section>
-            {(stockData.length > 0) ?
-                <>
-                    <GraphTitle comp={comp} data={stockData} />
-                    {comp.exchangeShortName && 
-                        <>
-                            <small>{comp.stockExchange}</small> • <small>{timeInterval}</small>
-                        </>
-                    }
-                </>
-                : null }
-            <div>
-                {/* todo: check this guy out */}
-                <div onChange={(event) => setTimeInterval(event.target.value)}>
-                    <input 
-                        type="radio" 
-                        value={yesterday + "/" + yesterday} 
-                        name="gender" defaultChecked={true}
-                        onClick={() => setOptionsState("1/minute")}
-                     /> 1 D
-                    <input 
-                        type="radio" 
-                        value={oneWeekAgo + "/" + yesterday} 
-                        name="gender"
-                        onClick={() => setOptionsState("10/minute")}
-                    /> 1 W
-                    <input 
-                        type="radio" 
-                        value={oneMonthAgo + "/" + yesterday} 
-                        name="gender" 
-                        onClick={() => setOptionsState("1/hour")}
-                    /> 1 M
-                    <input 
-                        type="radio" 
-                        value={threeMonthsAgo + "/" + yesterday} 
-                        name="gender" 
-                        onClick={() => setOptionsState("1/day")}
-                        /> 3 M
-                    <input 
-                        type="radio" 
-                        value={oneYearAgo + "/" + yesterday} 
-                        name="gender" 
-                        onClick={() => setOptionsState("1/month")}
-                        /> 1 Y
-                    <input 
-                        type="radio" 
-                        value={fiveYearsAgo + "/" + yesterday} 
-                        name="gender"
-                        onClick={() => setOptionsState("3/month")}
-                        /> 2 Y
-                </div>
+            <TitleWrapper>
+                {(stockData.length > 0) ?
+                    <div>
+                        <MainGraphTitle comp={comp} data={stockData} />
+                        {comp.exchangeShortName && 
+                            <>
+                                <small>{comp.stockExchange}</small> • <small>{timeInterval}</small>
+                            </>
+                        }
+                    </div>
+                    : null }
+                <div>
+                    {/* todo: check this guy out */}
+                    <div onChange={(event) => setTimeInterval(event.target.value)}>
+                        <input 
+                            type="radio" 
+                            value={yesterday + "/" + yesterday} 
+                            name="gender" defaultChecked={true}
+                            onClick={() => setOptionsState("1/minute")}
+                        /> 1 D
+                        <input 
+                            type="radio" 
+                            value={oneWeekAgo + "/" + yesterday} 
+                            name="gender"
+                            onClick={() => setOptionsState("10/minute")}
+                        /> 1 W
+                        <input 
+                            type="radio" 
+                            value={oneMonthAgo + "/" + yesterday} 
+                            name="gender" 
+                            onClick={() => setOptionsState("1/hour")}
+                        /> 1 M
+                        <input 
+                            type="radio" 
+                            value={threeMonthsAgo + "/" + yesterday} 
+                            name="gender" 
+                            onClick={() => setOptionsState("1/day")}
+                            /> 3 M
+                        <input 
+                            type="radio" 
+                            value={oneYearAgo + "/" + yesterday} 
+                            name="gender" 
+                            onClick={() => setOptionsState("1/month")}
+                            /> 1 Y
+                        <input 
+                            type="radio" 
+                            value={fiveYearsAgo + "/" + yesterday} 
+                            name="gender"
+                            onClick={() => setOptionsState("3/month")}
+                            /> 2 Y
+                    </div>
 
-                <select value={optionsState} onChange={(event) => setOptionsState(event.target.value)}>
-                    <option value="1/minute">1 minute</option>
-                    <option value="5/minute">5 minutes</option>
-                    <option value="10/minute">10 minutes</option>
-                    <option value="30/minute">30 minutes</option>
-                    <option value="1/hour">1 hour</option>
-                    <option value="1/day">1 day</option>
-                    <option value="1/week">1 week</option>
-                    <option value="1/month">1 month</option>
-                    <option value="3/month">3 months</option>
-                </select>
-            </div>
+                    <select value={optionsState} onChange={(event) => setOptionsState(event.target.value)}>
+                        <option value="1/minute">1 minute</option>
+                        <option value="5/minute">5 minutes</option>
+                        <option value="10/minute">10 minutes</option>
+                        <option value="30/minute">30 minutes</option>
+                        <option value="1/hour">1 hour</option>
+                        <option value="1/day">1 day</option>
+                        <option value="1/week">1 week</option>
+                        <option value="1/month">1 month</option>
+                        <option value="3/month">3 months</option>
+                    </select>
+                </div>
+            </TitleWrapper>
             <div>
                 {error && !(stockData.length > 0) && <h2>{error.error}</h2>}
                 {error && !(stockData.length > 0) && (error.resultsCount === 0) && <h4>There are no results for the specified interval. Please choose another interval.</h4>}

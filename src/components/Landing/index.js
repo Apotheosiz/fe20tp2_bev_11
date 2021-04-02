@@ -18,35 +18,42 @@ const Section = styled.div`
 `;
 
 const Row = styled.div`
-    display: flex;
-    justify-content: center;
-
-    @media (max-width: 980px) {
-        flex-direction: column;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    @media (min-width: 700px) {
+        flex-direction: row;
+        justify-content: center;
     }
 `;
-
-const StyledLogo = styled(Logo)`
-    `;
 
 const Bubble = styled.div`
     max-width: 375px;
     margin: 15px;
     padding: 25px;
-
     background: #F8C3C3;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
     font-family: 'Saira Condensed', sans-serif;
     font-size: 22px;
     color: #674258;
+    @media (min-width: 700px) {
+        min-height:330px;
+        display: flex;
+        align-items: center;
+    }
 `;
 
 const Title = styled.h1`
+    max-width: 375px;
+    margin: 0 auto;
     text-align: center;
     color: #44062B;
     font-family: 'Saira Condensed', sans-serif;
     font-size: 42px;
+    @media (min-width: 700px) {
+        max-width:none;
+    }
 `;
 
 const MainContent = styled.div`
@@ -60,7 +67,7 @@ const Landing = () => (
     <PageContainer> 
         <MainContent>
             <Header>
-                <StyledLogo />
+                <Logo />
             </Header>
             <LandingPic width='80%' maxWidth='500px' />
             <div><Link to={ROUTES.SIGN_UP}><Button width='75%' maxWidth='400px' >Get started</Button></Link>
