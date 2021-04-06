@@ -38,6 +38,25 @@ small{
     }
 }
 
+select{
+    // A reset of styles, including removing the default dropdown arrow
+    width: 100%;
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+.select {
+    border: 1px solid #efefef;
+    border-radius: 0.25em;
+    padding: 0.25em 0.5em;
+    font-size: 1.25rem;
+    cursor: pointer;
+    line-height: 1.1;
+    background-color: #fff;
+    background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+  }
+
 @media screen and (min-width:550px) {
     align-items: flex-start;
 }
@@ -198,17 +217,19 @@ const CompanyData = ({ comp, companyTicker }) => {
                         > 2Y </span>
                     </div>
 
-                    <select value={optionsState} onChange={(event) => setOptionsState(event.target.value)}>
-                        <option value="1/minute">1 minute</option>
-                        <option value="5/minute">5 minutes</option>
-                        <option value="10/minute">10 minutes</option>
-                        <option value="30/minute">30 minutes</option>
-                        <option value="1/hour">1 hour</option>
-                        <option value="1/day">1 day</option>
-                        <option value="1/week">1 week</option>
-                        <option value="1/month">1 month</option>
-                        <option value="3/month">3 months</option>
-                    </select>
+                    <div className="select">
+                        <select value={optionsState} onChange={(event) => setOptionsState(event.target.value)}>
+                            <option value="1/minute">1 minute</option>
+                            <option value="5/minute">5 minutes</option>
+                            <option value="10/minute">10 minutes</option>
+                            <option value="30/minute">30 minutes</option>
+                            <option value="1/hour">1 hour</option>
+                            <option value="1/day">1 day</option>
+                            <option value="1/week">1 week</option>
+                            <option value="1/month">1 month</option>
+                            <option value="3/month">3 months</option>
+                        </select>
+                    </div>
                 </div>
             </TitleWrapper>
             <div>
