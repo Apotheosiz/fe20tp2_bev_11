@@ -5,12 +5,18 @@ export const twoDecim = (num) => {
   };
 
 const InfoLine = styled.h1`
+.last-price{
+    font-size: ${props => props.main ? " 50px " : "inherit"};
+    font-weight: ${props => props.main ? " 400 " : "normal"};
+
+}
+
 span{
     margin-right: 7px;
 }
 `;
 
-const GraphTitle = ({ comp, data }) => {
+const GraphTitle = ({ main, comp, data }) => {
 
     const current = data[data.length - 1].price;
     const former = data[0].price;   
@@ -18,24 +24,24 @@ const GraphTitle = ({ comp, data }) => {
     const percDiff = twoDecim((current-former)/current*100.0);
     const diff = twoDecim(current-former);
 
-return (<>
+return (<div>
 {/* {console.log(prev)} */}
     <h2> {comp.name}<span> ({comp.symbol})</span></h2>
-    <InfoLine>
+    <InfoLine main={main} >
        
-        <span>{lastPrice}{comp.currency}</span>
+        <span className="last-price">{lastPrice}{comp.currency}</span>
 
         <span>
             {percDiff >=0 ? 
-                <span style={{ color: '#137333'}}>↑{percDiff}%</span>
-                : <span style={{ color: '#a50e0e' }}>↓{percDiff}%</span>} 
+                <span style={{ color: '#137333', background: '#e6f4ea', borderRadius: '5px', padding:'1px' }}>↑{percDiff}%</span>
+                : <span style={{ color: '#a50e0e', background: '#fce8e6', borderRadius: '5px', padding:'1px' }}>↓{percDiff}%</span>} 
                 
             {(diff >= 0) ? 
                 <span style={{ color: '#137333'}}>+{diff}</span> 
                 : <span style={{ color: '#a50e0e' }}>{diff}</span>}
         </span>
     </InfoLine>
-    </>
+    </div>
 )
 }
 

@@ -16,18 +16,16 @@ import styled from 'styled-components';
 const TitleWrapper = styled.div`
 width: 95%;
 margin: 0 auto;
-display:flex;
+display: flex;
 flex-direction: column;
-align-items:center;
-`
-const MainGraphTitle = styled(GraphTitle)`
-h2{
-    font-weight: 400;
+align-items: center;
+div .main-graph-title{
+    background: blue;
 }
-h1{
-
+@media screen and (min-width:550px) {
+    align-items: flex-start;
+  
 }
-
 `
 
 const CompanyData = ({ comp, companyTicker }) => {
@@ -122,7 +120,7 @@ const CompanyData = ({ comp, companyTicker }) => {
             <TitleWrapper>
                 {(stockData.length > 0) ?
                     <div>
-                        <MainGraphTitle comp={comp} data={stockData} />
+                        <GraphTitle main={true} className="main-graph-title" comp={comp} data={stockData} />
                         {comp.exchangeShortName && 
                             <>
                                 <small>{comp.stockExchange}</small> • <small>{timeInterval}</small>
