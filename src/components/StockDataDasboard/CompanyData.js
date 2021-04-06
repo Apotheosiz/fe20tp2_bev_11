@@ -19,12 +19,17 @@ margin: 0 auto;
 display: flex;
 flex-direction: column;
 align-items: center;
-div .main-graph-title{
-    background: blue;
+small{
+    color: #5c6065;
+}
+.time-interval{ 
+    input {
+        border: "1px solid red";
+
+      }
 }
 @media screen and (min-width:550px) {
     align-items: flex-start;
-  
 }
 `
 
@@ -120,17 +125,17 @@ const CompanyData = ({ comp, companyTicker }) => {
             <TitleWrapper>
                 {(stockData.length > 0) ?
                     <div>
-                        <GraphTitle main={true} className="main-graph-title" comp={comp} data={stockData} />
+                        <GraphTitle main={true} comp={comp} data={stockData} />
                         {comp.exchangeShortName && 
                             <>
-                                <small>{comp.stockExchange}</small> • <small>{timeInterval}</small>
+                                <small>{comp.stockExchange} • </small><small>{timeInterval}</small>
                             </>
                         }
                     </div>
                     : null }
                 <div>
                     {/* todo: check this guy out */}
-                    <div onChange={(event) => setTimeInterval(event.target.value)}>
+                    <div className="time-interval" onChange={(event) => setTimeInterval(event.target.value)}>
                         <input 
                             type="radio" 
                             value={yesterday + "/" + yesterday} 
