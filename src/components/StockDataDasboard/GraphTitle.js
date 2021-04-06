@@ -26,7 +26,7 @@ span{
 }
 `;
 
-const GraphTitle = ({ main, comp, data }) => {
+const GraphTitle = ({ timeInterval, main, comp, data }) => {
 
     const current = data[data.length - 1].price;
     const former = data[0].price;   
@@ -36,8 +36,15 @@ const GraphTitle = ({ main, comp, data }) => {
 
 return (<div>
 {/* {console.log(prev)} */}
-    {main ? 
+    {main ? <>
         <MainTitle>{comp.name} <span> {comp.symbol}</span></MainTitle>
+        {comp.exchangeShortName &&
+            <>
+                {/* Styled in CompanyData titleWrapper */}
+                <small>{comp.stockExchange} • </small><small>{timeInterval}</small>
+            </>
+        }
+        </>
         : <h2> {comp.name} <span> ({comp.symbol})</span></h2>}
     <InfoLine main={main} >
        

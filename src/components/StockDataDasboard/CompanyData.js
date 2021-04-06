@@ -19,15 +19,25 @@ margin: 0 auto;
 display: flex;
 flex-direction: column;
 align-items: center;
+
 small{
     color: #5c6065;
 }
-.time-interval{ 
-    input {
-        border: "1px solid red";
-
-      }
+.time-interval{
+    margin: 12px 0;
+    span{
+        margin-right: 10px;
+        padding: 2px 5px 3px 5px;
+    }
+    span:hover,
+    span:active, 
+    span:focus,
+    .active{
+        background: #efefef;
+        border-radius: 7px;                
+    }
 }
+
 @media screen and (min-width:550px) {
     align-items: flex-start;
 }
@@ -125,53 +135,67 @@ const CompanyData = ({ comp, companyTicker }) => {
             <TitleWrapper>
                 {(stockData.length > 0) ?
                     <div>
-                        <GraphTitle main={true} comp={comp} data={stockData} />
-                        {comp.exchangeShortName && 
-                            <>
-                                <small>{comp.stockExchange} • </small><small>{timeInterval}</small>
-                            </>
-                        }
+                        <GraphTitle timeInterval={timeInterval} main={true} comp={comp} data={stockData} />
+                        
                     </div>
                     : null }
                 <div>
                     {/* todo: check this guy out */}
-                    <div className="time-interval" onChange={(event) => setTimeInterval(event.target.value)}>
-                        <input 
-                            type="radio" 
-                            value={yesterday + "/" + yesterday} 
+                    <div className="time-interval">
+                        <span 
+                            className={(timeInterval === yesterday + "/" + yesterday) ? "active":""}
+                            data-value={yesterday + "/" + yesterday} 
                             name="gender" defaultChecked={true}
-                            onClick={() => setOptionsState("1/minute")}
-                        /> 1 D
-                        <input 
-                            type="radio" 
-                            value={oneWeekAgo + "/" + yesterday} 
+                            onClick={(event) => {
+                                setOptionsState("1/minute");
+                                setTimeInterval(event.target.dataset.value)
+                            }}
+                        > 1D </span>
+                        <span     
+                            className={(timeInterval === oneWeekAgo + "/" + yesterday) ? "active":""}                       
+                            data-value={oneWeekAgo + "/" + yesterday} 
                             name="gender"
-                            onClick={() => setOptionsState("10/minute")}
-                        /> 1 W
-                        <input 
-                            type="radio" 
-                            value={oneMonthAgo + "/" + yesterday} 
+                            onClick={(event) => {
+                                setOptionsState("10/minute");
+                                setTimeInterval(event.target.dataset.value);
+                            }}
+                        > 1W </span>
+                        <span 
+                            className={(timeInterval === oneMonthAgo + "/" + yesterday) ? "active":""}
+                            data-value={oneMonthAgo + "/" + yesterday} 
                             name="gender" 
-                            onClick={() => setOptionsState("1/hour")}
-                        /> 1 M
-                        <input 
-                            type="radio" 
-                            value={threeMonthsAgo + "/" + yesterday} 
+                            onClick={(event) => {
+                                setOptionsState("1/hour");
+                                setTimeInterval(event.target.dataset.value);
+                        }}
+                        > 1M </span>
+                        <span  
+                            className={(timeInterval === threeMonthsAgo + "/" + yesterday) ? "active":""}
+                            data-value={threeMonthsAgo + "/" + yesterday} 
                             name="gender" 
-                            onClick={() => setOptionsState("1/day")}
-                            /> 3 M
-                        <input 
-                            type="radio" 
-                            value={oneYearAgo + "/" + yesterday} 
+                            onClick={(event) => {
+                                setOptionsState("1/day");
+                                setTimeInterval(event.target.dataset.value)
+                            }}
+                        > 3M </span>
+                        <span 
+                            className={(timeInterval === oneYearAgo + "/" + yesterday) ? "active":""}
+                            data-value={oneYearAgo + "/" + yesterday} 
                             name="gender" 
-                            onClick={() => setOptionsState("1/month")}
-                            /> 1 Y
-                        <input 
-                            type="radio" 
-                            value={fiveYearsAgo + "/" + yesterday} 
+                            onClick={(event) => {
+                                setOptionsState("1/month");
+                                setTimeInterval(event.target.dataset.value)
+                            }}
+                        > 1Y </span>
+                        <span  
+                            className={(timeInterval === fiveYearsAgo + "/" + yesterday) ? "active":""}
+                            data-value={fiveYearsAgo + "/" + yesterday} 
                             name="gender"
-                            onClick={() => setOptionsState("3/month")}
-                            /> 2 Y
+                            onClick={(event) => {
+                                setOptionsState("3/month");
+                                setTimeInterval(event.target.dataset.value)
+                            }}
+                        > 2Y </span>
                     </div>
 
                     <select value={optionsState} onChange={(event) => setOptionsState(event.target.value)}>
