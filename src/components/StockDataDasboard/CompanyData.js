@@ -240,8 +240,14 @@ const CompanyData = ({ comp, companyTicker }) => {
                         <ResponsiveContainer width="100%" height={300} >
 
                             <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 3 }}>
-
-                                <Area type="linear" dataKey="price" stroke="#44062B" name={comp.currency} dot={false} fill="#f9897a" strokeWidth={2} />
+                                <defs>
+                                    {/* Dessa värden kontrollerar färg och form på gradienten för grafen */}
+                                    <linearGradient id="graphGradient" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#fb6f5c" stopOpacity={0.8}/>
+                                        <stop offset="95%" stopColor="#f9897a" stopOpacity={0.2}/>
+                                    </linearGradient>
+                                </defs>
+                                <Area type="linear" dataKey="price" stroke="#44062B" name={comp.currency} dot={false} fill="url(#graphGradient)" strokeWidth={2} />
 
                                 <CartesianGrid stroke="#ccc" strokeDasharray="1 1" />
 
