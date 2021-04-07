@@ -20,42 +20,60 @@ display: flex;
 flex-direction: column;
 align-items: center;
 
+div:first-child {
+    margin-bottom: 5px;
+}
+
 small{
     color: #5c6065;
 }
-.time-interval{
-    margin: 12px 0;
-    span{
-        margin-right: 10px;
-        padding: 2px 5px 3px 5px;
-    }
-    span:hover,
-    span:active, 
-    span:focus,
-    .active{
-        background: #efefef;
-        border-radius: 7px;                
-    }
-}
 
-select{
-    // A reset of styles, including removing the default dropdown arrow
-    width: 100%;
-    appearance: none;
-    border: none;
-    cursor: pointer;
-    outline: none;
+.interval-parent {
+    margin: 12px 0;
+
+    @media screen and (min-width: 550px) {
+        display: flex;
+    }
+
+    .time-interval{
+
+        span {
+            font-size: 16px;
+            line-height: 16px;
+            margin-right: 10px;
+            padding: 2px 5px 3px 5px;
+        }
+
+        span:hover,
+        span:active, 
+        span:focus,
+            .active {
+                background: #efefef;
+                border-radius: 7px;                
+            }
+        }    
+    }   
+
+    .select {
+        font-size: 16px;
+        line-height: 16px;
+        width: 100px;
+        margin: 0 auto;
+        border: 1px solid #efefef;
+        border-radius: 5px;
+        padding: 1px 4px 2px 4px;
+        cursor: pointer;
+        background-color: #fff;
+        background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+
+        select {
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            outline: none;
+        }        
+    } 
 }
-.select {
-    border: 1px solid #efefef;
-    border-radius: 0.25em;
-    padding: 0.25em 0.5em;
-    font-size: 1.25rem;
-    cursor: pointer;
-    line-height: 1.1;
-    background-color: #fff;
-    background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
-  }
 
 @media screen and (min-width:550px) {
     align-items: flex-start;
@@ -158,7 +176,7 @@ const CompanyData = ({ comp, companyTicker }) => {
                         
                     </div>
                     : null }
-                <div>
+                <div className="interval-parent">
                     {/* todo: check this guy out */}
                     <div className="time-interval">
                         <span 
