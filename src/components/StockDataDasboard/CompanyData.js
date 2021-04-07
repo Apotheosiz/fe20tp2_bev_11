@@ -12,6 +12,8 @@ import {
 import GraphTitle from './GraphTitle';
 import { twoDecim } from './GraphTitle';
 import styled from 'styled-components';
+import minMax from "../../img/minMax.png";
+import minMaxActive from "../../img/minMaxActive.png";
 
 const TitleWrapper = styled.div`
 width: 95%;
@@ -46,19 +48,25 @@ small{
 
         span:hover,
         span:active, 
-        span:focus,
-            .active {
+        span:focus {
                 background: #efefef;
-                border-radius: 7px;                
+                border-radius: 7px;
+                cursor: pointer;                
             }
         }    
     }   
+    
+    .graph-options {
+        display: flex;
+        margin: 0 auto;
+        width: fit-content;
+    }
 
     .select {
         font-size: 16px;
         line-height: 16px;
         width: 100px;
-        margin: 0 auto;
+        //margin: 0 auto;
         border: 1px solid #efefef;
         border-radius: 5px;
         padding: 1px 4px 2px 4px;
@@ -73,6 +81,34 @@ small{
             outline: none;
         }        
     } 
+
+    .min-max { 
+        margin: 0 15px;
+        span {
+            width: fit-content;
+            padding: 2px 5px 3px 5px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        span:active,
+        span:focus {
+            background: #efefef;
+            border-radius: 7px;
+        }
+        span:hover img {
+            position:relative;
+            top:-1.5px;
+        }
+        span img{
+            height: 20px;            
+        }
+    }
+    .active {
+        background: #efefef;
+        border-radius: 7px;
+        cursor: pointer;                
+    }
 }
 
 @media screen and (min-width:550px) {
@@ -234,19 +270,25 @@ const CompanyData = ({ comp, companyTicker }) => {
                             }}
                         > 2Y </span>
                     </div>
-
-                    <div className="select">
-                        <select value={optionsState} onChange={(event) => setOptionsState(event.target.value)}>
-                            <option value="1/minute">1 minute</option>
-                            <option value="5/minute">5 minutes</option>
-                            <option value="10/minute">10 minutes</option>
-                            <option value="30/minute">30 minutes</option>
-                            <option value="1/hour">1 hour</option>
-                            <option value="1/day">1 day</option>
-                            <option value="1/week">1 week</option>
-                            <option value="1/month">1 month</option>
-                            <option value="3/month">3 months</option>
-                        </select>
+                    <div className="graph-options">
+                        <div className="select">
+                            <select value={optionsState} onChange={(event) => setOptionsState(event.target.value)}>
+                                <option value="1/minute">1 minute</option>
+                                <option value="5/minute">5 minutes</option>
+                                <option value="10/minute">10 minutes</option>
+                                <option value="30/minute">30 minutes</option>
+                                <option value="1/hour">1 hour</option>
+                                <option value="1/day">1 day</option>
+                                <option value="1/week">1 week</option>
+                                <option value="1/month">1 month</option>
+                                <option value="3/month">3 months</option>
+                            </select>
+                        </div>
+                        <div title="Show min-max" className="min-max">
+                            <span className={minMaxLines ? "active": " " } onClick={() => setMinMaxLines(!minMaxLines)}>
+                                {!minMaxLines ? <img src={minMax} /> : <img src={minMaxActive} />}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </TitleWrapper>
@@ -306,11 +348,7 @@ const CompanyData = ({ comp, companyTicker }) => {
                             </AreaChart>
 
                         </ResponsiveContainer>
-                        <div>
-                            <span onClick={() => setMinMaxLines(!minMaxLines)}>
-                                {!minMaxLines ? <span>Show </span> : <span>Hide </span>}
-                        min and max</span>
-                        </div>
+                        
                         <ResponsiveContainer width="100%" height={150}>
 
                             <BarChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 3 }}>
