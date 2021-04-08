@@ -22,11 +22,12 @@ const [newsData, setNewsData] = useState(null);
 
                     if (isUnique) {
                         uniqueArticles.push(article)
+                        console.log(article);
                     } 
                 })
-                
+                console.log(uniqueArticles);
                 setNewsData(uniqueArticles);  
-                             
+
             }) : fetch(`http://newsapi.org/v2/top-headlines?country=us&category=business&language=en&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742`)
                 .then(response => response.json())
                 .then(data => {
@@ -34,7 +35,6 @@ const [newsData, setNewsData] = useState(null);
                 })
     }, [comp])
     return (<div>
-        <h1>News Dashbord</h1> 
         {newsData ? <Article articles={newsData}/> : null }
         </div>)
 
@@ -43,6 +43,17 @@ const ArticlesWrapper = styled.div`
 width: 95%;
 margin: 0 auto;
 max-width: 800px;
+
+a {
+    text-decoration: none;
+    &:link,
+    &:active,
+    &:visited {
+        text-decoration: none;
+        color: inherit;
+    }
+}
+
 .sourceDate{
     margin: 25px 0 5px 0;
     font-weight: bold;
@@ -84,9 +95,8 @@ margin-bottom: 25px;
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 468px) {
     .articleDiv {
-        display: flex;
         flex-direction: row;
         align-items: center;
 
@@ -101,34 +111,35 @@ margin-bottom: 25px;
 const Article = ({articles}) => {
 
     return (<ArticlesWrapper>
-        {articles && articles.map(article => <div key={article.publishedAt + article.title}>
-        <div className="sourceDate">
-            {article.source.name} • <span>{new Date(article.publishedAt).toLocaleString('en-US', {
-                month: 'long', // "June"
-                day: '2-digit', // "01"
-                year: 'numeric', // "2019"
-                hour: '2-digit',
-                minute: '2-digit',
-            })}</span>
-        </div>
-        <StyledArticle>
-            <div className="articleDiv">
-                {article.urlToImage && <img src={article.urlToImage} />}
-                <div>
-                    {article.title && <h1>{article.title}</h1>}
-                    {article.content ?
-                        <p>{article.content.split('… [+')[0]}…</p>
-                        : article.description ? 
-                            <p>{article.description.split('… [+')[0]}…</p>
-                            : null
-                    } 
-                </div>                
-             </div>
-             
+        {articles && articles.map(article => 
+        <div key={article.publishedAt + article.title}>
+            <a target="_blank" href={article.url}>
+                <div className="sourceDate">
+                    {article.source.name} • <span>{new Date(article.publishedAt).toLocaleString('en-US', {
+                        month: 'long', // "June"
+                        day: '2-digit', // "01"
+                        year: 'numeric', // "2019"
+                        hour: '2-digit',
+                        minute: '2-digit',
+                    })}</span>
+                </div>
+                <StyledArticle>
+                    <div className="articleDiv">
+                        {article.urlToImage && <img src={article.urlToImage} />}
+                        <div>
+                            {article.title && <h1>{article.title}</h1>}
+                            {article.description ? 
+                                    <p>{article.description.split('… [+')[0]}…</p>
+                                    : null
+                            } 
+                        </div>                
+                    </div>
+                    
 
-        </StyledArticle>
-        <hr></hr>
-            </div>)}
+                </StyledArticle>
+            </a>
+            <hr></hr>
+        </div>)}
         
     </ArticlesWrapper>)
 }
