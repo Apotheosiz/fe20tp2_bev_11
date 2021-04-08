@@ -8,7 +8,25 @@ const [newsData, setNewsData] = useState(null);
         comp ? fetch(`http://newsapi.org/v2/everything?q=${comp.name}&from=2021-03-16&language=en&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742`)
             .then(response => response.json())
             .then(data => { 
-                setNewsData(data);               
+                console.log(data);
+                let uniqueArticles = [];
+                data.articles.forEach(article => {
+                    let isUnique = true;
+                    const artTitle = article.title.substring(0,30);
+
+                    uniqueArticles.forEach(uniArt => {
+                        if (uniArt.title.substring(0,30) === artTitle) {
+                            isUnique = false;
+                        }
+                    })
+
+                    if (isUnique) {
+                        uniqueArticles.push(article)
+                    } 
+                })
+                
+                setNewsData(uniqueArticles);  
+                             
             }) : fetch(`http://newsapi.org/v2/top-headlines?country=us&category=business&language=en&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742`)
                 .then(response => response.json())
                 .then(data => {
@@ -17,7 +35,7 @@ const [newsData, setNewsData] = useState(null);
     }, [comp])
     return (<div>
         <h1>News Dashbord</h1> 
-        {newsData ? <Article articles={newsData.articles}/> : null }
+        {newsData ? <Article articles={newsData}/> : null }
         </div>)
 
 }
