@@ -11,6 +11,7 @@ import Button from '../Button';
 import styled from 'styled-components';
 import { WelcomePic } from '../svgImg/WelcomePic.js';
 import { Link } from 'react-router-dom';
+import { FormWrap } from '../SignUp/FormWrap';
 
 export const StyledLink = styled(Link)`
 text-decoration: none;
@@ -19,15 +20,6 @@ text-decoration: none;
 export const Title = styled.h1`
     margin-top: 25px;
     font-size: 25px;
-`;
-
-export const FormWrap = styled.div`
-    background-color: #F8C3C3;
-    margin: auto;
-    padding: 20px 0;
-    max-width: 600px;
-    width: 80%;
-    border-radius: 16px;    
 `;
 
 export const FormControl = styled.input`

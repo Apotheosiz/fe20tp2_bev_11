@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import styled from 'styled-components';
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
     /* Adapt the colors based on primary prop */
     background: ${props => props.primary ? "palevioletred" : "white"};
     color: ${props => props.primary ? "white" : "palevioletred"};
@@ -20,8 +20,12 @@ const StyledButton = styled.button`
     border-radius: 15px;
     font-size: 22px;
     width: ${props => props.width ? props.width : "80%"};
-    max-width: ${props => props.maxWidth ? props.maxWidth : "600px"};
+    max-width: ${props => props.maxWidth ? props.maxWidth : "500px"};
     text-transform: uppercase;
+    &:hover{
+        background: #FB6F5C;
+        color: #fff;
+    }
 `;
 
 
