@@ -53,9 +53,9 @@ const ProfileStyledFormWrap = styled(StyledFormWrap)`
             position: relative;
             top: -2px;
         }
-        &:active {
-            border: ;
-        }
+    }
+    .active {
+        border: 2px solid #44062B;
     }
 `
 const BeAdmin = styled.div`
@@ -199,7 +199,17 @@ class SignUpFormBase extends Component {
                 </StyledFormWrap>
                 <ProfileStyledFormWrap >
                     {picArr.map((pic, index) => (
-                        <img src={pic} data-value={index + 1} alt="profile pic" onClick={(evt) => console.log(evt.target.dataset.value)} />
+                        <img
+                            src={pic} 
+                            data-value={index + 1} 
+                            alt="profile pic" 
+                            onClick={(event) => { 
+                                this.setState({ profilePic: event.target.dataset.value });
+                                // event.target.parentNode.childNodes.classList.remove('active');
+                                // event.target.classList.add('active');
+                            } }  
+                            className={this.state.profilePic === (index + 1) ? "active":""} 
+                        />
                     ))}
                    
                     </ProfileStyledFormWrap>
