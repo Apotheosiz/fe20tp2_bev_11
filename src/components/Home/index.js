@@ -8,6 +8,7 @@ import { withFirebase } from '../Firebase';
 import StockDataDashboard from '../StockDataDasboard';
 //import PageContainer from '../PageContainer';
 import NewsDashbord from '../NewsDashbord';
+import Messages from '../Messages';
 
 const HomePage = () => { 
     const [comp, setComp] = useState({
@@ -36,7 +37,7 @@ const HomePage = () => {
     //</PageContainer>
 )};
 
-class MessagesBase extends Component {
+/*class MessagesBase extends Component {
     constructor(props) {
         super(props);
 
@@ -226,10 +227,9 @@ class MessageItem extends Component {
         );
     }
 }
+const Messages = withFirebase(MessagesBase);*/
 
 const condition = authUser => !!authUser;
-
-const Messages = withFirebase(MessagesBase);
 
 export default compose(
     withAuthorization(condition),

@@ -11,6 +11,16 @@ import styled from 'styled-components';
 import { StyledLink, Title, FormControl, SignInLink} from '../SignIn';
 import { FormWrap } from './FormWrap';
 import Logo from '../Landing/Logo.js';
+import pic1 from '../../img/profiles/1.png';
+import pic2 from '../../img/profiles/2.png';
+import pic3 from '../../img/profiles/3.png';
+import pic4 from '../../img/profiles/4.png';
+import pic5 from '../../img/profiles/5.png';
+import pic6 from '../../img/profiles/6.png';
+import pic7 from '../../img/profiles/7.png';
+import pic8 from '../../img/profiles/8.png';
+
+const picArr = [pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8]
 
 export const StyledP = styled.p`
     padding: 20px 0;
@@ -32,7 +42,22 @@ export const StyledP = styled.p`
 const StyledFormWrap = styled(FormWrap)`
 margin-bottom: 30px;
 `
-
+const ProfileStyledFormWrap = styled(StyledFormWrap)`
+    background: none;
+    img {
+        width: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+        cursor: pointer;
+        &:hover {
+            position: relative;
+            top: -2px;
+        }
+        &:active {
+            border: ;
+        }
+    }
+`
 const BeAdmin = styled.div`
 width:fit-content;
 margin: 0 auto;
@@ -55,6 +80,7 @@ const INITIAL_STATE = {
     isAdmin: false,
     error: null,
     tickers: '',
+    profilePic: '1',
 };
 
 class SignUpFormBase extends Component {
@@ -64,7 +90,7 @@ class SignUpFormBase extends Component {
     }
 
     onSubmit = event => {
-        const { username, email, passwordOne, isAdmin } = this.state;
+        const { username, email, passwordOne, isAdmin, profilePic } = this.state;
 
         const roles = {};
 
@@ -90,7 +116,8 @@ class SignUpFormBase extends Component {
                                 stockExchange: 'NasdaqGS',
                                 symbol:'AAPL',
                             }
-                        }
+                        },
+                        profilePic,
                     });
             })
             .then(() => {
@@ -170,6 +197,12 @@ class SignUpFormBase extends Component {
                     />
                    
                 </StyledFormWrap>
+                <ProfileStyledFormWrap >
+                    {picArr.map((pic, index) => (
+                        <img src={pic} data-value={index + 1} alt="profile pic" onClick={(evt) => console.log(evt.target.dataset.value)} />
+                    ))}
+                   
+                    </ProfileStyledFormWrap>
                 <BeAdmin>
                     <label>
                         Admin:
