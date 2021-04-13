@@ -10,14 +10,22 @@ import { Title } from '../SignIn';
 import { StyledButton } from '../Button';
 import styled from "styled-components";
 import { SettingsPic } from '../svgImg/WelcomePic';
+import { FormWrap } from '../SignUp/FormWrap';
+
+const StyledFormWrap = styled(FormWrap)`
+width:250px;
+margin-bottom:15px;
+font-size: 22px;
+padding: 10px;
+`
 
 const AccountStyledButton = styled(StyledButton)`
-background-color:${props => props.color ? "#F8C3C3" : "#efefef"} ;
+background-color:${props => props.color ? props.color : "#efefef"} ;
 margin-bottom: 20px;
 `
 
 const StyledTitle = styled(Title)`
-margin-bottom: 40px;
+margin: 40px auto;
 `
 
 
@@ -28,9 +36,10 @@ const AccountPage = () => {
     <AuthUserContext.Consumer>
         {authUser => (
             <PageContainer>
-                <StyledTitle>{authUser.email} {/*Object.keys(authUser.symbols)*/}</StyledTitle>
+                <StyledTitle>Account settings {/*Object.keys(authUser.symbols)*/}</StyledTitle>
                 <SettingsPic />
-                <AccountStyledButton width="fit-content" color={isActive? true : false} onClick={() => {
+                <StyledFormWrap>{authUser.email}</StyledFormWrap>
+                <AccountStyledButton width="250px" color={isActive? "#F8C3C3" : false} onClick={() => {
                     setIsActive(!isActive);
                 }}>change my password{isActive ? <span>▲</span> : <span>▼</span>  }</AccountStyledButton>
                 {isActive ? <PasswordChangeForm /> : null}

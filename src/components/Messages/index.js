@@ -1,6 +1,16 @@
 import { withFirebase } from '../Firebase';
 import React, { Component } from 'react';
 import { AuthUserContext } from '../Session';
+import pic1 from '../../img/profiles/1.png';
+import pic2 from '../../img/profiles/2.png';
+import pic3 from '../../img/profiles/3.png';
+import pic4 from '../../img/profiles/4.png';
+import pic5 from '../../img/profiles/5.png';
+import pic6 from '../../img/profiles/6.png';
+import pic7 from '../../img/profiles/7.png';
+import pic8 from '../../img/profiles/8.png';
+
+const picArr = [pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8];
 
 class MessagesBase extends Component {
   constructor(props) {
@@ -24,6 +34,7 @@ class MessagesBase extends Component {
           userId: authUser.uid,
           username: authUser.username,
           createdAt: this.props.firebase.serverValue.TIMESTAMP,
+          profilePic: authUser.profilePic,
       });
 
       this.setState({ text: '' });
@@ -155,6 +166,7 @@ class MessageItem extends Component {
 
       return (
           <li>
+              <img src={picArr[message.profilePic - 1]} alt="profile"/>
               {editMode ? (
                   <input
                       type="text"
