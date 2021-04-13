@@ -44,20 +44,21 @@ margin-bottom: 30px;
 `
 const ProfileStyledFormWrap = styled(StyledFormWrap)`
     background: none;
-    img {
-        width: 50px;
-        border-radius: 50%;
-        margin-right: 10px;
-        cursor: pointer;
-        &:hover {
-            position: relative;
-            top: -2px;
-        }
-    }
     .active {
         border: 2px solid #44062B;
     }
 `
+export const StyledImg = styled.img`
+    width: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+    &:hover {
+        position: relative;
+        top: -2px;
+    }
+`
+
 const BeAdmin = styled.div`
 width:fit-content;
 margin: 0 auto;
@@ -199,7 +200,7 @@ class SignUpFormBase extends Component {
                 </StyledFormWrap>
                 <ProfileStyledFormWrap >
                     {picArr.map((pic, index) => (
-                        <img
+                        <StyledImg
                             key={index}
                             src={pic} 
                             data-value={index + 1} 
