@@ -1,6 +1,7 @@
 import { withFirebase } from '../Firebase';
 import React, { Component } from 'react';
 import { AuthUserContext } from '../Session';
+import { StyledImg } from '../SignUp';
 import pic1 from '../../img/profiles/1.png';
 import pic2 from '../../img/profiles/2.png';
 import pic3 from '../../img/profiles/3.png';
@@ -9,8 +10,59 @@ import pic5 from '../../img/profiles/5.png';
 import pic6 from '../../img/profiles/6.png';
 import pic7 from '../../img/profiles/7.png';
 import pic8 from '../../img/profiles/8.png';
+import styled from 'styled-components';
+import { DeletePic } from '../svgImg/WelcomePic';
+import { EditPic } from '../svgImg/WelcomePic';
 
 const picArr = [pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8];
+
+const StyledDiv = styled.div`
+padding:10px;
+border-radius:8px;
+background: #efefef;
+width: 100%;
+max-width: 550px;
+margin:0 auto;
+`
+
+const StyledLi = styled.li`
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background: #F8C3C3;
+    border-radius: 20px;
+    border-bottom: 1px solid #efefef;
+    .profile-and-text{
+        display: flex;
+        align-items:flex-start;
+    }
+    img{
+        //margin-bottom:10px;
+        &:hover{
+            top:0;
+            cursor: initial;
+        }
+    }
+    form,
+    span{
+        display:flex;
+        align-items: center;
+    }
+    form{
+        width:100%;
+    }
+`
+
+const ChatButton = styled.button`
+content:" ";
+    svg {
+        fill: #efefef;
+        &:hover {
+            fill: #44062B;
+        }
+    }
+
+`
 
 class MessagesBase extends Component {
   constructor(props) {
@@ -86,8 +138,8 @@ class MessagesBase extends Component {
 
       return (
           <AuthUserContext.Consumer>
-              {authUser => (
-                  <div>
+                {authUser => (
+                    <StyledDiv>
                       {loading && <div>Loading ...</div>}
 
                       {messages ? (
@@ -98,20 +150,21 @@ class MessagesBase extends Component {
                               onRemoveMessage={this.onRemoveMessage}
                           />
                       ) : (
-                          <div>There are no messages ...</div>
+                          null
                       )}
-
-                      <form onSubmit={event => this.onCreateMessage(event, authUser)}>
-                          <input
-                              type="text"
-                              value={text}
-                              onChange={this.onChangeText}
-                          />
-                          <button type="submit">Send</button>
-                      </form>
-
-                  </div>
-              )}
+                        <StyledLi>
+                        <StyledImg src={picArr[authUser.profilePic- 1]} alt="profile"/>
+                        <form onSubmit={event => this.onCreateMessage(event, authUser)}>
+                            <input
+                                type="text"
+                                value={text}
+                                onChange={this.onChangeText}
+                            />
+                            <ChatButton type="submit">Send</ChatButton>
+                        </form>
+                        </StyledLi>
+                    </StyledDiv>
+                )}
           </AuthUserContext.Consumer>
       );
 
@@ -119,7 +172,7 @@ class MessagesBase extends Component {
 }
 
 const MessageList = ({ authUser, messages, onEditMessage, onRemoveMessage }) => (
-  <ul>
+  <>
       {messages.map(message => (
           <MessageItem
               authUser={authUser}
@@ -129,7 +182,7 @@ const MessageList = ({ authUser, messages, onEditMessage, onRemoveMessage }) => 
               onRemoveMessage={onRemoveMessage}
           />
       ))}
-  </ul>
+  </>
 );
 
 class MessageItem extends Component {
@@ -165,43 +218,43 @@ class MessageItem extends Component {
       const { editMode, editText } = this.state;
 
       return (
-          <li>
-              <img src={picArr[message.profilePic - 1]} alt="profile"/>
-              {editMode ? (
-                  <input
-                      type="text"
-                      value={editText}
-                      onChange={this.onChangeEditText}
-                  />
-              ) : (
-                  <span>
-                      <strong>{message.username}</strong> {message.text}
-                      {message.editedAt && <span>(Edited)</span>}
-                  </span>
-              )}
-
+          <StyledLi>
+                <span className="profile-and-text">
+                    <StyledImg src={picArr[message.profilePic - 1]} alt="profile"/>
+                    {editMode ? (
+                        <input
+                            type="text"
+                            value={editText}
+                            onChange={this.onChangeEditText}
+                        />
+                    ) : (
+                        <div>
+                            <strong>{message.username}</strong> 
+                            <p>{message.text}</p>
+                        </div>
+                    )}
+                </span>
               {authUser.uid === message.userId && (
                   <span>
                       {editMode ? (
-                          <span>
-                              <button onClick={this.onSaveEditText}>Save</button>
-                              <button onClick={this.onToggleEditMode}>Reset</button>
-                          </span>
+                            <span>
+                              <ChatButton onClick={this.onSaveEditText}>Save</ChatButton>
+                              <ChatButton onClick={this.onToggleEditMode}>Reset</ChatButton>
+                            </span>
                       ) : (
-                          <button onClick={this.onToggleEditMode}>Edit</button>
+                            <ChatButton onClick={this.onToggleEditMode}>
+                              Edit{/*<EditPic />*/}
+                            </ChatButton>
                       )}
 
-                      {!editMode && (
-                          <button
-                              type="button"
-                              onClick={() => onRemoveMessage(message.uid)}
-                          >
-                              Delete
-                          </button>
+                      {!editMode && (    
+                            <ChatButton onClick={() => onRemoveMessage(message.uid)}>                    
+                              Delete{/*<DeletePic />*/}
+                            </ChatButton>
                       )}
                   </span>
               )}
-          </li>
+          </StyledLi>
       );
   }
 }
