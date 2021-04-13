@@ -200,6 +200,7 @@ class SignUpFormBase extends Component {
                 <ProfileStyledFormWrap >
                     {picArr.map((pic, index) => (
                         <img
+                            key={index}
                             src={pic} 
                             data-value={index + 1} 
                             alt="profile pic" 
@@ -208,7 +209,7 @@ class SignUpFormBase extends Component {
                                 // event.target.parentNode.childNodes.classList.remove('active');
                                 // event.target.classList.add('active');
                             } }  
-                            className={this.state.profilePic === (index + 1) ? "active":""} 
+                            className={this.state.profilePic == (index + 1) ? "active":""} 
                         />
                     ))}
                    

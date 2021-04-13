@@ -243,7 +243,7 @@ const StockDataDashboard = ({ authUser, firebase, comp, setComp }) => {
                 }
             </FormWrapper>
             
-            {user && <PreviewPanel user={user} setCompanyTicker={setCompanyTicker} setComp={setComp} delTicker={delTicker} />}
+            {user && <PreviewPanel graphTicker={companyTicker} user={user} setCompanyTicker={setCompanyTicker} setComp={setComp} delTicker={delTicker} />}
 
             {(comp && companyTicker) ?
                 <CompanyData comp={comp} companyTicker={companyTicker} />

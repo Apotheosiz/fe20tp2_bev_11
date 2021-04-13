@@ -15,6 +15,7 @@ margin: 0 7px 7px 0;
 background: #efefef;
 border-radius: 10px;
 position: relative;
+border: ${props => props.isActive ? "2px solid #44062B;" : "none"};
 
 .seeInGraph{
     display: flex;
@@ -55,16 +56,12 @@ const Details = styled.div`
 
 `;
 
-const PreviewItem = ({ user, comp, ticker, setCompanyTicker, setComp, delTicker }) => {  
+const PreviewItem = ({graphTicker, user, comp, ticker, setCompanyTicker, setComp, delTicker }) => {  
     
     const [stockData, setStockData] = useState(null);
     const [actualStockData, setActualStockData] = useState(null);
     const [color, setColor] =useState("#f9897a");
     const interval =`10/minute/${yesterday}/${yesterday}`;
-
-//   if (comp.interval === '1D') {
-//         setInterval(`1/minute/${yesterday}/${yesterday}`);
-//     }
 
     useEffect(() => {
         fetch(`https://api.polygon.io/v2/aggs/ticker/${ticker}/range/${interval}?unadjusted=true&sort=asc&limit=5000&apiKey=xDToCZJHm7pBpVlUiM8vcrK75nKJrpGV`)
@@ -129,7 +126,7 @@ const PreviewItem = ({ user, comp, ticker, setCompanyTicker, setComp, delTicker 
     <div>
         {stockData && 
             
-            <ItemWrapper className="prevLink"  >
+            <ItemWrapper isActive={(graphTicker === ticker)} className="prevLink"  >
                 <div className="seeInGraph" data-ticker={ticker} data-comp={JSON.stringify(comp)} onClick={(event) => { 
                 setCompanyTicker(event.target.closest('.seeInGraph').dataset.ticker);
                 setComp(JSON.parse(event.target.closest('.seeInGraph').dataset.comp));

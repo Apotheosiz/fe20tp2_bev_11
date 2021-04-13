@@ -12,12 +12,12 @@ justify-content:center;
 }
 `;
 
-const PreviewPanel = ({ user, setCompanyTicker, setComp, delTicker }) => {
+const PreviewPanel = ({graphTicker, user, setCompanyTicker, setComp, delTicker }) => {
 
     return (
         <section className="preview-panel">
             <Panel>                
-                {user && user.tickers && Object.keys(user.tickers).map(ticker => <PreviewItem user={user} comp={user.tickers[ticker]} ticker={ticker} setCompanyTicker={setCompanyTicker} setComp={setComp} delTicker={delTicker} key={ticker} />)}
+                {user && user.tickers && Object.keys(user.tickers).map(ticker => <PreviewItem graphTicker={graphTicker} user={user} comp={user.tickers[ticker]} ticker={ticker} setCompanyTicker={setCompanyTicker} setComp={setComp} delTicker={delTicker} key={ticker} />)}
             </Panel>
         </section>
     )
