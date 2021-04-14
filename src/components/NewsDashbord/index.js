@@ -41,7 +41,7 @@ const [newsData, setNewsData] = useState(null);
 const ArticlesWrapper = styled.div`
 width: 95%;
 margin: 0 auto;
-max-width: 800px;
+max-width: 700px;
 
 a {
     text-decoration: none;

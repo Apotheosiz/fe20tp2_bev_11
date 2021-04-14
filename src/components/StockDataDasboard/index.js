@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import CompanyData from './CompanyData.js';
 import { withFirebase } from '../Firebase';
 import PreviewPanel from './PreviewPanel';
 import styled from 'styled-components';
@@ -103,10 +102,9 @@ const ResultDiv = styled.div`
 
 
 
-const StockDataDashboard = ({ authUser, firebase, comp, setComp }) => {
+const StockDataDashboard = ({ companyTicker, setCompanyTicker, authUser, firebase, comp, setComp }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState(null);
-    const [companyTicker, setCompanyTicker] = useState('AAPL');
     const [user, setUser] = useState(null);
 
     const onChange = event => {
@@ -245,10 +243,7 @@ const StockDataDashboard = ({ authUser, firebase, comp, setComp }) => {
             
             {user && <PreviewPanel graphTicker={companyTicker} user={user} setCompanyTicker={setCompanyTicker} setComp={setComp} delTicker={delTicker} />}
 
-            {(comp && companyTicker) ?
-                <CompanyData comp={comp} companyTicker={companyTicker} />
-                : null
-            }
+            
             
         </StockDashboard>
     )

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components'
 import Logo from './Logo';
 import PageContainer from '../PageContainer';
@@ -58,26 +58,28 @@ const Title = styled.h1`
 `;
 
 const MainContent = styled.div`
-min-height: 75vh;
+min-height: 80vh;
 max-height: 75vh;
 display:flex;
 flex-direction: column;
 justify-content: space-around;
 @media (min-width: 700px) {
-  min-height: 75vh;
+  min-height: 80vh;
 }
 `
 
 const ArrowButton = styled.button`
   background: none;
   border: none;
-  width: 150px;
+  width: 80px;
   svg {
     cursor: pointer;
   }
 `
 
-const Landing = () => (
+const Landing = () => {
+    const sectionEl = useRef(null);
+    return (
     <PageContainer> 
         <MainContent>
             <Header>
@@ -87,10 +89,13 @@ const Landing = () => (
             <div><Link to={ROUTES.SIGN_UP}><Button width='75%' maxWidth='400px' >Get started</Button></Link>
             <SignInLink /></div>
         </MainContent>
-        <ArrowButton>
+        <ArrowButton onClick={(event) => {
+            sectionEl.current.scrollIntoView({ behavior: "smooth" });
+            event.target.remove();
+            } } >
           <ArrowDown />
         </ArrowButton>
-        <Section>
+        <Section ref={sectionEl} >
             <Title>WHY MARKET LEADERS ARE CHOOSING FINK</Title>
             <Row>
                 <Bubble>
@@ -102,6 +107,8 @@ const Landing = () => (
             </Row>
         </Section>
     </PageContainer>
-);
+    )
+};
+
 
 export default Landing;

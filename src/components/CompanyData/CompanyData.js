@@ -9,11 +9,21 @@ import {
     fiveYearsAgo,
     getDate
 } from '../DatesAndTimes';
-import GraphTitle from './GraphTitle';
-import { twoDecim } from './GraphTitle';
+import GraphTitle from '../StockDataDasboard/GraphTitle';
+import { twoDecim } from '../StockDataDasboard/GraphTitle';
 import styled from 'styled-components';
 import minMax from "../../img/minMax.png";
 import minMaxActive from "../../img/minMaxActive.png";
+
+const StyledSection = styled.section`
+max-width: 900px;
+margin: 0 auto;
+@media screen and (min-width: 950px){
+border: 2px solid #efefef;
+padding-top: 15px;
+border-radius: 20px;
+}
+`
 
 const TitleWrapper = styled.div`
 width: 95%;
@@ -204,7 +214,7 @@ const CompanyData = ({ comp, companyTicker }) => {
     }
 
     return (
-        <section>
+        <StyledSection>
             <TitleWrapper>
                 {(stockData.length > 0) ?
                     <div>
@@ -391,7 +401,7 @@ const CompanyData = ({ comp, companyTicker }) => {
                 }
 
             </div>
-        </section>
+        </StyledSection>
     )
 }
 

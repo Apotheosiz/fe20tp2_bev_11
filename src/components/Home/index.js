@@ -9,6 +9,15 @@ import StockDataDashboard from '../StockDataDasboard';
 //import PageContainer from '../PageContainer';
 import NewsDashbord from '../NewsDashbord';
 import Messages from '../Messages';
+import CompanyData from '../CompanyData/CompanyData';
+import styled from "styled-components";
+
+const HomeLayout = styled.div`
+display:grid;
+grid-template-columns: 2fr 1fr;
+grid-template-rows: auto auto auto;
+
+`
 
 const HomePage = () => { 
     const [comp, setComp] = useState({
@@ -18,9 +27,11 @@ const HomePage = () => {
         stockExchange: 'NasdaqGS',
         symbol:'AAPL',
     }); 
+    const [companyTicker, setCompanyTicker] = useState('AAPL');
+
     return   (
     //<PageContainer>
-    <>
+    <HomeLayout>
         <AuthUserContext.Consumer>
             {authUser => (
                     <StockDataDashboard 
@@ -30,10 +41,15 @@ const HomePage = () => {
             )}
         </AuthUserContext.Consumer>
         
-            <NewsDashbord comp={comp} />
+        {(comp && companyTicker) ?
+                <CompanyData comp={comp} companyTicker={companyTicker} />
+                : null
+            }
+
+        <NewsDashbord comp={comp} />
 
         <Messages />
-    </>
+    </HomeLayout>
     //</PageContainer>
 )};
 
