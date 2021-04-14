@@ -11,7 +11,7 @@ import pic6 from '../../img/profiles/6.png';
 import pic7 from '../../img/profiles/7.png';
 import pic8 from '../../img/profiles/8.png';
 import styled from 'styled-components';
-import { DeletePic, EditPic, SavePic, UndoPic } from '../svgImg/WelcomePic';
+import { SendPic, DeletePic, EditPic, SavePic, UndoPic } from '../svgImg/WelcomePic';
 
 const picArr = [pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8];
 
@@ -185,7 +185,9 @@ class MessagesBase extends Component {
                   value={text}
                   onChange={this.onChangeText}
                 />
-                <ChatButton type="submit">Send</ChatButton>
+                <ChatButton type="Submit message">
+                  <SendPic width="100%" margin="0 auto" />
+                </ChatButton>
               </form>
             </StyledLi>
           </StyledDiv>

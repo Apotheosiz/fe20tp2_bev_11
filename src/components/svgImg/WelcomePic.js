@@ -42,6 +42,38 @@ export const SettingsPic = () => {
     </StyledDiv>)
 }
 
+export const ArrowDown = () => {
+  return (
+    <StyledDiv>
+      <svg aria-hidden="true" role="img" viewBox="0 0 512 512">
+
+        <path fill="currentColor" d="M504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zM212 140v116h-70.9c-10.7 0-16.1 13-8.5 20.5l114.9 114.3c4.7 4.7 12.2 4.7 16.9 0l114.9-114.3c7.6-7.6 2.2-20.5-8.5-20.5H300V140c0-6.6-5.4-12-12-12h-64c-6.6 0-12 5.4-12 12z"></path>
+      </svg>
+    </StyledDiv>
+  )
+}
+
+export const ArrowUp = () => {
+  return (
+    <StyledDiv>
+      <svg aria-hidden="true" role="img" viewBox="0 0 512 512">
+        <path fill="currentColor" d="M8 256C8 119 119 8 256 8s248 111 248 248-111 248-248 248S8 393 8 256zm292 116V256h70.9c10.7 0 16.1-13 8.5-20.5L264.5 121.2c-4.7-4.7-12.2-4.7-16.9 0l-115 114.3c-7.6 7.6-2.2 20.5 8.5 20.5H212v116c0 6.6 5.4 12 12 12h64c6.6 0 12-5.4 12-12z">
+        </path>
+      </svg>
+    </StyledDiv>
+  )
+}
+
+export const SendPic = ({ width, maxWidth, margin }) => {
+  return (
+    <StyledDiv width={width} maxWidth={maxWidth} margin={margin}>
+      <svg aria-hidden="true" role="img" viewBox="0 0 512 512">
+        <path fill="#44062B" d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z">
+        </path>
+      </svg>
+    </StyledDiv>)
+}
+
 export const DeletePic = ({ width, margin }) => {
   return (
     <StyledDiv width={width} margin={margin}>

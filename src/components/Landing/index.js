@@ -7,6 +7,7 @@ import Button from '../Button';
 import * as ROUTES from '../../constants/routes';
 import { Link } from 'react-router-dom';
 import { SignInLink} from '../SignIn';
+import { ArrowDown } from '../svgImg/WelcomePic';
 
 const Header = styled.div`
     padding-top: 80px;
@@ -57,10 +58,23 @@ const Title = styled.h1`
 `;
 
 const MainContent = styled.div`
-min-height: 90vh;
+min-height: 75vh;
+max-height: 75vh;
 display:flex;
 flex-direction: column;
 justify-content: space-around;
+@media (min-width: 700px) {
+  min-height: 75vh;
+}
+`
+
+const ArrowButton = styled.button`
+  background: none;
+  border: none;
+  width: 150px;
+  svg {
+    cursor: pointer;
+  }
 `
 
 const Landing = () => (
@@ -73,6 +87,9 @@ const Landing = () => (
             <div><Link to={ROUTES.SIGN_UP}><Button width='75%' maxWidth='400px' >Get started</Button></Link>
             <SignInLink /></div>
         </MainContent>
+        <ArrowButton>
+          <ArrowDown />
+        </ArrowButton>
         <Section>
             <Title>WHY MARKET LEADERS ARE CHOOSING FINK</Title>
             <Row>
