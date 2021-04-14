@@ -24,6 +24,7 @@ const StyledButton = styled.button`
 
 `
 const StockDashboard = styled.div`
+width:100%;
 @media screen and (min-width:550px) {
     display: flex;
     flex-direction: column;
@@ -161,7 +162,7 @@ const StockDataDashboard = ({ companyTicker, setCompanyTicker, authUser, firebas
     // console.log(contextDataObject);
 
     return (
-        <StockDashboard>
+        <StockDashboard className="column-1-2">
             <FormWrapper ref={searchList}>
                 <div>            
                     <form onSubmit={onSubmit}>

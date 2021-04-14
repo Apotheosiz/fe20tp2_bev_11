@@ -54,13 +54,17 @@ input:-webkit-autofill:active  {
     transition: background-color 5000s;
 }
 
-#outerWrap:first-child {
+#outerWrap{
     padding-top: 70px;
+    
     @media (min-width: 830px) {
         padding-top: 0;
     }
+    #pageWrap{
+        max-width:1024px;
+        margin: 0 auto;
+    }
 }
-
 `;
 
 const App = () => (

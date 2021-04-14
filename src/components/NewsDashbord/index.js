@@ -33,7 +33,7 @@ const [newsData, setNewsData] = useState(null);
                     setNewsData(data);
                 })
     }, [comp])
-    return (<div>
+    return (<div className="justify-end">
         {newsData ? <Article articles={newsData}/> : null }
         </div>)
 

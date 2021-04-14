@@ -16,8 +16,8 @@ import minMax from "../../img/minMax.png";
 import minMaxActive from "../../img/minMaxActive.png";
 
 const StyledSection = styled.section`
+width:100%;
 max-width: 900px;
-margin: 0 auto;
 @media screen and (min-width: 950px){
 border: 2px solid #efefef;
 padding-top: 15px;
@@ -214,7 +214,7 @@ const CompanyData = ({ comp, companyTicker }) => {
     }
 
     return (
-        <StyledSection>
+        <StyledSection className="column-1-2">
             <TitleWrapper>
                 {(stockData.length > 0) ?
                     <div>

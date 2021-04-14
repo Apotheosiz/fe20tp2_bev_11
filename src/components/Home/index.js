@@ -16,7 +16,16 @@ const HomeLayout = styled.div`
 display:grid;
 grid-template-columns: 2fr 1fr;
 grid-template-rows: auto auto auto;
-
+justify-items:center;
+.column-1-2{
+    grid-column: 1 / span 2;;
+}
+.justify-end{
+    justify-self:end;
+}
+.justify-start{
+    justify-self:start;
+}
 `
 
 const HomePage = () => { 
@@ -34,7 +43,7 @@ const HomePage = () => {
     <HomeLayout>
         <AuthUserContext.Consumer>
             {authUser => (
-                    <StockDataDashboard 
+                    <StockDataDashboard
                     authUser={authUser} 
                     comp={comp} 
                     setComp={setComp}/>

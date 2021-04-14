@@ -164,7 +164,7 @@ class MessagesBase extends Component {
     return (
       <AuthUserContext.Consumer>
         {authUser => (
-          <StyledDiv>
+          <StyledDiv className="justify-start">
             {loading && <div>Loading ...</div>}
 
             {messages ? (
