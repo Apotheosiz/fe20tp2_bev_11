@@ -10,18 +10,31 @@ import pic5 from '../../img/profiles/5.png';
 import pic6 from '../../img/profiles/6.png';
 import pic7 from '../../img/profiles/7.png';
 import pic8 from '../../img/profiles/8.png';
+import mostFollowed from '../../img/mostFollowed.png';
+import add1 from '../../img/add1.png';
+import add2 from '../../img/add2.png';
 import styled from 'styled-components';
 import { SendPic, DeletePic, EditPic, SavePic, UndoPic } from '../svgImg/WelcomePic';
 
 const picArr = [pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8];
 
 const StyledDiv = styled.div`
-border-radius:8px;
-padding:10px;
-border:1px solid #efefef;
 width: 100%;
 max-width: 550px;
 margin:0 auto;
+&>img{
+  width:100%;
+}
+`
+
+const Wrapper = styled.div`
+border-radius:8px;
+padding:10px;
+border:1px solid #efefef;
+margin-bottom:15px;
+&>img{
+  width:100%;
+}
 `
 
 const StyledLi = styled.li`
@@ -164,31 +177,38 @@ class MessagesBase extends Component {
       <AuthUserContext.Consumer>
         {authUser => (
           <StyledDiv className={this.props.messagesDivClasses}>
-            {loading && <div>Loading ...</div>}
+            <Wrapper>
+              <img src={mostFollowed} alt="most followed actions" />
+            </Wrapper>
+              <img src={add2} alt="add" />
+            <Wrapper>
+              {loading && <div>Loading ...</div>}
 
-            {messages ? (
-              <MessageList
-                authUser={authUser}
-                messages={messages}
-                onEditMessage={this.onEditMessage}
-                onRemoveMessage={this.onRemoveMessage}
-              />
-            ) : (
-              null
-            )}
-            <StyledLi>
-              <StyledImg src={picArr[authUser.profilePic - 1]} alt="profile" />
-              <form onSubmit={event => this.onCreateMessage(event, authUser)}>
-                <textarea
-                  type="text"
-                  value={text}
-                  onChange={this.onChangeText}
+              {messages ? (
+                <MessageList
+                  authUser={authUser}
+                  messages={messages}
+                  onEditMessage={this.onEditMessage}
+                  onRemoveMessage={this.onRemoveMessage}
                 />
-                <ChatButton type="Submit message">
-                  <SendPic width="100%" margin="0 auto" />
-                </ChatButton>
-              </form>
-            </StyledLi>
+              ) : (
+                null
+              )}
+              <StyledLi>
+                <StyledImg src={picArr[authUser.profilePic - 1]} alt="profile" />
+                <form onSubmit={event => this.onCreateMessage(event, authUser)}>
+                  <textarea
+                    type="text"
+                    value={text}
+                    onChange={this.onChangeText}
+                  />
+                  <ChatButton type="Submit message">
+                    <SendPic width="100%" margin="0 auto" />
+                  </ChatButton>
+                </form>
+              </StyledLi>
+            </Wrapper>
+              <img src={add1} alt="add" />
           </StyledDiv>
         )}
       </AuthUserContext.Consumer>
