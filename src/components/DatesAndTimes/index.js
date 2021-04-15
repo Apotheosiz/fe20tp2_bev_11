@@ -47,12 +47,14 @@ const setFormat = (date) => {
     return year + "-" + month + "-" + day;
 }
 
-const date = new Date();
+ const date = new Date();
 
 const goBack = (date, days) => {
     const result = subBusinessDays(date, days);
     return new Date(result);
 };
+
+export const today = setFormat(date);
 
 export const yesterday = setFormat(goBack(new Date(), 1))
 // export const dayBefore = setFormat(goBack(new Date(), 2))

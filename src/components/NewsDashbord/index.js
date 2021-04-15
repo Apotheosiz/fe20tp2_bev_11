@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { today } from '../DatesAndTimes';
 
 const NewsDashbord = ({comp, newsDivClasses}) => {
 const [newsData, setNewsData] = useState(null);
 
     useEffect(() => {
-        comp ? fetch(`http://newsapi.org/v2/everything?q=${comp.name}&from=2021-03-16&language=en&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742`)
+        comp ? fetch(`http://newsapi.org/v2/everything?q=${comp.name}&from=${today}&language=en&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742`)
             .then(response => response.json())
             .then(data => { 
                 let uniqueArticles = [];
