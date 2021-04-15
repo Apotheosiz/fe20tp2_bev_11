@@ -54,9 +54,11 @@ const HomePage = () => {
         <AuthUserContext.Consumer>
             {authUser => (
                     <StockDataDashboard
-                    authUser={authUser} 
-                    comp={comp} 
-                    setComp={setComp}/>
+                        authUser={authUser} 
+                        comp={comp} 
+                        setComp={setComp}
+                        setCompanyTicker={setCompanyTicker}
+                    />
             )}
         </AuthUserContext.Consumer>
         
