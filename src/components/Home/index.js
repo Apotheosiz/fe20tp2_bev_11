@@ -14,7 +14,7 @@ import styled from "styled-components";
 
 const HomeLayout = styled.div`
 display:grid;
-grid-template-columns: 1.8fr 1.2fr;
+grid-template-columns: 2fr 1fr;
 grid-template-rows: auto auto auto;
 align-items: start;
 justify-items:center;
@@ -41,8 +41,8 @@ const HomePage = () => {
     const [companyTicker, setCompanyTicker] = useState('AAPL');
 
     const screenWidth = window.innerWidth;
-    let messagesDivClasses = "justify-start column-1-2";
-    let newsDivClasses = "justify-end column-1-2";
+    let messagesDivClasses = "column-1-2";
+    let newsDivClasses = "column-1-2";
     if (screenWidth > 1024) {
         messagesDivClasses = "justify-start";
         newsDivClasses = "justify-end";

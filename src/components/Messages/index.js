@@ -32,12 +32,19 @@ border-radius:8px;
 padding:10px;
 border:1px solid #efefef;
 margin-bottom:15px;
+text-align: center;
 &>img{
   width:100%;
+  max-width:356px; 
+  margin:0 auto;
+  @media screen and (min-width: 1024px){
+    width:100%;
+  }
 }
 `
 
 const StyledLi = styled.li`
+text-align: left;
 display: flex;
 justify-content: space-between;
 padding: 7px;
@@ -180,7 +187,7 @@ class MessagesBase extends Component {
             <Wrapper>
               <img src={mostFollowed} alt="most followed actions" />
             </Wrapper>
-              <img src={add2} alt="add" />
+              {(window.innerWidth > 1024) ? <img src={add2} alt="add" /> : null}
             <Wrapper>
               {loading && <div>Loading ...</div>}
 
@@ -208,7 +215,7 @@ class MessagesBase extends Component {
                 </form>
               </StyledLi>
             </Wrapper>
-              <img src={add1} alt="add" />
+            {(window.innerWidth > 1024) ? <img src={add1} alt="add" /> : null}
           </StyledDiv>
         )}
       </AuthUserContext.Consumer>
