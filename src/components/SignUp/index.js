@@ -25,15 +25,20 @@ import logo1long from '../../img/logoU1long.png';
 
 const picArr = [pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8];
 const logoArr = [{
-        name: 'Ericasdaughter',
-        logo:logo1,
-
+        name: '',
+        logo:logo1long,
+        display: 'inline', 
+        height: '.8em',      
     }, {
-        name: 'IBW',
+        name: 'IBWomen',
         logo:logo2,
+        display: 'inline',
+        height: '1em', 
     }, {
         name: 'No company',
         logo:'',
+        display: 'none',
+        height: '',
     }];
 
 export const StyledP = styled.p`
@@ -61,12 +66,15 @@ cursor:pointer;
 `
 
 const StyledLogo = styled.img`
-max-width: 50px;
-max-height: 20px;
+// max-width: 50px;
+// max-height: 20px;
 `
 
 const StyledFormWrap = styled(FormWrap)`
 margin-bottom: 30px;
+p{
+    font-size: 20px;
+}
 `
 const ProfileStyledFormWrap = styled(StyledFormWrap)`
     background: none;
@@ -119,7 +127,7 @@ class SignUpFormBase extends Component {
     }
 
     onSubmit = event => {
-        const { username, email, passwordOne, isAdmin, profilePic } = this.state;
+        const { username, email, passwordOne, isAdmin, profilePic, userComp } = this.state;
 
         const roles = {};
 
@@ -147,6 +155,7 @@ class SignUpFormBase extends Component {
                             }
                         },
                         profilePic,
+                        userComp,
                     });
             })
             .then(() => {
@@ -192,7 +201,7 @@ class SignUpFormBase extends Component {
                         this.setState({ showComp: !this.state.showComp }); 
                     }}
                     >
-                    Choose company <span>▼</span>
+                    Choose company {this.state.showComp ? <span>▲</span> : <span>▼</span> }
                     </p>
                 {this.state.showComp ? 
                     <>{logoArr.map((userComp, index) => (
@@ -206,7 +215,13 @@ class SignUpFormBase extends Component {
                                     });
                                 }} 
                             >
-                            <StyledLogo src={userComp.logo} alt="Comp"/>
+                            <StyledLogo 
+                                style={{ 
+                                    display: userComp.display,
+                                    height: userComp.height,
+                                }} 
+                                src={userComp.logo} 
+                                alt="Comp"/>
                             <span> {userComp.name}</span>
                             {this.state.userComp == index ?
                             <span> ✔</span>

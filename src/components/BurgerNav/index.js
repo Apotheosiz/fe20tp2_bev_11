@@ -18,11 +18,10 @@ import pic6 from '../../img/profiles/6.png';
 import pic7 from '../../img/profiles/7.png';
 import pic8 from '../../img/profiles/8.png';
 
-
 const picArr = [pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8];
 
 const BM = styled.div`
-    @media (min-width: 981px) {
+    @media (min-width: 681px) {
         display: none;
     }
     position: fixed;

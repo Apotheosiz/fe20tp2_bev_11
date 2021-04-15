@@ -58,6 +58,7 @@ const HomePage = () => {
                         comp={comp} 
                         setComp={setComp}
                         setCompanyTicker={setCompanyTicker}
+                        companyTicker={companyTicker}
                     />
             )}
         </AuthUserContext.Consumer>

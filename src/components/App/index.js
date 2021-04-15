@@ -13,6 +13,26 @@ import { withAuthentication } from '../Session';
 import { createGlobalStyle } from 'styled-components';
 import Footer from '../Footer';
 import styled from 'styled-components';
+import { AuthUserContext } from '../Session';
+import logo2 from '../../img/logoU2.png';
+import logo1long from '../../img/logoU1long.png';
+
+const logoArr = [{
+    name: '',
+    logo:logo1long,
+    display: 'inline', 
+    height: '25px',      
+  }, {
+    name: 'IBWomen',
+    logo:logo2,
+    display: 'inline',
+    height: '40px', 
+  }, {
+    name: 'No company',
+    logo:'',
+    display: 'none',
+    height: '',
+  }];
 
 // export const fluidFontSize = 'font-size: calc(16px + 6 * ((100vw - 320px) / 680))';
 // export const fluidFontTitle = 'font-size: calc(20px + 15 * ((100vw - 320px) / 880))';
@@ -55,9 +75,8 @@ input:-webkit-autofill:active  {
 }
 
 #outerWrap{
-    padding-top: 70px;
     
-    @media (min-width: 830px) {
+    @media (min-width: 679px) {
         padding-top: 0;
     }
     #pageWrap{
@@ -67,12 +86,33 @@ input:-webkit-autofill:active  {
 }
 `;
 
+const UserCompLogo = styled.div`
+padding:38.5px;
+display: flex;
+align-items: center;
+`
+
 const ContentWrap = styled.div`
 min-height: calc(100vh - 74px);
 `
 
 const App = () => (
     <Router>
+         <AuthUserContext.Consumer>
+            {authUser =>
+               authUser && authUser.userComp && (window.innerWidth < 680) ?
+                <UserCompLogo>
+                    <img 
+                    style={{ 
+                        display: logoArr[authUser.userComp].display,
+                        height: logoArr[authUser.userComp].height,
+                    }} 
+                    src={logoArr[authUser.userComp].logo} 
+                    alt="CompanyLogo"/>
+                </UserCompLogo>
+                : null
+            }
+        </AuthUserContext.Consumer>
         <div id="outerWrap">
             <ContentWrap>
             <Navigation />
