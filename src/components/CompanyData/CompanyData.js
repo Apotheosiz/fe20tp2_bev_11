@@ -363,7 +363,7 @@ const CompanyData = ({ comp, companyTicker }) => {
 
                             <BarChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 3 }}>
 
-                                <Bar type="monotone" dataKey="volume" fill="#47E6B1" name="Volume" />
+                                <Bar type="monotone" dataKey="volume" fill="#6e9c8d" name="Volume" />
 
                                 <CartesianGrid stroke="#ccc" strokeDasharray="1 1" vertical={false} />
 

@@ -14,9 +14,11 @@ import styled from "styled-components";
 
 const HomeLayout = styled.div`
 display:grid;
-grid-template-columns: 2fr 1fr;
+grid-template-columns: 1.8fr 1.2fr;
 grid-template-rows: auto auto auto;
+align-items: start;
 justify-items:center;
+grid-gap: 15px;
 .column-1-2{
     grid-column: 1 / span 2;;
 }
@@ -38,6 +40,14 @@ const HomePage = () => {
     }); 
     const [companyTicker, setCompanyTicker] = useState('AAPL');
 
+    const screenWidth = window.innerWidth;
+    let messagesDivClasses = "justify-start column-1-2";
+    let newsDivClasses = "justify-end column-1-2";
+    if (screenWidth > 1024) {
+        messagesDivClasses = "justify-start";
+        newsDivClasses = "justify-end";
+    }
+    
     return   (
     //<PageContainer>
     <HomeLayout>
@@ -55,9 +65,9 @@ const HomePage = () => {
                 : null
             }
 
-        <NewsDashbord comp={comp} />
+        <NewsDashbord comp={comp} newsDivClasses={newsDivClasses} />
 
-        <Messages />
+        <Messages messagesDivClasses={messagesDivClasses} />
     </HomeLayout>
     //</PageContainer>
 )};

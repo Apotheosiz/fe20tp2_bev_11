@@ -16,9 +16,9 @@ import { SendPic, DeletePic, EditPic, SavePic, UndoPic } from '../svgImg/Welcome
 const picArr = [pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8];
 
 const StyledDiv = styled.div`
-padding:10px;
 border-radius:8px;
-background: #efefef;
+padding:10px;
+border:1px solid #efefef;
 width: 100%;
 max-width: 550px;
 margin:0 auto;
@@ -27,9 +27,8 @@ margin:0 auto;
 const StyledLi = styled.li`
 display: flex;
 justify-content: space-between;
-padding: 20px;
-background: #F8C3C3;
-border-radius: 20px;
+padding: 7px;
+background: #fff;
 border-bottom: 1px solid #efefef;
 textarea{
   border: none;
@@ -164,7 +163,7 @@ class MessagesBase extends Component {
     return (
       <AuthUserContext.Consumer>
         {authUser => (
-          <StyledDiv className="justify-start">
+          <StyledDiv className={this.props.messagesDivClasses}>
             {loading && <div>Loading ...</div>}
 
             {messages ? (

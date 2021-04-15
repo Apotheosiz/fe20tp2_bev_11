@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const NewsDashbord = ({comp}) => {
+const NewsDashbord = ({comp, newsDivClasses}) => {
 const [newsData, setNewsData] = useState(null);
 
     useEffect(() => {
@@ -33,7 +33,7 @@ const [newsData, setNewsData] = useState(null);
                     setNewsData(data);
                 })
     }, [comp])
-    return (<div className="justify-end">
+    return (<div className={newsDivClasses}>
         {newsData ? <Article articles={newsData}/> : null }
         </div>)
 
@@ -54,7 +54,7 @@ a {
 }
 
 .sourceDate{
-    margin: 25px 0 5px 0;
+    margin: 0 0 5px 0;
     font-weight: bold;
     color: #5f6368;
     font-size: 14px;
