@@ -19,8 +19,22 @@ import pic5 from '../../img/profiles/5.png';
 import pic6 from '../../img/profiles/6.png';
 import pic7 from '../../img/profiles/7.png';
 import pic8 from '../../img/profiles/8.png';
+import logo1 from '../../img/logoU1.png';
+import logo2 from '../../img/logoU2.png';
+import logo1long from '../../img/logoU1long.png';
 
-const picArr = [pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8]
+const picArr = [pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8];
+const logoArr = [{
+        name: 'Ericasdaughter',
+        logo:logo1,
+
+    }, {
+        name: 'IBW',
+        logo:logo2,
+    }, {
+        name: 'No company',
+        logo:'',
+    }];
 
 export const StyledP = styled.p`
     padding: 20px 0;
@@ -38,6 +52,18 @@ export const StyledP = styled.p`
          }
     }
 `;
+
+const UserCompWrapper = styled.div`
+text-align:left;
+margin:0 25px;
+padding: 15px;
+cursor:pointer;
+`
+
+const StyledLogo = styled.img`
+max-width: 50px;
+max-height: 20px;
+`
 
 const StyledFormWrap = styled(FormWrap)`
 margin-bottom: 30px;
@@ -82,6 +108,8 @@ const INITIAL_STATE = {
     error: null,
     tickers: '',
     profilePic: '1',
+    showComp: false,
+    userComp:'',
 };
 
 class SignUpFormBase extends Component {
@@ -159,6 +187,35 @@ class SignUpFormBase extends Component {
 
         return(
             <form onSubmit={this.onSubmit}>
+                <StyledFormWrap>
+                    <p onClick={() => {
+                        this.setState({ showComp: !this.state.showComp }); 
+                    }}
+                    >
+                    Choose company <span>▼</span>
+                    </p>
+                {this.state.showComp ? 
+                    <>{logoArr.map((userComp, index) => (
+                        <UserCompWrapper 
+                            key={index}
+                            data-value={index} 
+                            className="company"
+                            onClick={(event) => { 
+                                    this.setState({ 
+                                        userComp: event.target.closest('.company').dataset.value
+                                    });
+                                }} 
+                            >
+                            <StyledLogo src={userComp.logo} alt="Comp"/>
+                            <span> {userComp.name}</span>
+                            {this.state.userComp == index ?
+                            <span> ✔</span>
+                            :null}
+                        </UserCompWrapper>
+                    ))}</>
+                    :
+                    null}
+                </StyledFormWrap>
                 <StyledFormWrap bottomMargin>
                     <FormControl 
                         style={{
