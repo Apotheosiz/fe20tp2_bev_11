@@ -15,6 +15,25 @@ import add1 from '../../img/add1.png';
 import add2 from '../../img/add2.png';
 import styled from 'styled-components';
 import { SendPic, DeletePic, EditPic, SavePic, UndoPic } from '../svgImg/WelcomePic';
+import logo2 from '../../img/logoU2.png';
+import logo1long from '../../img/logoU1long.png';
+
+const logoArr = [{
+    name: '',
+    logo:logo1long,
+    display: 'inline', 
+    height: '25px',      
+  }, {
+    name: 'IBWomen',
+    logo:logo2,
+    display: 'inline',
+    height: '40px', 
+  }, {
+    name: 'No company',
+    logo:'',
+    display: 'none',
+    height: '',
+  }];
 
 const picArr = [pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8];
 
@@ -40,6 +59,15 @@ text-align: center;
   @media screen and (min-width: 1024px){
     width:100%;
   }
+}
+`
+
+const UserCompLogo = styled.div`
+text-align: left;
+display:flex;
+align-items: center;
+img{
+  margin-right:5%;
 }
 `
 
@@ -125,7 +153,7 @@ class MessagesBase extends Component {
 
   onCreateMessage = (event, authUser) => {
 
-    this.props.firebase.messages().push({
+    this.props.firebase.messages(authUser.userComp).push({
       text: this.state.text,
       userId: authUser.uid,
       username: authUser.username,
@@ -137,11 +165,11 @@ class MessagesBase extends Component {
     event.preventDefault();
   };
 
-  onRemoveMessage = uid => {
-    this.props.firebase.message(uid).remove();
+  onRemoveMessage = (authUser, uid) => {
+    this.props.firebase.message(authUser.userComp, uid).remove();
   };
 
-  onEditMessage = (message, text) => {
+  onEditMessage = (authUser, message, text) => {
     const { uid, ...messageSnapshot } = message;
 
     this.props.firebase.message(message.uid).set({
@@ -154,7 +182,7 @@ class MessagesBase extends Component {
   componentDidMount() {
     this.setState({ loading: true });
 
-    this.props.firebase.messages().on('value', snapshot => {
+    this.props.firebase.messages(this.props.authUser.userComp).on('value', snapshot => {
 
       const messageObject = snapshot.val();
 
@@ -175,7 +203,7 @@ class MessagesBase extends Component {
     });
   }
   componentWillUnmount() {
-    this.props.firebase.messages().off();
+    this.props.firebase.messages(this.props.authUser.userComp).off();
   }
   render() {
     const { text, messages, loading } = this.state;
@@ -190,7 +218,19 @@ class MessagesBase extends Component {
               {(window.innerWidth > 1024) ? <img src={add2} alt="add" /> : null}
             <Wrapper>
               {loading && <div>Loading ...</div>}
-
+              
+            {authUser.userComp  ?
+                <UserCompLogo>
+                    <img 
+                    style={{ 
+                        display: logoArr[authUser.userComp].display,
+                        height: logoArr[authUser.userComp].height,
+                    }} 
+                    src={logoArr[authUser.userComp].logo} 
+                    alt="CompanyLogo"/>
+                </UserCompLogo>
+                : null
+            }
               {messages ? (
                 <MessageList
                   authUser={authUser}
@@ -259,8 +299,8 @@ class MessageItem extends Component {
     this.setState({ editText: event.target.value });
   };
 
-  onSaveEditText = () => {
-    this.props.onEditMessage(this.props.message, this.state.editText);
+  onSaveEditText = (authUser) => {
+    this.props.onEditMessage(authUser, this.props.message, this.state.editText);
 
     this.setState({ editMode: false });
   };
@@ -291,7 +331,7 @@ class MessageItem extends Component {
           <span className="buttons-wrapper">
             {editMode ? (
               <span>
-                <ChatButton title="Save message" onClick={this.onSaveEditText}>
+                <ChatButton title="Save message" onClick={() => this.onSaveEditText(authUser)}>
                   <SavePic width="100%" margin="0 auto" />
                 </ChatButton>
                 <ChatButton title="Restore message" onClick={this.onToggleEditMode}>
@@ -305,7 +345,7 @@ class MessageItem extends Component {
             )}
 
             {!editMode && (
-              <ChatButton onClick={() => onRemoveMessage(message.uid)}>
+              <ChatButton onClick={() => onRemoveMessage(authUser, message.uid)}>
                 <DeletePic width="70%" margin="0 auto" />
               </ChatButton>
             )}

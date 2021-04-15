@@ -70,7 +70,12 @@ const HomePage = () => {
 
         <NewsDashbord comp={comp} newsDivClasses={newsDivClasses} />
 
-        <Messages messagesDivClasses={messagesDivClasses} />
+        <AuthUserContext.Consumer>
+            {authUser => (
+                <Messages messagesDivClasses={messagesDivClasses} authUser={authUser} />
+            )}
+        </AuthUserContext.Consumer>
+        
     </HomeLayout>
     //</PageContainer>
 )};
