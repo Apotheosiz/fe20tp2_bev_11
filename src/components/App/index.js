@@ -11,13 +11,13 @@ import AdminPage from '../Admin';
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 import { createGlobalStyle } from 'styled-components';
+import Footer from '../Footer';
+import styled from 'styled-components';
 
 // export const fluidFontSize = 'font-size: calc(16px + 6 * ((100vw - 320px) / 680))';
 // export const fluidFontTitle = 'font-size: calc(20px + 15 * ((100vw - 320px) / 880))';
 
 const GlobalStyle = createGlobalStyle`
-
-
 h1{
    font-size: 20px; 
 }
@@ -67,20 +67,27 @@ input:-webkit-autofill:active  {
 }
 `;
 
+const ContentWrap = styled.div`
+min-height: calc(100vh - 74px);
+`
+
 const App = () => (
     <Router>
         <div id="outerWrap">
-        <Navigation />
-            <div id="pageWrap">
-                <Route exact path={ROUTES.LANDING} component={LandingPage} />
-                <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-                <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-                <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+            <ContentWrap>
+            <Navigation />
+                <div id="pageWrap">
+                    <Route exact path={ROUTES.LANDING} component={LandingPage} />
+                    <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+                    <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+                    <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
 
-                <Route path={ROUTES.HOME} component={HomePage} />
-                <Route path={ROUTES.ACCOUNT} component={AccountPage} />
-                <Route path={ROUTES.ADMIN} component={AdminPage} />
-            </div>
+                    <Route path={ROUTES.HOME} component={HomePage} />
+                    <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+                    <Route path={ROUTES.ADMIN} component={AdminPage} />
+                </div>
+            </ContentWrap>
+            <Footer />
         </div>
         <GlobalStyle />
     </Router>
