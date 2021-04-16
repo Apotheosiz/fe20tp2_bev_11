@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Navigation from '../Navigation';
 import LandingPage from '../Landing';
@@ -21,42 +21,74 @@ const logoArr = [{
     name: '',
     logo:logo1long,
     display: 'inline', 
-    height: '25px',      
+    height: '25px',
+    maxWidth: '275px',      
   }, {
     name: 'IBWomen',
     logo:logo2,
     display: 'inline',
-    height: '40px', 
+    height: '40px',
+    maxWidth:'fit-content', 
   }, {
     name: 'No company',
     logo:'',
     display: 'none',
     height: '',
+    maxWidth:'fit-content',
   }];
 
 // export const fluidFontSize = 'font-size: calc(16px + 6 * ((100vw - 320px) / 680))';
 // export const fluidFontTitle = 'font-size: calc(20px + 15 * ((100vw - 320px) / 880))';
 
+//Change both gray texts to one variable: #5f6368, #5c6065
+
+const customStyles =[{
+    name:"0",
+    details: "ErciasDaughter",
+    mainColor: "#FAD22D",
+    secColor: "#FB6F5C",
+    textColor: "#020F45",
+    bgColor: "#fffff",
+    gray:"#efefef",
+    textGray:"#5c6065",
+    textLight: "white",
+},{
+  name:"1",
+  details: "IBW",
+  mainColor: "#27c0d8",
+  secColor: "#27c0d8",
+  textColor: "#3C120B",
+  bgColor: "#fffff",
+  gray:"#efefef",
+  textGray:"#5c6065",
+  textLight: "white",
+},{
+  name:"2",
+  details: "Default",
+  mainColor: "#F8C3C3",
+  secColor: "#FB6F5C",
+  textColor: "#44062B",
+  bgColor: "#fffff",
+  gray:"#efefef",
+  textGray:"#5c6065",
+  textLight: "white",
+}];
+
 const GlobalStyle = createGlobalStyle`
+
+:root {
+    --mainColor: ${props => (props.customStyle.mainColor ? props.customStyle.mainColor : 'black')};
+    --secColor: ${props => (props.customStyle.secColor ? props.customStyle.secColor : 'black')};
+    --textColor: #44062B;
+    --gray: #efefef;
+    --bgColor: #fffff;
+    --textGray: #5c6065;
+    --textLight: white;
+  }
+
 h1{
    font-size: 20px; 
 }
-/* @media screen and (min-width: 320px) {
-
-    font-size: ;
-    h1{
-        font-size: ;
-     }
-
-}
-@media screen and (min-width: 1200px) {
-
-    font-size: 22px;
-    h1{
-        font-size: 32px;
-     }
-
-}*/
 
 *,
 *:before,
@@ -87,7 +119,7 @@ input:-webkit-autofill:active  {
 `;
 
 const UserCompLogo = styled.div`
-padding:38.5px;
+padding:38.5px 15px;
 display: flex;
 align-items: center;
 `
@@ -96,23 +128,39 @@ const ContentWrap = styled.div`
 min-height: calc(100vh - 74px);
 `
 
-const App = () => (
+const App = () => {
+
+    const [customStyle, setCustomStyle ] = useState(customStyles[2]);
+
+    const authUser = useContext(AuthUserContext);
+
+    useEffect(() => {
+        if (authUser) { 
+            customStyles.map((styleObj) => {
+                if (authUser.userComp === styleObj.name) {
+                    setCustomStyle(styleObj);
+                }
+            })
+        }
+    },[authUser])
+
+    return (
     <Router>
-         <AuthUserContext.Consumer>
-            {authUser =>
-               authUser && authUser.userComp && (window.innerWidth < 680) ?
-                <UserCompLogo>
-                    <img 
-                    style={{ 
-                        display: logoArr[authUser.userComp].display,
-                        height: logoArr[authUser.userComp].height,
-                    }} 
-                    src={logoArr[authUser.userComp].logo} 
-                    alt="CompanyLogo"/>
-                </UserCompLogo>
-                : null
-            }
-        </AuthUserContext.Consumer>
+
+        {authUser && authUser.userComp && (window.innerWidth < 680) ?
+            <UserCompLogo>
+                <img 
+                style={{ 
+                    display: logoArr[authUser.userComp].display,
+                    height: logoArr[authUser.userComp].height,
+                    maxWidth: logoArr[authUser.userComp].maxWidth,
+                }} 
+                src={logoArr[authUser.userComp].logo} 
+                alt="CompanyLogo"/>
+            </UserCompLogo>
+            : null
+        }
+            
         <div id="outerWrap">
             <ContentWrap>
             <Navigation />
@@ -129,8 +177,8 @@ const App = () => (
             </ContentWrap>
             <Footer />
         </div>
-        <GlobalStyle />
+        {customStyle ? <GlobalStyle customStyle={customStyle} />: null}
     </Router>
-);
+)};
 
 export default withAuthentication(App);
