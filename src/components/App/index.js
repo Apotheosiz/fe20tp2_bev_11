@@ -45,8 +45,8 @@ const logoArr = [{
 const customStyles =[{
     name:"0",
     details: "ErciasDaughter",
-    mainColor: "#FAD22D",
-    secColor: "#FAD22D",
+    mainColor: "#fce99c",
+    secColor: "#f9c806",
     textColor: "#020F45",
     bgColor: "#fffff",
     gray:"#efefef",
@@ -55,8 +55,8 @@ const customStyles =[{
 },{
   name:"1",
   details: "IBW",
-  mainColor: "#27c0d8",
-  secColor: "#27c0d8",
+  mainColor: "#71d7ff",
+  secColor: "#00a4e6",
   textColor: "#3C120B",
   bgColor: "#fffff",
   gray:"#efefef",
