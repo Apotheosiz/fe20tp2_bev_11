@@ -32,12 +32,12 @@ const Bubble = styled.div`
     max-width: 375px;
     margin: 15px;
     padding: 25px;
-    background: #F8C3C3;
+    background: var(--mainColor);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
     font-family: 'Saira Condensed', sans-serif;
     font-size: 22px;
-    color: #674258;
+    color: var(--textColor);
     @media (min-width: 700px) {
         min-height:330px;
         display: flex;
@@ -49,7 +49,7 @@ const Title = styled.h1`
     max-width: 375px;
     margin: 0 auto;
     text-align: center;
-    color: #44062B;
+    color: var(--textColor);
     font-family: 'Saira Condensed', sans-serif;
     font-size: 42px;
     @media (min-width: 700px) {

@@ -5,7 +5,7 @@ const StyledDiv = styled.div`
     
 
     h1 {
-        color: #44062B;
+        color: var(--textColor);
         font-size: 96px;
         margin: 0;
     }

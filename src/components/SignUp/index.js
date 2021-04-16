@@ -79,7 +79,7 @@ p{
 const ProfileStyledFormWrap = styled(StyledFormWrap)`
     background: none;
     .active {
-        border: 2px solid #44062B;
+        border: 2px solid var(--textColor);
     }
 `
 export const StyledImg = styled.img`
@@ -234,7 +234,7 @@ class SignUpFormBase extends Component {
                 <StyledFormWrap bottomMargin>
                     <FormControl 
                         style={{
-                            borderBottom: '1px solid #757575',
+                            borderBottom: '1px solid var(--textGray)',
                         }}
                         name="username"
                         value={username}
@@ -253,7 +253,7 @@ class SignUpFormBase extends Component {
                 <StyledFormWrap>
                     <FormControl StyledFormWrap
                         style={{
-                            borderBottom: '1px solid #757575',
+                            borderBottom: '1px solid var(--textGray)',
                         }}
                         name="passwordOne"
                         value={passwordOne}

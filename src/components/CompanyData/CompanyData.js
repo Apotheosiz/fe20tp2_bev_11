@@ -19,7 +19,7 @@ const StyledSection = styled.section`
 width:100%;
 max-width: 900px;
 @media screen and (min-width: 950px){
-border: 2px solid #efefef;
+border: 2px solid var(--gray);
 padding-top: 15px;
 border-radius: 20px;
 }
@@ -37,7 +37,7 @@ div:first-child {
 }
 
 small{
-    color: #5c6065;
+    color: var(--textGray);
 }
 
 .interval-parent {
@@ -59,7 +59,7 @@ small{
         span:hover,
         span:active, 
         span:focus {
-                background: #efefef;
+                background: var(--gray);
                 border-radius: 7px;
                 cursor: pointer;                
             }
@@ -77,11 +77,11 @@ small{
         line-height: 16px;
         width: 100px;
         //margin: 0 auto;
-        border: 1px solid #efefef;
+        border: 1px solid var(--gray);
         border-radius: 5px;
         padding: 1px 4px 2px 4px;
         cursor: pointer;
-        background-color: #fff;
+        background-color: var(--bgColor);
         background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
 
         select {
@@ -103,7 +103,7 @@ small{
         }
         span:active,
         span:focus {
-            background: #efefef;
+            background: var(--gray);
             border-radius: 7px;
         }
         span:hover img {
@@ -115,7 +115,7 @@ small{
         }
     }
     .active {
-        background: #efefef;
+        background: var(--gray);
         border-radius: 7px;
         cursor: pointer;                
     }
@@ -313,17 +313,17 @@ const CompanyData = ({ comp, companyTicker }) => {
                                 <defs>
                                     {/* Dessa värden kontrollerar färg och form på gradienten för grafen */}
                                     <linearGradient id="graphGradient" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#fb6f5c" stopOpacity={0.8}/>
-                                        <stop offset="95%" stopColor="#f9897a" stopOpacity={0.2}/>
+                                        <stop offset="5%" stopColor="var(--secColor)" stopOpacity={0.8}/>
+                                        <stop offset="95%" stopColor="var(--mainColor)" stopOpacity={0.2}/>
                                     </linearGradient>
                                 </defs>
-                                <Area type="linear" dataKey="price" stroke="#44062B" name={comp.currency} dot={false} fill="url(#graphGradient)" strokeWidth={2} />
+                                <Area type="linear" dataKey="price" stroke="var(--textColor)" name={comp.currency} dot={false} fill="url(#graphGradient)" strokeWidth={2} />
 
-                                <CartesianGrid stroke="#ccc" strokeDasharray="1 1" />
+                                <CartesianGrid stroke="var(--gray)" strokeDasharray="1 1" />
 
                                 <XAxis 
                                     dataKey="time"  
-                                    stroke="#5f6368" 
+                                    stroke="var(--textGray)" 
                                     axisLine={false} 
                                     minTickGap={40}
                                     tickFormatter={(tick) => changeXAxisTick(tick)}  
@@ -334,7 +334,7 @@ const CompanyData = ({ comp, companyTicker }) => {
 
                                 <YAxis 
                                     tickLine={false} 
-                                    stroke="#5f6368" 
+                                    stroke="var(--textGray)" 
                                     domain={[(twoDecim(minPrice*0.99)) , twoDecim(maxPrice*1.01)]} 
                                     axisLine={false}  
                                     style={{
@@ -344,7 +344,7 @@ const CompanyData = ({ comp, companyTicker }) => {
 
                                 <Tooltip contentStyle={{
                                     borderRadius: "10px",
-                                    background: "#F2F2F2",
+                                    background: "#fff",
                                     fontWeight: "600",
                                 }} />
 
@@ -363,14 +363,14 @@ const CompanyData = ({ comp, companyTicker }) => {
 
                             <BarChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 3 }}>
 
-                                <Bar type="monotone" dataKey="volume" fill="#6e9c8d" name="Volume" />
+                                <Bar type="monotone" dataKey="volume" fill="#6b633d" name="Volume" />
 
-                                <CartesianGrid stroke="#ccc" strokeDasharray="1 1" vertical={false} />
+                                <CartesianGrid stroke="var(--gray)" strokeDasharray="1 1" vertical={false} />
 
                                 <XAxis 
                                     dataKey="time" 
                                     tickLine={false} 
-                                    stroke="#5f6368" 
+                                    stroke="var(--textGray)" 
                                     minTickGap={40}
                                     tickFormatter={(tick) => changeXAxisTick(tick)}
                                 />
@@ -378,7 +378,7 @@ const CompanyData = ({ comp, companyTicker }) => {
                                 <YAxis 
                                     tickLine={false} 
                                     axisLine={false} 
-                                    stroke="#5f6368" 
+                                    stroke="var(--textGray)" 
                                     tickFormatter={(tick) => changeVolumeAxisTick(tick)} 
                                 />
 
@@ -386,8 +386,8 @@ const CompanyData = ({ comp, companyTicker }) => {
                                     cursor={{ fill: 'rgba(229, 229, 229, 0.4)' }}
                                     contentStyle={{
                                         borderRadius: "10px",
-                                        background: "#808080",
-                                        color: "#fff",
+                                        background: "#fff",
+                                        color: "var(--textLight)",
                                         fontWeight: "600",
                                     }} />
 

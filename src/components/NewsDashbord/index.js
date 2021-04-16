@@ -57,7 +57,7 @@ a {
 .sourceDate{
     margin: 0 0 5px 0;
     font-weight: bold;
-    color: #5f6368;
+    color: var(--textGray);
     font-size: 14px;
     span{
         font-weight: 400;    

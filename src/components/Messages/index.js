@@ -49,7 +49,7 @@ margin:0 auto;
 const Wrapper = styled.div`
 border-radius:8px;
 padding:10px;
-border:1px solid #efefef;
+border:1px solid var(--gray);
 margin-bottom:15px;
 text-align: center;
 &>img{
@@ -76,11 +76,11 @@ text-align: left;
 display: flex;
 justify-content: space-between;
 padding: 7px;
-background: #fff;
-border-bottom: 1px solid #efefef;
+background: var(--bgColor);
+border-bottom: 1px solid var(--gray);
 textarea{
   border: none;
-  border-bottom: 2px solid #44062B;
+  border-bottom: 2px solid var(--textColor);
   background:transparent;
   padding:2px;
   font-size:inherit;

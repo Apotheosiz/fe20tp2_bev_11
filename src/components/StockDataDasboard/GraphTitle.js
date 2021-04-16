@@ -16,7 +16,7 @@ const MainTitleWrapper = styled.div`
 const MainTitle = styled.h2`
 font-weight: 500;
 span{    
-    background: #efefef;
+    background: var( --gray);
     border-radius: 7px;
     font-size: 20px;
     padding: 2px 5px 3px 5px;

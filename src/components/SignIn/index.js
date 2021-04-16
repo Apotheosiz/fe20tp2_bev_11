@@ -80,7 +80,7 @@ class SignInFormBase extends Component {
                 <FormWrap>
                     <FormControl
                         style={{
-                            borderBottom: '1px solid #757575',
+                            borderBottom: '1px solid var(--textGray)',
                         }}
                         name="email"
                         value={email}

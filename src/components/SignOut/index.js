@@ -11,7 +11,7 @@ const Button = styled.button`
     background: none;
 	border: none;
 	cursor: pointer;
-    fill: #44062B;
+    fill: var(--textColor);
     svg{
         width:30px;
         &:hover{

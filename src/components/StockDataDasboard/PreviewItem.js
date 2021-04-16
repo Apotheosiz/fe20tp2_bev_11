@@ -12,10 +12,10 @@ const ItemWrapper = styled.div`
 width: 220px;
 padding: 10px 7px;
 margin: 0 7px 7px 0;
-background: #efefef;
+background: var(--gray);
 border-radius: 10px;
 position: relative;
-border: ${props => props.isActive ? "2px solid #44062B;" : "none"};
+border: ${props => props.isActive ? "2px solid var(--textColor);" : "none"};
 
 .seeInGraph{
     display: flex;

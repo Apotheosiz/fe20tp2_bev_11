@@ -40,13 +40,13 @@ const logoArr = [{
 // export const fluidFontSize = 'font-size: calc(16px + 6 * ((100vw - 320px) / 680))';
 // export const fluidFontTitle = 'font-size: calc(20px + 15 * ((100vw - 320px) / 880))';
 
-//Change both gray texts to one variable: #5f6368, #5c6065
+//Change both gray texts to one variable: #5f6368, #5c6065, #757575 (underline?) #a4a4a4 (deleteicon row 48 preview items)
 
 const customStyles =[{
     name:"0",
     details: "ErciasDaughter",
     mainColor: "#FAD22D",
-    secColor: "#FB6F5C",
+    secColor: "#FAD22D",
     textColor: "#020F45",
     bgColor: "#fffff",
     gray:"#efefef",
@@ -77,13 +77,13 @@ const customStyles =[{
 const GlobalStyle = createGlobalStyle`
 
 :root {
-    --mainColor: ${props => (props.customStyle.mainColor ? props.customStyle.mainColor : 'black')};
-    --secColor: ${props => (props.customStyle.secColor ? props.customStyle.secColor : 'black')};
-    --textColor: #44062B;
-    --gray: #efefef;
-    --bgColor: #fffff;
-    --textGray: #5c6065;
-    --textLight: white;
+    --mainColor: ${props => (props.customStyle.mainColor ? props.customStyle.mainColor : '#f8c3c3')};
+    --secColor: ${props => (props.customStyle.secColor ? props.customStyle.secColor : '#fb6f5c')};
+    --textColor:${props => (props.customStyle.textColor ? props.customStyle.textColor : '#44062B')};
+    --gray:${props => (props.customStyle.gray ? props.customStyle.gray : '#efefef')};
+    --bgColor:${props => (props.customStyle.bgColor ? props.customStyle.bgColor : '#fffff')};
+    --textGray: ${props => (props.customStyle.textGray ? props.customStyle.textGray : '#5c6065')};
+    --textLight: ${props => (props.customStyle.textLight ? props.customStyle.textLight : 'white')};
   }
 
 h1{
@@ -95,7 +95,7 @@ h1{
 *:after {
     margin: 0;
     padding: 0;
-    color: #44062B;
+    color: var(--textColor);
     box-sizing: border-box;
   }
 

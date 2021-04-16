@@ -6,7 +6,7 @@ width:100%;
 padding: 20px;
 text-align:center;
 line-height: 16px;
-background:#f8c3c3;
+background: var(--mainColor);
 a{
     text-decoration:none;
     font-weight: 600;

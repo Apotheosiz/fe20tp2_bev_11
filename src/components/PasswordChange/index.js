@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 const ChangePassButton = styled(StyledButton)`
 margin-top:10px;
-border: 1px solid #44062B;
+border: 1px solid var(--textColor);
 `
 
 const INITIAL_STATE = {
@@ -53,7 +53,7 @@ class PasswordChangeForm extends Component {
                 <FormWrap>
                 <FormControl
                     style={{
-                        borderBottom: '1px solid #757575',
+                        borderBottom: '1px solid var(--textGray)',
                     }}
                     name="passwordOne"
                     value={passwordOne}

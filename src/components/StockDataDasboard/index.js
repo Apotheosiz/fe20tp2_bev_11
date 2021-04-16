@@ -16,10 +16,10 @@ const StyledButton = styled.button`
     height: 35px;
     margin: 5px;
     svg {
-        fill: #5c6065;
+        fill: var(--textGray);
     }
     &:hover {
-        background: #efefef;
+        background: var(--gray);
     }
 
 `
@@ -73,7 +73,7 @@ const FormWrapper = styled.div`
             margin: 5px;
             margin-right: 5px;
             &:hover {
-                background: #efefef;
+                background: var(--gray);
             }
         }
 
@@ -89,14 +89,14 @@ const FormWrapper = styled.div`
 `
 const ResultDiv = styled.div`
     padding: 15px 0;
-    border-top: 1px solid #efefef;
+    border-top: 1px solid var(--gray);
     display: flex;
     align-items: center;
     justify-content: space-between;
     
     .ticker{
         font-weight: 600;
-        color: #5c6065;
+        color: var(--textGray);
     }
 
 `

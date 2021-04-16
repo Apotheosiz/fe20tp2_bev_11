@@ -41,8 +41,7 @@ const List = styled.ul`
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #FB6F5C;
-
+    background-color: var(--secColor);
     font-family: 'Saira Condensed', sans-serif;
 
 `;
@@ -98,7 +97,7 @@ const ListItemRight = styled.li`
             margin-right:0;
             &:hover{
                 top:0;
-                border: 2px solid #44062B;
+                border: 2px solid var(--textColor);
             }
         }
     }
@@ -108,7 +107,7 @@ const ListItemRight = styled.li`
 `;
 
 const Logo = styled.h1`
-    color: #44062B;
+    color: var(--textColor);
     font-size: 62px;
     margin: 0;
     font-family: 'Wallpoet', cursive;

@@ -20,7 +20,7 @@ padding: 10px;
 `
 
 const AccountStyledButton = styled(StyledButton)`
-background-color:${props => props.color ? props.color : "#efefef"} ;
+background-color:${props => props.color ? props.color : 'var(--gray)'} ;
 margin-bottom: 20px;
 `
 
@@ -39,7 +39,7 @@ const AccountPage = () => {
                 <StyledTitle>Account settings {/*Object.keys(authUser.symbols)*/}</StyledTitle>
                 <SettingsPic />
                 <StyledFormWrap>{authUser.email}</StyledFormWrap>
-                <AccountStyledButton width="250px" color={isActive? "#F8C3C3" : false} onClick={() => {
+                <AccountStyledButton width="250px" color={isActive? "var(--mainColor)" : false} onClick={() => {
                     setIsActive(!isActive);
                 }}>change my password{isActive ? <span>▲</span> : <span>▼</span>  }</AccountStyledButton>
                 {isActive ? <PasswordChangeForm /> : null}

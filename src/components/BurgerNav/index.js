@@ -56,13 +56,13 @@ const BurgerItem = styled.li`
       margin:20px 0 0 0;
       &:hover{
           top:0;
-          border: 2px solid #44062B;
+          border: 2px solid var(--textColor);
       }
   }
 `;
 
 const Logo = styled.h1`
-    color: #44062B;
+    color: var(--textColor);
     font-size: 62px;
     margin: 0;
     font-family: 'Wallpoet', cursive;
@@ -77,7 +77,7 @@ var styles = {
       top: '36px'
     },
     bmBurgerBars: {
-      background: '#373a47',
+      background: 'var(--textColor)',
       borderRadius: '5px'
     },
     bmCrossButton: {
@@ -85,21 +85,21 @@ var styles = {
       width: '34px'
     },
     bmCross: {
-      background: '#44062B'
+      background: 'var(--textColor)'
     },
     bmMenuWrap: {
       position: 'fixed',
     },
     bmMenu: {
-      background: '#FB6F5C',
+      background: 'var(--secColor)',
       padding: '50px 30px 0',
       fontSize: '22px'
     },
     bmMorphShape: {
-      fill: '#373a47'
+      fill: 'var(--textColor)'
     },
     bmItemList: {
-      color: '#b8b7ad',
+      color: 'var(--textLight)',
       padding: '10px',
       display: 'flex',
       flexDirection: 'column',
