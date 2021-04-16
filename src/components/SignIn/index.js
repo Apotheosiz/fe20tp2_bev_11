@@ -1,47 +1,47 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
-import { SignUpLink } from '../SignUp';
+import { SignUpLink, StyledP } from '../SignUp';
 import { PasswordForgetLink } from '../PasswordForget';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
-
+import Logo from '../Landing/Logo.js';
 import PageContainer from '../PageContainer';
 import Button from '../Button';
 import styled from 'styled-components';
+import { WelcomePic } from '../svgImg/WelcomePic.js';
+import { Link } from 'react-router-dom';
+import { FormWrap } from '../SignUp/FormWrap';
 
-const Title = styled.h1`
-    color: white;
+export const StyledLink = styled(Link)`
+text-decoration: none;
+`
+
+export const Title = styled.h1`
+    margin-top: 25px;
+    font-size: 25px;
 `;
 
-const FormWrap = styled.div`
-    background-color: #F8C3C3;
-    margin: auto;
-    padding: 20px;
-    max-width: 600px;
-    border-radius: 16px;
-    margin-bottom: 15px;
-`;
-
-const FormControl = styled.input`
+export const FormControl = styled.input`
     display: block;
     width: 90%;
     height: 47px;
-    padding: 0 24px;
     font-size: 13px;
     border: none;
     background-color: transparent;
     margin: auto;
-    margin-bottom: 25px;
-    border-radius: 16px;
+    padding: 15px;
 `;
 
 const SignInPage = () => (
     <PageContainer>
-        <Title>SIGN IN</Title>
+        <StyledLink to={ROUTES.LANDING} title="Back to Landing Page"><Logo /></StyledLink>
+        <Title>Welcome Back!</Title>
+        <WelcomePic />
         <SignInForm />
-        <PasswordForgetLink />
+        
         <SignUpLink />
+
     </PageContainer>
 );
 
@@ -79,6 +79,9 @@ class SignInFormBase extends Component {
             <form onSubmit={this.onSubmit}>
                 <FormWrap>
                     <FormControl
+                        style={{
+                            borderBottom: '1px solid var(--textGray)',
+                        }}
                         name="email"
                         value={email}
                         onChange={this.onChange}
@@ -94,6 +97,7 @@ class SignInFormBase extends Component {
                     >
                     </FormControl>
                 </FormWrap>
+                <PasswordForgetLink />
                 <Button disabled={isInvalid} type="submit">
                  sign in
                 </Button>
@@ -102,6 +106,13 @@ class SignInFormBase extends Component {
         );
     }
 }
+
+export const SignInLink = () => (
+    <StyledP>
+        Already have an account? <Link to={ROUTES.SIGN_IN}>Sign In</Link>
+    </StyledP>
+);
+
 const SignInForm = compose(
     withRouter,
     withFirebase,

@@ -1,48 +1,30 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components'
-
-import HeaderImg from '../../img/header.png';
+import Logo from './Logo';
+import PageContainer from '../PageContainer';
+import { LandingPic } from '../svgImg/WelcomePic.js';
+import Button from '../Button';
+import * as ROUTES from '../../constants/routes';
+import { Link } from 'react-router-dom';
+import { SignInLink} from '../SignIn';
+import { ArrowDown } from '../svgImg/WelcomePic';
 
 const Header = styled.div`
-    background-image: url(${HeaderImg});
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: top, center;
-    height: 80vh;
-    max-width: 100vw;
+    padding-top: 80px;
 `;
 
 const Section = styled.div`
-    background: #F2ADA4;
     padding-top: 10px;
     padding-bottom: 20px;
 `;
 
 const Row = styled.div`
-    display: flex;
-    justify-content: center;
-
-    @media (max-width: 980px) {
-        flex-direction: column;
-    }
-`;
-
-const HeaderByline = styled.div`
-    font-family: 'Wallpoet', sans-serif;
-    position: absolute;
-    bottom: 500px;
-    margin-left: 55px;
-
-    h2 {
-        color: #44062B;
-        font-size: 96px;
-        margin: 0;
-    }
-
-    h5 {
-        color: #CB6A5D;
-        font-size: 20px;
-        margin: 0;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    @media (min-width: 700px) {
+        flex-direction: row;
+        justify-content: center;
     }
 `;
 
@@ -50,33 +32,70 @@ const Bubble = styled.div`
     max-width: 375px;
     margin: 15px;
     padding: 25px;
-
-    background: #DBD1D0;
+    background: var(--mainColor);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
     font-family: 'Saira Condensed', sans-serif;
     font-size: 22px;
-    color: #674258;
+    color: var(--textColor);
+    @media (min-width: 700px) {
+        min-height:330px;
+        display: flex;
+        align-items: center;
+    }
 `;
 
 const Title = styled.h1`
+    max-width: 375px;
+    margin: 0 auto;
     text-align: center;
-    color: #44062B;
+    color: var(--textColor);
     font-family: 'Saira Condensed', sans-serif;
     font-size: 42px;
+    @media (min-width: 700px) {
+        max-width:none;
+    }
 `;
 
-const Landing = () => (
-    <React.Fragment>
-        <div>
+const MainContent = styled.div`
+min-height: 80vh;
+max-height: 75vh;
+display:flex;
+flex-direction: column;
+justify-content: space-around;
+@media (min-width: 700px) {
+  min-height: 80vh;
+}
+`
+
+const ArrowButton = styled.button`
+  background: none;
+  border: none;
+  width: 80px;
+  svg {
+    cursor: pointer;
+  }
+`
+
+const Landing = () => {
+    const sectionEl = useRef(null);
+    return (
+    <PageContainer> 
+        <MainContent>
             <Header>
-                <HeaderByline>
-                    <h2>FINK</h2>
-                    <h5>YOUR FINANCIAL DASHBOARD</h5>
-                </HeaderByline>
+                <Logo />
             </Header>
-        </div>
-        <Section>
+            <LandingPic width='80%' maxWidth='500px' />
+            <div><Link to={ROUTES.SIGN_UP}><Button width='75%' maxWidth='400px' >Get started</Button></Link>
+            <SignInLink /></div>
+        </MainContent>
+        <ArrowButton onClick={(event) => {
+            sectionEl.current.scrollIntoView({ behavior: "smooth" });
+            event.target.remove();
+            } } >
+          <ArrowDown />
+        </ArrowButton>
+        <Section ref={sectionEl} >
             <Title>WHY MARKET LEADERS ARE CHOOSING FINK</Title>
             <Row>
                 <Bubble>
@@ -87,7 +106,9 @@ const Landing = () => (
                 </Bubble>
             </Row>
         </Section>
-    </React.Fragment>
-);
+    </PageContainer>
+    )
+};
+
 
 export default Landing;

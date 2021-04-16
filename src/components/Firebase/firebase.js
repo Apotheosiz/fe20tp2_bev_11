@@ -39,6 +39,17 @@ class Firebase {
                         if (!dbUser.roles) {
                             dbUser.roles = {};
                         }
+                        if (!dbUser.tickers) {
+                            dbUser.tickers = {
+                                AAPL: {
+                                    currency: 'USD',
+                                    exchangeShortName: 'NASDAQ',
+                                    name: 'Apple Inc.',
+                                    stockExchange: 'NasdaqGS',
+                                    symbol:'AAPL',
+                                }
+                            };
+                        }
                         // merge auth and db user
                         authUser = {
                             uid: authUser.uid,
@@ -56,8 +67,8 @@ class Firebase {
     user = uid => this.db.ref(`users/${uid}`);
     users = () => this.db.ref('users');
     // *** Message API ***
-    message = uid => this.db.ref(`messages/${uid}`);
-    messages = () => this.db.ref('messages');
+    message = (userComp, uid) => this.db.ref(`companies/${userComp}/messages/${uid}`);
+    messages = userComp => this.db.ref(`companies/${userComp}/messages`);
 
     // // ** Symbols API **
     // symbol = (uid, symbol) => this.db.ref(`users/${uid}/symbols/${symbol}`);

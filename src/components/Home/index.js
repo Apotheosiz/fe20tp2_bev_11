@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { compose } from 'recompose';
 import {
     AuthUserContext,
@@ -6,26 +6,81 @@ import {
 } from '../Session';
 import { withFirebase } from '../Firebase';
 import StockDataDashboard from '../StockDataDasboard';
-import PageContainer from '../PageContainer';
+//import PageContainer from '../PageContainer';
+import NewsDashbord from '../NewsDashbord';
+import Messages from '../Messages';
+import CompanyData from '../CompanyData/CompanyData';
+import styled from "styled-components";
 
-const HomePage = () => (
-    <PageContainer>
-        <h1>Home Page</h1>
-        <p>The Home Page is accessible by every signed in user.</p>
+const HomeLayout = styled.div`
+display:grid;
+grid-template-columns: 2fr 1fr;
+grid-template-rows: auto auto auto;
+align-items: start;
+justify-items:center;
+grid-gap: 15px;
+.column-1-2{
+    grid-column: 1 / span 2;;
+}
+.justify-end{
+    justify-self:end;
+}
+.justify-start{
+    justify-self:start;
+}
+`
 
+const HomePage = () => { 
+    const [comp, setComp] = useState({
+        currency: 'USD',
+        exchangeShortName: 'NASDAQ',
+        name: 'Apple Inc.',
+        stockExchange: 'NasdaqGS',
+        symbol:'AAPL',
+    }); 
+    const [companyTicker, setCompanyTicker] = useState('AAPL');
+
+    const screenWidth = window.innerWidth;
+    let messagesDivClasses = "column-1-2";
+    let newsDivClasses = "column-1-2";
+    if (screenWidth > 1024) {
+        messagesDivClasses = "justify-start";
+        newsDivClasses = "justify-end";
+    }
+    
+    return   (
+    //<PageContainer>
+    <HomeLayout>
+        <AuthUserContext.Consumer>
+            {authUser => (
+                    <StockDataDashboard
+                        authUser={authUser} 
+                        comp={comp} 
+                        setComp={setComp}
+                        setCompanyTicker={setCompanyTicker}
+                        companyTicker={companyTicker}
+                    />
+            )}
+        </AuthUserContext.Consumer>
+        
+        {(comp && companyTicker) ?
+                <CompanyData comp={comp} companyTicker={companyTicker} />
+                : null
+            }
+
+        <NewsDashbord comp={comp} newsDivClasses={newsDivClasses} />
 
         <AuthUserContext.Consumer>
             {authUser => (
-                <StockDataDashboard authUser={authUser} />
+                <Messages messagesDivClasses={messagesDivClasses} authUser={authUser} />
             )}
         </AuthUserContext.Consumer>
+        
+    </HomeLayout>
+    //</PageContainer>
+)};
 
-        <Messages />
-
-    </PageContainer>
-);
-
-class MessagesBase extends Component {
+/*class MessagesBase extends Component {
     constructor(props) {
         super(props);
 
@@ -215,10 +270,9 @@ class MessageItem extends Component {
         );
     }
 }
+const Messages = withFirebase(MessagesBase);*/
 
 const condition = authUser => !!authUser;
-
-const Messages = withFirebase(MessagesBase);
 
 export default compose(
     withAuthorization(condition),

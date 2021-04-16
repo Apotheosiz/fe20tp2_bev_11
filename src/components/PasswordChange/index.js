@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import { withFirebase } from '../Firebase';
+import { FormControl } from '../SignIn';
+import { FormWrap } from '../SignUp/FormWrap';
+import { StyledButton } from '../Button';
+import styled from 'styled-components';
 
+const ChangePassButton = styled(StyledButton)`
+margin-top:10px;
+//border: 1px solid var(--textColor);
+`
 
 const INITIAL_STATE = {
     passwordOne: '',
@@ -42,23 +50,28 @@ class PasswordChangeForm extends Component {
 
         return (
             <form onSubmit={this.onSubmit}>
-                <input
+                <FormWrap>
+                <FormControl
+                    style={{
+                        borderBottom: '1px solid var(--textGray)',
+                    }}
                     name="passwordOne"
                     value={passwordOne}
                     onChange={this.onChange}
                     type="password"
                     placeholder="New Password"
                 />
-                <input
+                <FormControl
                     name="passwordTwo"
                     value={passwordTwo}
                     onChange={this.onChange}
                     type="password"
                     placeholder="Confirm New Password"
                 />
-                <button disabled={isInvalid} type="submit">
+                </FormWrap>
+                <ChangePassButton disabled={isInvalid} type="submit">
                     Reset My Password
-</button>
+                </ChangePassButton>
                 {error && <p>{error.message}</p>}
             </form>
         );

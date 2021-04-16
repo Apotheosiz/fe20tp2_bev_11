@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components'
 
 const StyledPageContainer = styled.div`
-    padding-top: 15px;
-    height: 93.25vh;
-    background-color: #FB6F5C;
     text-align: center;
     font-family: 'Saira Condensed', sans-serif;
 `;

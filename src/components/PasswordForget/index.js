@@ -6,15 +6,35 @@ import * as ROUTES from '../../constants/routes';
 import PageContainer from '../PageContainer';
 import styled from 'styled-components';
 
+import { Title, FormControl } from '../SignIn';
+import { FormWrap } from '../SignUp/FormWrap';
+import Button from '../Button';
+import { PasForgPic } from '../svgImg/WelcomePic.js';
+
 const StyledP = styled.p`
-    a {
-        color: black;
+
+padding: 20px 0;
+a {
+    
+    font-size: 16px;
+    text-decoration: none;
+    font-family:'Saira Condensed',sans-serif;
+    &:hover {
+        text-decoration: underline;
     }
+}
 `;
+
+const StyledForm = styled.form`
+ div {
+    margin-bottom: 30px;
+ }
+`
 
 const PasswordForgetPage = () => (
     <PageContainer>
-        <h1>Forgot password?</h1>
+        <Title>Forgot your password?</Title>
+        <PasForgPic />
         <PasswordForgetForm />
     </PageContainer>
 );
@@ -57,19 +77,22 @@ class PasswordForgetFormBase extends Component {
         const isInvalid = email === '';
 
         return (
-            <form onSubmit={this.onSubmit}>
-                <input
+            <StyledForm onSubmit={this.onSubmit}>
+                <FormWrap>
+                <FormControl
                     name="email"
                     value={this.state.email}
                     onChange={this.onChange}
                     type="text"
                     placeholder="Email Address"
                 />
-                <button disabled={isInvalid} type="submit">
+                </FormWrap>
+                <Button disabled={isInvalid} width="fit-content" type="submit">
                     Reset My Password
-                </button>
+                </Button>
                 {error && <p>{error.message}</p>}
-            </form>
+            </StyledForm>
+
         );
     }
 }

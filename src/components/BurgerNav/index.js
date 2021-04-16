@@ -5,13 +5,29 @@ import { AuthUserContext } from '../Session';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 
-import { slide as Menu } from 'react-burger-menu'
+import { slide as Menu } from 'react-burger-menu';
 import styled from 'styled-components';
+import { StyledImg } from '../SignUp';
+
+import pic1 from '../../img/profiles/1.png';
+import pic2 from '../../img/profiles/2.png';
+import pic3 from '../../img/profiles/3.png';
+import pic4 from '../../img/profiles/4.png';
+import pic5 from '../../img/profiles/5.png';
+import pic6 from '../../img/profiles/6.png';
+import pic7 from '../../img/profiles/7.png';
+import pic8 from '../../img/profiles/8.png';
+
+const picArr = [pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8];
 
 const BM = styled.div`
-    @media (min-width: 981px) {
+    @media (min-width: 681px) {
         display: none;
     }
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 3;
 `;
 
 const BurgerList = styled.ul`
@@ -23,12 +39,12 @@ const BurgerList = styled.ul`
     align-items: center;
     display: flex;
     font-family: 'Saira Condensed', sans-serif;
+    
 `;
 
 const BurgerItem = styled.li`
     font-size: 22px;
-    font-weight: bold;
-    
+    font-weight: bold;    
     a {
         display: block;
         color: white;
@@ -36,10 +52,17 @@ const BurgerItem = styled.li`
         padding: 14px 18px;
         text-decoration: none;
     }
+    img{
+      margin:20px 0 0 0;
+      &:hover{
+          top:0;
+          border: 2px solid var(--textColor);
+      }
+  }
 `;
 
 const Logo = styled.h1`
-    color: #44062B;
+    color: var(--textColor);
     font-size: 62px;
     margin: 0;
     font-family: 'Wallpoet', cursive;
@@ -50,46 +73,42 @@ var styles = {
       position: 'fixed',
       width: '36px',
       height: '30px',
-      right: '36px',
+      right: '20px',
       top: '36px'
     },
     bmBurgerBars: {
-      background: '#373a47'
-    },
-    bmBurgerBarsHover: {
-      background: '#a90000'
+      background: 'var(--textColor)',
+      borderRadius: '5px'
     },
     bmCrossButton: {
-      height: '24px',
-      width: '24px'
+      height: '34px',
+      width: '34px'
     },
     bmCross: {
-      background: '#bdc3c7'
+      background: 'var(--textColor)'
     },
     bmMenuWrap: {
       position: 'fixed',
-      height: '100%'
     },
     bmMenu: {
-      background: '#FB6F5C',
-      padding: '2.5em 1.5em 0',
-      fontSize: '1.15em'
+      background: 'var(--secColor)',
+      padding: '50px 30px 0',
+      fontSize: '22px'
     },
     bmMorphShape: {
-      fill: '#373a47'
+      fill: 'var(--textColor)'
     },
     bmItemList: {
-      color: '#b8b7ad',
-      padding: '0.8em',
+      color: 'var(--textLight)',
+      padding: '10px',
       display: 'flex',
-      flexDirection: 'column'
-    },
-    bmItem: {
-      display: 'inline-block'
+      flexDirection: 'column',
+      alignItems: 'center'
     },
     bmOverlay: {
-      background: 'rgba(0, 0, 0, 0.3)',
-      
+      background: 'rgba(0, 0, 0, 0.3)',      
+      top: '0',
+      right: '0',
     }
   }  
 
@@ -117,15 +136,17 @@ const NavigationAuth = ({ authUser }) => (
             <BurgerItem className="navbarItem">
                 <Link to={ROUTES.HOME}>HOME</Link>
             </BurgerItem>
-            <BurgerItem className="navbarItem">
-                <Link to={ROUTES.ACCOUNT}>ACCOUNT</Link>
-            </BurgerItem>
             {!!authUser.roles[ROLES.ADMIN] && (
                 <BurgerItem className="navbarItem">
                     <Link to={ROUTES.ADMIN}>ADMIN</Link>
                 </BurgerItem>
             )}
             <BurgerItem className="navbarItem">
+                <Link to={ROUTES.ACCOUNT}>
+                  <StyledImg style={{marginRight: '0'}} src={picArr[authUser.profilePic - 1]} alt="profile"/>
+                </Link>
+            </BurgerItem>
+            <BurgerItem className="navbarItem">                
                 <SignOutButton />
             </BurgerItem>
     </Menu>

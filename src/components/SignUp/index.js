@@ -8,43 +8,102 @@ import * as ROLES from '../../constants/roles';
 import PageContainer from '../PageContainer';
 import Button from '../Button';
 import styled from 'styled-components';
+import { StyledLink, Title, FormControl, SignInLink} from '../SignIn';
+import { FormWrap } from './FormWrap';
+import Logo from '../Landing/Logo.js';
+import pic1 from '../../img/profiles/1.png';
+import pic2 from '../../img/profiles/2.png';
+import pic3 from '../../img/profiles/3.png';
+import pic4 from '../../img/profiles/4.png';
+import pic5 from '../../img/profiles/5.png';
+import pic6 from '../../img/profiles/6.png';
+import pic7 from '../../img/profiles/7.png';
+import pic8 from '../../img/profiles/8.png';
+import logo1 from '../../img/logoU1.png';
+import logo2 from '../../img/logoU2.png';
+import logo1long from '../../img/logoU1long.png';
 
-const Title = styled.h1`
-    color: white;
-`;
+const picArr = [pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8];
+const logoArr = [{
+        name: '',
+        logo:logo1long,
+        display: 'inline', 
+        height: '.8em',      
+    }, {
+        name: 'IBWomen',
+        logo:logo2,
+        display: 'inline',
+        height: '1em', 
+    }, {
+        name: 'No company',
+        logo:'',
+        display: 'none',
+        height: '',
+    }];
 
-const FormWrap = styled.div`
-    background-color: #F8C3C3;
-    margin: auto;
-    padding: 20px;
-    max-width: 600px;
-    border-radius: 16px;
-    margin-bottom: 15px;
-`;
+export const StyledP = styled.p`
+    padding: 20px 0;
+    font-size: 16px;    
+    font-family:'Saira Condensed',sans-serif;
 
-const FormControl = styled.input`
-    display: block;
-    width: 90%;
-    height: 47px;
-    padding: 0 24px;
-    font-size: 13px;
-    border: none;
-    background-color: transparent;
-    margin: auto;
-    margin-bottom: 25px;
-    border-radius: 16px;
-`;
-
-const StyledP = styled.p`
     a {
-        color: black;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-left: 10px;
+         &:hover {
+            text-decoration: underline;
+
+         }
     }
 `;
 
+const UserCompWrapper = styled.div`
+text-align:left;
+margin:0 25px;
+padding: 15px;
+cursor:pointer;
+`
+
+const StyledLogo = styled.img`
+// max-width: 50px;
+// max-height: 20px;
+`
+
+const StyledFormWrap = styled(FormWrap)`
+margin-bottom: 30px;
+p{
+    font-size: 20px;
+}
+`
+const ProfileStyledFormWrap = styled(StyledFormWrap)`
+    background: none;
+    .active {
+        border: 2px solid var(--textColor);
+    }
+`
+export const StyledImg = styled.img`
+    width: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+    &:hover {
+        position: relative;
+        top: -2px;
+    }
+`
+
+const BeAdmin = styled.div`
+width:fit-content;
+margin: 0 auto;
+`
+
 const SignUpPage = () => (
     <PageContainer>
-        <Title>Sign up</Title>
+       <StyledLink to={ROUTES.LANDING} title="Back to Landing Page"><Logo /></StyledLink>
+        <Title>Welcome Aboard!</Title>
         <SignUpForm />
+        <SignInLink />
     </PageContainer>
 );
 
@@ -53,9 +112,12 @@ const INITIAL_STATE = {
     email: '',
     passwordOne: '',
     passwordTwo: '',
-    ticker:'',
     isAdmin: false,
     error: null,
+    tickers: '',
+    profilePic: '1',
+    showComp: false,
+    userComp:'',
 };
 
 class SignUpFormBase extends Component {
@@ -65,7 +127,7 @@ class SignUpFormBase extends Component {
     }
 
     onSubmit = event => {
-        const { username, email, passwordOne, isAdmin, ticker } = this.state;
+        const { username, email, passwordOne, isAdmin, profilePic, userComp } = this.state;
 
         const roles = {};
 
@@ -83,7 +145,17 @@ class SignUpFormBase extends Component {
                         username,
                         email,
                         roles,
-                        ticker,
+                        tickers: {
+                            AAPL: {
+                                currency: 'USD',
+                                exchangeShortName: 'NASDAQ',
+                                name: 'Apple Inc.',
+                                stockExchange: 'NasdaqGS',
+                                symbol:'AAPL',
+                            }
+                        },
+                        profilePic,
+                        userComp,
                     });
             })
             .then(() => {
@@ -114,7 +186,6 @@ class SignUpFormBase extends Component {
             passwordTwo,
             isAdmin,
             error,
-            ticker,
             } = this.state;
 
         const isInvalid = 
@@ -125,57 +196,110 @@ class SignUpFormBase extends Component {
 
         return(
             <form onSubmit={this.onSubmit}>
-                <FormWrap>
-                <FormControl 
-                name="username"
-                value={username}
-                onChange={this.onChange}
-                type="text"
-                placeholder="full name"
-                />
-                <FormControl 
-                name="email"
-                value={email}
-                onChange={this.onChange}
-                type="text"
-                placeholder="email"
-                />
-                </FormWrap>
-                <FormWrap>
-                <FormControl 
-                name="passwordOne"
-                value={passwordOne}
-                onChange={this.onChange}
-                type="password"
-                placeholder="password"
-                />
-                <FormControl 
-                name="passwordTwo"
-                value={passwordTwo}
-                onChange={this.onChange}
-                type="password"
-                placeholder="confirm password"
-                />
-                <label>
-                    Admin:
-                    <input
-                        name="isAdmin"
-                        type="checkbox"
-                        checked={isAdmin}
-                        onChange={this.onChangeCheckbox}
-                    />
-                </label>
-                </FormWrap>
-                <FormWrap>
-                    <FormControl
-                        name="ticker"
-                        value={ticker}
+                <StyledFormWrap>
+                    <p onClick={() => {
+                        this.setState({ showComp: !this.state.showComp }); 
+                    }}
+                    >
+                    Choose company {this.state.showComp ? <span>▲</span> : <span>▼</span> }
+                    </p>
+                {this.state.showComp ? 
+                    <>{logoArr.map((userComp, index) => (
+                        <UserCompWrapper 
+                            key={index}
+                            data-value={index} 
+                            className="company"
+                            onClick={(event) => { 
+                                    this.setState({ 
+                                        userComp: event.target.closest('.company').dataset.value
+                                    });
+                                }} 
+                            >
+                            <StyledLogo 
+                                style={{ 
+                                    display: userComp.display,
+                                    height: userComp.height,
+                                }} 
+                                src={userComp.logo} 
+                                alt="Comp"/>
+                            <span> {userComp.name}</span>
+                            {this.state.userComp == index ?
+                            <span> ✔</span>
+                            :null}
+                        </UserCompWrapper>
+                    ))}</>
+                    :
+                    null}
+                </StyledFormWrap>
+                <StyledFormWrap bottomMargin>
+                    <FormControl 
+                        style={{
+                            borderBottom: '1px solid var(--textGray)',
+                        }}
+                        name="username"
+                        value={username}
                         onChange={this.onChange}
                         type="text"
-                        placeholder="Company ticker"
+                        placeholder="full name"
                     />
-                </FormWrap>
-                <Button disabled={isInvalid} type="submit">sign up</Button>
+                    <FormControl 
+                        name="email"
+                        value={email}
+                        onChange={this.onChange}
+                        type="text"
+                        placeholder="email"
+                    />
+                </StyledFormWrap>
+                <StyledFormWrap>
+                    <FormControl StyledFormWrap
+                        style={{
+                            borderBottom: '1px solid var(--textGray)',
+                        }}
+                        name="passwordOne"
+                        value={passwordOne}
+                        onChange={this.onChange}
+                        type="password"
+                        placeholder="password"
+                    />
+                    <FormControl
+                        name="passwordTwo"
+                        value={passwordTwo}
+                        onChange={this.onChange}
+                        type="password"
+                        placeholder="confirm password"
+                    />
+                   
+                </StyledFormWrap>
+                <ProfileStyledFormWrap >
+                    {picArr.map((pic, index) => (
+                        <StyledImg
+                            key={index}
+                            src={pic} 
+                            data-value={index + 1} 
+                            alt="profile pic" 
+                            onClick={(event) => { 
+                                this.setState({ profilePic: event.target.dataset.value });
+                                // event.target.parentNode.childNodes.classList.remove('active');
+                                // event.target.classList.add('active');
+                            } }  
+                            className={this.state.profilePic == (index + 1) ? "active":""} 
+                        />
+                    ))}
+                   
+                    </ProfileStyledFormWrap>
+                <BeAdmin>
+                    <label>
+                        Admin:
+                        <input
+                            name="isAdmin"
+                            type="checkbox"
+                            checked={isAdmin}
+                            onChange={this.onChangeCheckbox}
+                        />
+                    </label>
+                </BeAdmin>
+
+                <Button disabled={isInvalid} type="submit">register</Button>
 
                 {error && <p>{error.message}</p>}
             </form>
