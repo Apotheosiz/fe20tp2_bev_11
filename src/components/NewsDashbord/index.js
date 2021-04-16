@@ -33,16 +33,9 @@ const [newsData, setNewsData] = useState(null);
                 .then(data => {
                     setNewsData(data);
                 })
-<<<<<<< HEAD
     }, [comp])
     return (<div className={newsDivClasses}>
         {newsData ? <Article articles={newsData}/> : null }
-=======
-    }, [])
-    return (<div>
-        <h1>News Dashbord</h1> 
-        {newsData ? <Article articles={newsData.articles}/> : null }
->>>>>>> 1003b4b56d9438ee27877c4df8a200cd35fab150
         </div>)
 
 }
