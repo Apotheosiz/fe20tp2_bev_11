@@ -117,7 +117,9 @@ export const SavePic = ({ width, maxWidth, margin }) => {
 
 export const Profile = ({ profile }) => (<>
   {(profile == 1) ? 
-  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200" viewBox="0 0 200 200">
+  <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="200" height="200" viewBox="0 0 200 200">
   </svg>
   : null}
+  {/*Little svg guy >)*/}
+  <svg id="ab6d4b78-a8f6-485a-afcf-f519a4f8db63" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="650 150 300 400"><circle cx="795.07343" cy="405.2348" r="79" fill="#2f2e41" /><rect x="970.03671" y="568.90295" width="24" height="43" transform="translate(1801.11014 1079.13775) rotate(-180)" fill="#2f2e41" /><rect x="922.03671" y="568.90295" width="24" height="43" transform="translate(1705.11014 1079.13775) rotate(-180)" fill="#2f2e41" /><ellipse cx="811.07343" cy="510.7348" rx="20" ry="7.5" fill="#2f2e41" /><ellipse cx="763.07343" cy="509.7348" rx="20" ry="7.5" fill="#2f2e41" /><circle cx="793.07343" cy="385.2348" r="27" fill="#fff" /><circle cx="793.07343" cy="385.2348" r="9" fill="#3f3d56" /><path d="M1034.66938,433.43522c6.37889-28.56758-14.01185-57.43391-45.544-64.47476s-62.2651,10.41-68.644,38.97759S935,447.04185,966.53215,454.0827,1028.29049,462.0028,1034.66938,433.43522Z" transform="translate(-162.96329 -101.66814)" fill={mainColor} /></svg>
 </>);
