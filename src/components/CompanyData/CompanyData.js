@@ -155,63 +155,85 @@ const CompanyData = ({ comp, companyTicker }) => {
       .then(response => response.json())
       .then(data => {
 
-        let arr = [];
-
         if (data.status === "OK" && data.results) {
           // console.log('data status ok');
 
-          let max = 0;
-          let min = twoDecim(data.results[0].c);
+          // let max = 0;
+          // let min = twoDecim(data.results[0].c);
 
           // console.log(data);
-          data.results.map(result => {
-
-            const closePrice = result.c;
-
-            if (closePrice > max) {
-              max = closePrice;
-            }
-
-            if (closePrice < min) {
-              min = closePrice;
-            }
-
-            const time = getDate(result.t);
-            let price = closePrice;
-            let volume = result.v;
+          const arr = data.results.map((result, index) => {
             const point = {};
+            const time = getDate(result.t);
             point.time = time;
-            point.price = price;
-            point.volume = volume;
-            arr.push(point);
+
+            if (index >= 1) {
+              const current = result.c;
+              const former = data.results[index - 1].c;
+              const percDiff = twoDecim((current - former) / current * 100.0);
+              point.val1 = percDiff;
+            }
+            return point;
+
+
+            // const closePrice = result.c;
+
+            // if (closePrice > max) {
+            //   max = closePrice;
+            // }
+
+            // if (closePrice < min) {
+            //   min = closePrice;
+            // }
+
+
+            // let price = closePrice;
+            // let volume = result.v;
+
+            // point.price = price;
+            // point.volume = volume;
+
           })
 
           if (compareMode) {
             fetch(`https://api.polygon.io/v2/aggs/ticker/TSLA/range/${optionsState}/${timeInterval}?unadjusted=true&sort=asc&limit=5000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
               .then(response => response.json())
               .then(data2 => {
+
                 if (data2.status === "OK" && data2.results) {
 
-                  const arr2 = data2.results.map(result => {
+                  const arr2 = data2.results.map((result2, index) => {
 
-                    const closePrice = result.c;
+                    const point2 = {};
+                    const time2 = getDate(result2.t);
+                    point2.time = time2;
 
-                    if (closePrice > max) {
-                      max = closePrice;
+                    if (index >= 1) {
+                      const current2 = result2.c;
+                      const former2 = data2.results[index - 1].c;
+                      const percDiff2 = twoDecim((current2 - former2) / current2 * 100.0);
+                      point2.val2 = percDiff2;
                     }
+                    return point2;
 
-                    if (closePrice < min) {
-                      min = closePrice;
-                    }
+                    // const closePrice = result.c;
 
-                    const time = getDate(result.t);
-                    let price = closePrice;
-                    let volume = result.v;
-                    const point = {};
-                    point.time = time;
-                    point.price2 = price;
-                    point.volume2 = volume;
-                    return point
+                    // if (closePrice > max) {
+                    //   max = closePrice;
+                    // }
+
+                    // if (closePrice < min) {
+                    //   min = closePrice;
+                    // }
+
+                    // const time = getDate(result.t);
+                    // let price = closePrice;
+                    // let volume = result.v;
+                    // const point = {};
+                    // point.time = time;
+                    // point.price2 = price;
+                    // point.volume2 = volume;
+                    // return point
                     //console.log("arr, arr2 before combining:",arr, arr2);
 
 
@@ -441,8 +463,8 @@ const CompanyData = ({ comp, companyTicker }) => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="price" stroke="#8884d8" activeDot={{ r: 8 }} />
-                <Line type="monotone" dataKey="price2" stroke="#82ca9d" />
+                <Line type="monotone" dataKey="val1" stroke="#8884d8" dot={false} activeDot={{ r: 8 }} />
+                <Line type="monotone" dataKey="val2" stroke="#82ca9d" dot={false} />
               </LineChart>
             </ResponsiveContainer>
 
