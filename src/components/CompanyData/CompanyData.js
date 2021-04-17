@@ -135,15 +135,29 @@ const CompanyData = ({ comp, companyTicker }) => {
     const [optionsState, setOptionsState] = useState("1/minute");
     const [timeInterval, setTimeInterval] = useState(yesterday + "/" + yesterday);
     const [error, setError] = useState(null);
+    const [compareMode, setCompareMode] = useState(false);
 
+    
+    function merge(a, b, prop){
+        let combinedArr =  a.map( aitem => {
+          let sameTimeBitem =  b.find ( bitem => aitem[prop] === bitem[prop]);
+          if (!sameTimeBitem) {
+              aitem.price2 = "";
+              aitem.volume2 = "";
+          }
+          return {...aitem, ...sameTimeBitem}
+        });
+      return combinedArr;
+    }
 
     useEffect(() => {
         fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/${optionsState}/${timeInterval}?unadjusted=true&sort=asc&limit=5000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
             .then(response => response.json())
             .then(data => {
 
-                let arr = [];
-
+                let arr = [];                
+                let arr2 = [];
+                
                 if (data.status === "OK" && data.results) {
                     // console.log('data status ok');
 
@@ -173,6 +187,41 @@ const CompanyData = ({ comp, companyTicker }) => {
                         arr.push(point);
                     })
 
+                    if (compareMode) {
+                        fetch(`https://api.polygon.io/v2/aggs/ticker/TSLA/range/${optionsState}/${timeInterval}?unadjusted=true&sort=asc&limit=5000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
+                            .then(response => response.json())
+                            .then(data2 => {
+                                if (data2.status === "OK" && data2.results) {
+                                    
+                                    data2.results.map(result => {
+
+                                        const closePrice = result.c;
+                
+                                        if (closePrice > max) {
+                                            max = closePrice;
+                                        }
+                
+                                        if (closePrice < min) {
+                                            min = closePrice;
+                                        }
+                
+                                        const time = getDate(result.t);
+                                        let price = closePrice;
+                                        let volume = result.v;
+                                        const point = {};
+                                        point.time = time;
+                                        point.price2 = price;
+                                        point.volume2 = volume;
+                                        arr2.push(point);
+                                        console.log("arr, arr2 before combining:",arr, arr2);
+                                       
+                                        arr = merge(arr, arr2, "time");
+                                        console.log(arr);
+                                    })
+                                }
+                            })
+                    }
+
                     setMaxPrice(max);
                     setMinPrice(min);
 
@@ -181,7 +230,7 @@ const CompanyData = ({ comp, companyTicker }) => {
                 } else console.log(data.status);
                 setStockData(arr);
             })
-    }, [companyTicker, optionsState, timeInterval])
+    }, [companyTicker, optionsState, timeInterval, compareMode])
 
     const changeXAxisTick = (tick) => {
         const timeArr = tick.split(" ");
@@ -215,6 +264,7 @@ const CompanyData = ({ comp, companyTicker }) => {
 
     return (
         <StyledSection className="column-1-2">
+            <button onClick={() => setCompareMode(!compareMode)}>{compareMode?<>closeCoparison</>:<>compare to TSLA</>}</button>
             <TitleWrapper>
                 {(stockData.length > 0) ?
                     <div>
@@ -319,6 +369,8 @@ const CompanyData = ({ comp, companyTicker }) => {
                                 </defs>
                                 <Area type="linear" dataKey="price" stroke="var(--textColor)" name={comp.currency} dot={false} fill="url(#graphGradient)" strokeWidth={2} />
 
+                                {compareMode ? <Area type="linear" dataKey="price2" stroke="red" name={comp.currency} dot={false} fill="yellow" strokeWidth={2} />
+                                : null}
                                 <CartesianGrid stroke="var(--gray)" strokeDasharray="1 1" />
 
                                 <XAxis 
