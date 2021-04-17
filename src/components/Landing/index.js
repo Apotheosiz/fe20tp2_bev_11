@@ -71,6 +71,7 @@ justify-content: space-around;
 const ArrowButton = styled.button`
   background: none;
   border: none;
+  outline: none;
   width: 80px;
   svg {
     cursor: pointer;
