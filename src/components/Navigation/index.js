@@ -53,7 +53,6 @@ const ListInnerContainer = styled.div`
 
     background: none;
 	border: none;
-	cursor: pointer;
     svg{
         width:30px;
     }
@@ -74,6 +73,7 @@ const ListItem = styled.li`
         text-align: center;
         padding: 14px 18px;
         text-decoration: none;
+        cursor: pointer;
     }
 `;
 
