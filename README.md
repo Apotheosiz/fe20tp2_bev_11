@@ -21,7 +21,7 @@
 
 <FINK logo here>
 
-****A functioning app with a sign-up page where you can search, favorite, unfavorite and show tickers while loged in. Company log in available. When selecting a ticker a graph will show you the stock exchange either by day, month or year, as well as news and comments related to chosen ticker. Eentually a few more features like a more polished admin page will be added in the future.****
+****A functioning app with a sign-up page where you can search, favorite, unfavorite and show tickers while loged in. When selecting a ticker a graph will show you the stock exchange either by day, month or year, as well as news and comments related to chosen ticker. Eentually a few more features like a more polished admin page will be added in the future.****
 
 
 ## Demo 📸
@@ -31,7 +31,7 @@
 
 
 ## Features ✨
-**List of features ready:**
+**List of features available:**
 * Account page, sign up/sign in
 * Company log in with assigned styles
 * Search for tickers
@@ -42,7 +42,7 @@
 * Comment section with save, edit and remove function
 
 ## Future Features 🔮
-**List of features left to do:**
+**List of features to be added:**
 * Dark mode
 * Polished admin page
 * More customizations available for users in account settings
@@ -55,7 +55,6 @@
 
 
 ## Project Status 📃
-**List of features left to do:**
 Functioning app with a good deal of features
 
 ## Technologies 🛠
