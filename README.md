@@ -79,11 +79,11 @@ Functioning app with a good deal of features
 
 ## LINKS 🔗
 
-[Surge](http://finance_and_stocks_ladies.surge.sh/)
+- [Surge](http://finance_and_stocks_ladies.surge.sh/)
 
-[Trello Board](https://trello.com/b/My2vmXXG/tp2)
+- [Trello Board](https://trello.com/b/My2vmXXG/tp2)
 
 - [FIGMA Prototype for Desktop Updated](https://www.figma.com/file/AuE4RMzRrzPnJ5or4vCQ5S/Untitled?node-id=0%3A1)
-- [FIGMA Prototype fot Desktop Old](https://www.figma.com/file/OMpkcUXgKIBRCjtFRRtPEe/Untitled?node-id=0%3A1)
+- [FIGMA Prototype for Desktop Old](https://www.figma.com/file/OMpkcUXgKIBRCjtFRRtPEe/Untitled?node-id=0%3A1)
 - [FIGMA Prototype for Phones](https://www.figma.com/file/aAqVMGOUdihnXUbeRR6olj/TP2-mobile-prototype?node-id=0%3A1)
 - [FIGMA Prototype Colors](https://www.figma.com/file/TgqNneJZhTUzUbhQJk7Uof/Untitled?node-id=0%3A1)
