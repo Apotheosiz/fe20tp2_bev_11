@@ -5,14 +5,14 @@
 Writing has never been easier.
 ## Developers 👷
 
-[Melinda Sava](https://github.com/mellyynda), [Filipa Spajic](https://github.com/cr4y0n), [Vanessa Martinez](https://github.com/Vaanessa), [Sascha Kasapovski] (https://github.com/Apotheosiz), [Emma Franzén](https://github.com/EmmaFranzen)
+[Melinda Sava](https://github.com/mellyynda), [Filipa Spajic](https://github.com/cr4y0n), [Vanessa Martinez](https://github.com/Vaanessa), [Sascha Kasapovski](https://github.com/Apotheosiz), [Emma Franzén](https://github.com/EmmaFranzen)
 
 ## Table of contents 📋
 * [**Description**](#Description-)  
 * [**Demo**](#Demo-)
 * [**Features**](#Features-)
-* [**Future Features**](#Future Features-)
-* [**Project Status**](#Project Status-)
+* [**Future-Features**](#Future Features-)
+* [**Project-Status**](#Project Status-)
 * [**Technologies**](#Technologies-)
 * [**Links**](#Links-)
 
