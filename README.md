@@ -1,8 +1,7 @@
 # FIGMA Your Financial Dashboard App
 
 <Logo here>
- 
-Writing has never been easier.
+
 ## Developers 👷
 
 [Melinda Sava](https://github.com/mellyynda), [Filipa Spajic](https://github.com/cr4y0n), [Vanessa Martinez](https://github.com/Vaanessa), [Sascha Kasapovski](https://github.com/Apotheosiz), [Emma Franzén](https://github.com/EmmaFranzen)
@@ -11,8 +10,8 @@ Writing has never been easier.
 * [**Description**](#Description-)  
 * [**Demo**](#Demo-)
 * [**Features**](#Features-)
-* [**Future-Features**](#Future Features-)
-* [**Project-Status**](#Project Status-)
+* [**Future-Features**](#Future-Features-)
+* [**Project-Status**](#Project-Status-)
 * [**Technologies**](#Technologies-)
 * [**Links**](#Links-)
 
@@ -57,7 +56,7 @@ Writing has never been easier.
 
 ## Project Status 📃
 **List of features left to do:**
-* Functioning app with a good deal of features *
+Functioning app with a good deal of features
 
 ## Technologies 🛠
 **Languages:**
@@ -84,7 +83,7 @@ Writing has never been easier.
 
 [Trello Board](https://trello.com/b/My2vmXXG/tp2)
 
-[FIGMA Prototype for Desktop Updated](https://www.figma.com/file/AuE4RMzRrzPnJ5or4vCQ5S/Untitled?node-id=0%3A1)
-[FIGMA Prototype fot Desktop Old](https://www.figma.com/file/OMpkcUXgKIBRCjtFRRtPEe/Untitled?node-id=0%3A1)
-[FIGMA Prototype for Phones](https://www.figma.com/file/aAqVMGOUdihnXUbeRR6olj/TP2-mobile-prototype?node-id=0%3A1)
-[FIGMA Prototype Colors](https://www.figma.com/file/TgqNneJZhTUzUbhQJk7Uof/Untitled?node-id=0%3A1)
+- [FIGMA Prototype for Desktop Updated](https://www.figma.com/file/AuE4RMzRrzPnJ5or4vCQ5S/Untitled?node-id=0%3A1)
+- [FIGMA Prototype fot Desktop Old](https://www.figma.com/file/OMpkcUXgKIBRCjtFRRtPEe/Untitled?node-id=0%3A1)
+- [FIGMA Prototype for Phones](https://www.figma.com/file/aAqVMGOUdihnXUbeRR6olj/TP2-mobile-prototype?node-id=0%3A1)
+- [FIGMA Prototype Colors](https://www.figma.com/file/TgqNneJZhTUzUbhQJk7Uof/Untitled?node-id=0%3A1)
