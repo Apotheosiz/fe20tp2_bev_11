@@ -1,6 +1,6 @@
 # FIGMA Your Financial Dashboard App
 
-> ![Logo](https://i.ibb.co/ScT1JV3/logo.png)
+<Logo here>
  
 Writing has never been easier.
 ## Developers 👷
