@@ -21,12 +21,13 @@
 
 <FINK logo here>
 
-****A functioning app with a sign-up page where you can search, favorite, unfavorite and show tickers while loged in. When selecting a ticker a graph will show you the stock exchange either by day, month or year, as well as news and comments related to chosen ticker. Eentually a few more features like a more polished admin page will be added in the future.****
+****A functioning app with a sign-up page where you can search, favorite, unfavorite and show stock tickers last price and evolution while loged in. When selecting a ticker a graph will show you the stock evolution either by day, month or year, as well as news to chosen ticker. The app can be customized after a specific client's company and it also has a company chat. Eventually a few more features like a more polished admin page will be added in the future.****
 
 
 ## Demo 📸
-[CLICK HERE FOR HOSTED DEMO VERSION](http://finance_and_stocks_ladies.surge.sh/)
+[CLICK HERE FOR HOSTED DEMO VERSION](http://finance_and_stocks_ladies.surge.sh/)**
 ![enter image description here](image.png)
+**in the demo version news are not available
 
 
 
@@ -36,13 +37,15 @@
 * Company log in with assigned styles
 * Search for tickers
 * Favorite/Unfavorite tickers
-* Graph by day, month or year
-* Min-and max
-* News articles related to ticker which link to original source 
-* Comment section with save, edit and remove function
+* Shows closing price and graph for selected and followed tickes
+* Graph customization by day, month, year and time period 
+* Show highest and lowest price sold for the selected interval
+* News articles related to ticker which link to original source
+* Comment section per company with save, edit and remove function
 
 ## Future Features 🔮
 **List of features to be added:**
+* Candelstick graph
 * Dark mode
 * Polished admin page
 * More customizations available for users in account settings
@@ -73,6 +76,7 @@ Functioning app with a good deal of features
 **APIs**
 - [Polygon](https://polygon.io/)
 - [News API](https://newsapi.org/docs/get-started)
+- [Financial Modeling Prep](https://financialmodelingprep.com/developer/docs/)
     
 **Prototype sites:**
 -  [Figma](https://www.figma.com/)
