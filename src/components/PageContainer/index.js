@@ -8,17 +8,17 @@ const StyledPageContainer = styled.div`
 `;
 
 class PageContainer extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {  }
-    }
-    render() { 
-        return ( 
-            <StyledPageContainer>
-                {this.props.children}
-            </StyledPageContainer>
-        );
-    }
+  constructor(props) {
+    super(props);
+    this.state = {}
+  }
+  render() {
+    return (
+      <StyledPageContainer>
+        {this.props.children}
+      </StyledPageContainer>
+    );
+  }
 }
- 
+
 export default PageContainer;

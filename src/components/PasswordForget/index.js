@@ -14,14 +14,13 @@ import { PasForgPic } from '../svgImg/WelcomePic.js';
 const StyledP = styled.p`
 
 padding: 20px 0;
-a {
-    
-    font-size: 16px;
-    text-decoration: none;
-    font-family:'Saira Condensed',sans-serif;
-    &:hover {
-        text-decoration: underline;
-    }
+a {    
+  font-size: 16px;
+  text-decoration: none;
+  font-family:'Saira Condensed',sans-serif;
+  &:hover {
+      text-decoration: underline;
+  }
 }
 `;
 
@@ -32,75 +31,78 @@ const StyledForm = styled.form`
 `
 
 const PasswordForgetPage = () => (
-    <PageContainer>
-        <Title>Forgot your password?</Title>
-        <PasForgPic />
-        <PasswordForgetForm />
-    </PageContainer>
+  <PageContainer>
+    <Title>Forgot your password?</Title>
+
+    {/* added svg picture as react component */}
+    <PasForgPic />
+    <PasswordForgetForm />
+  </PageContainer>
 );
 
 const INITIAL_STATE = {
-    email: '',
-    error: null,
+  email: '',
+  error: null,
 };
 
 
 class PasswordForgetFormBase extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = { ...INITIAL_STATE };
-    }
+    this.state = { ...INITIAL_STATE };
+  }
 
-    onSubmit = event => {
-        const { email } = this.state;
+  onSubmit = event => {
+    const { email } = this.state;
 
-        this.props.firebase
-            .doPasswordReset(email)
-            .then(() => {
-                this.setState({ ...INITIAL_STATE });
-            })
-            .catch(error => {
-                this.setState({ error });
-            });
-        event.preventDefault();
-    };
+    this.props.firebase
+      .doPasswordReset(email)
+      .then(() => {
+        this.setState({ ...INITIAL_STATE });
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
+    event.preventDefault();
+  };
 
-    onChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
-    };
+  onChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
-    render() {
+  render() {
 
-        const { email, error } = this.state;
+    const { email, error } = this.state;
 
-        const isInvalid = email === '';
+    const isInvalid = email === '';
 
-        return (
-            <StyledForm onSubmit={this.onSubmit}>
-                <FormWrap>
-                <FormControl
-                    name="email"
-                    value={this.state.email}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Email Address"
-                />
-                </FormWrap>
-                <Button disabled={isInvalid} width="fit-content" type="submit">
-                    Reset My Password
+    return (
+      <StyledForm onSubmit={this.onSubmit}>
+        <FormWrap>
+          <FormControl
+            name="email"
+            value={this.state.email}
+            onChange={this.onChange}
+            type="text"
+            placeholder="Email Address"
+            required
+          />
+        </FormWrap>
+        {error && <p style={{ color: "red" }}>{error.message}</p>}
+        <Button disabled={isInvalid} width="fit-content" type="submit">
+          Reset My Password
                 </Button>
-                {error && <p>{error.message}</p>}
-            </StyledForm>
+      </StyledForm>
 
-        );
-    }
+    );
+  }
 }
 
 const PasswordForgetLink = () => (
-    <StyledP>
-        <Link to={ROUTES.PASSWORD_FORGET}>Forgot Password?</Link>
-    </StyledP>
+  <StyledP>
+    <Link to={ROUTES.PASSWORD_FORGET}>Forgot Password?</Link>
+  </StyledP>
 );
 
 

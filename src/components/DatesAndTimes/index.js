@@ -1,84 +1,66 @@
 import subBusinessDays from 'date-fns/subBusinessDays';
 
+//sets a custom readable date format
 export const getDate = (timestamp) => {
-    const date = new Date(timestamp);
-    const day = date.toLocaleString("en", { day: "numeric" });
-    const month = date.toLocaleString('default', { month: 'short' });
-    const year = date.getFullYear();
-    const time = date.toISOString().split("T")[1].slice(0,5);
-    return day + " " + month + " " + year + " " + time
+  const date = new Date(timestamp);
+  const day = date.toLocaleString("en", { day: "numeric" });
+  const month = date.toLocaleString('default', { month: 'short' });
+  const year = date.getFullYear();
+  const time = date.toISOString().split("T")[1].slice(0, 5);
+  return day + " " + month + " " + year + " " + time
 }
 
-// export const getTime = (timestamp) => {
-//     const date = new Date(timestamp);
-//     const time = date.toISOString().split("T")[1].slice(0,5);
-//     return time
-// }
-
-// export const getDayMonth = (timestamp) => {
-//     const date = new Date(timestamp);
-//     const day = date.toLocaleString("en", { day: "numeric" });
-//     const month = date.toLocaleString('default', { month: 'short' });
-//     return day + " " + month
-// }
-
-// export const getMonthYear = (timestamp) => {
-//     const date = new Date(timestamp);
-//     const year = date.getFullYear();
-//     const month = date.toLocaleString('default', { month: 'short' });
-//     return month + " " + year
-// }
-
+//sets API specific date format
 const setFormat = (date) => {
-    let day = 0;
-    let dayNo = date.getDate();
+  let day = 0;
+  let dayNo = date.getDate();
 
-    if (dayNo < 10) {
-        day = "0" + dayNo;
-    } else day = dayNo;
+  if (dayNo < 10) {
+    day = "0" + dayNo;
+  } else day = dayNo;
 
-    let month = 0;
-    const monthNo = date.getMonth();
-    if (monthNo < 10) {
-        month = "0" + (monthNo + 1);
-    } else month = monthNo + 1;
+  let month = 0;
+  const monthNo = date.getMonth();
+  if (monthNo < 10) {
+    month = "0" + (monthNo + 1);
+  } else month = monthNo + 1;
 
-    const year = date.getFullYear();
-    return year + "-" + month + "-" + day;
+  const year = date.getFullYear();
+  return year + "-" + month + "-" + day;
 }
 
- const date = new Date();
+const date = new Date();
 
 const goBack = (date, days) => {
-    const result = subBusinessDays(date, days);
-    return new Date(result);
+  const result = subBusinessDays(date, days);
+  return new Date(result);
 };
 
+//setting dates for API
 export const today = setFormat(date);
 
 export const yesterday = setFormat(goBack(new Date(), 1))
-// export const dayBefore = setFormat(goBack(new Date(), 2))
 
-
+//do not write any code between this comment and the next, this alters the date object
 const oneWeekAgoDate = new Date(date.setDate(date.getDate() - 7));
 export const oneWeekAgo = setFormat(oneWeekAgoDate);
-// console.log(oneWeekAgo);
 
 date.setDate(date.getDate() + 7);
 
 const oneMonthAgoDate = new Date(date.setMonth(date.getMonth() - 1));
 export const oneMonthAgo = setFormat(oneMonthAgoDate);
-// console.log(oneMonthAgo);
+
 
 const threeMonthsAgoDate = new Date(date.setMonth(date.getMonth() - 2));
 export const threeMonthsAgo = setFormat(threeMonthsAgoDate);
-// console.log(threeMonthsAgo);
+
 
 const oneYearAgoDate = new Date(date.setMonth(date.getMonth() - 9));
 export const oneYearAgo = setFormat(oneYearAgoDate);
-// console.log(oneYearAgo);
+
 
 const fiveYearsAgoDate = new Date(date.setMonth(date.getMonth() - 12));
 export const fiveYearsAgo = setFormat(fiveYearsAgoDate);
-// console.log(fiveYearsAgo);
 
+date.setMonth(date.getDate() + 24);
+//only write new code under this line, it alters the date object back to normal

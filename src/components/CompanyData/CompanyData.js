@@ -1,19 +1,20 @@
 import { AreaChart, Area, BarChart, Bar, ReferenceLine, Scatter, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useState, useEffect } from 'react';
 import {
-    yesterday,
-    oneWeekAgo,
-    oneMonthAgo,
-    threeMonthsAgo,
-    oneYearAgo,
-    fiveYearsAgo,
-    getDate
+  yesterday,
+  oneWeekAgo,
+  oneMonthAgo,
+  threeMonthsAgo,
+  oneYearAgo,
+  fiveYearsAgo,
+  getDate
 } from '../DatesAndTimes';
 import GraphTitle from '../StockDataDasboard/GraphTitle';
 import { twoDecim } from '../StockDataDasboard/GraphTitle';
 import styled from 'styled-components';
 import minMax from "../../img/minMax.png";
 import minMaxActive from "../../img/minMaxActive.png";
+import IntervalSpan from './IntervalSpan/IntervalSpan';
 
 const StyledSection = styled.section`
 width:100%;
@@ -127,282 +128,260 @@ small{
 `
 
 const CompanyData = ({ comp, companyTicker }) => {
-    
-    const [stockData, setStockData] = useState([]);
-    const [maxPrice, setMaxPrice] = useState(0);
-    const [minPrice, setMinPrice] = useState(0);
-    const [minMaxLines, setMinMaxLines] = useState(false);
-    const [optionsState, setOptionsState] = useState("1/minute");
-    const [timeInterval, setTimeInterval] = useState(yesterday + "/" + yesterday);
-    const [error, setError] = useState(null);
+
+  //state for graph data
+  const [stockData, setStockData] = useState([]);
+
+  //states for minimum and maximum prices in the selected period
+  const [maxPrice, setMaxPrice] = useState(0);
+  const [minPrice, setMinPrice] = useState(0);
+
+  //state to show lines on graph related to maximum and minimum stock price
+  const [minMaxLines, setMinMaxLines] = useState(false);
+
+  //state for interval between datapoints
+  const [optionsState, setOptionsState] = useState("1/minute");
+
+  //state for entire time interval of graph data
+  const [timeInterval, setTimeInterval] = useState(yesterday + "/" + yesterday);
+
+  //APIs error is saved in a state
+  const [error, setError] = useState(null);
 
 
-    useEffect(() => {
-        fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/${optionsState}/${timeInterval}?unadjusted=true&sort=asc&limit=5000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
-            .then(response => response.json())
-            .then(data => {
+  useEffect(() => {
+    //API call for graph data
+    fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/${optionsState}/${timeInterval}?unadjusted=true&sort=asc&limit=5000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
+      .then(response => response.json())
+      .then(data => {
 
-                let arr = [];
+        let arr = [];
 
-                if (data.status === "OK" && data.results) {
-                    // console.log('data status ok');
+        if (data.status === "OK" && data.results) {
 
-                    let max = 0;
-                    let min = twoDecim(data.results[0].c);
+          //setting max price initial value to 0
+          let max = 0;
+          //setting min price initial value to first price in API data 
+          let min = twoDecim(data.results[0].c);
 
-                    // console.log(data);
-                    data.results.map(result => {
+          //mapping through rsults to create an array containing one graph point for each result object
+          //also setting min and max in .map
+          arr = data.results.map(result => {
 
-                    const closePrice = result.c;
+            const closePrice = result.c;
 
-                        if (closePrice > max) {
-                            max = closePrice;
-                        }
+            if (closePrice > max) {
+              max = closePrice;
+            }
 
-                        if (closePrice < min) {
-                            min = closePrice;
-                        }
+            if (closePrice < min) {
+              min = closePrice;
+            }
 
-                        const time =getDate(result.t);
-                        let price = closePrice;
-                        let volume = result.v;
-                        const point = {};
-                        point.time = time;
-                        point.price = price;
-                        point.volume = volume;
-                        arr.push(point);
-                    })
+            const time = getDate(result.t);
+            let price = closePrice;
+            let volume = result.v;
+            const point = {};
+            point.time = time;
+            point.price = price;
+            point.volume = volume;
+            return point
+          })
 
-                    setMaxPrice(max);
-                    setMinPrice(min);
+          setMaxPrice(max);
+          setMinPrice(min);
 
-                } else if (data.status === "ERROR" || !data.results) {
-                    setError(data);
-                } else console.log(data.status);
-                setStockData(arr);
-            })
-    }, [companyTicker, optionsState, timeInterval])
+        } else if (data.status === "ERROR" || !data.results) {
+          setError(data);
+        } else console.log(data.status);
+        setStockData(arr);
+      })
+  }, [companyTicker, optionsState, timeInterval])
 
-    const changeXAxisTick = (tick) => {
-        const timeArr = tick.split(" ");
+  //dinamically changes graph x axis lower ticks depending on interval
+  //eg:if the interval is one day, x axis will show hour points; if it is one year, x axis will show the month and the year 
+  const changeXAxisTick = (tick) => {
+    const timeArr = tick.split(" ");
 
-        switch (timeInterval.split("/")[0]) {
+    switch (timeInterval.split("/")[0]) {
 
-            case yesterday:
-                return timeArr[3];
-                
-            case oneYearAgo:
-                return timeArr[1] + " " + timeArr[2];
-               
-            case fiveYearsAgo:
-                return timeArr[1] + " " + timeArr[2];
+      case yesterday:
+        return timeArr[3];
 
-            default:
-                return timeArr[0] + " " + timeArr[1];
-          }
+      case oneYearAgo:
+        return timeArr[1] + " " + timeArr[2];
 
+      case fiveYearsAgo:
+        return timeArr[1] + " " + timeArr[2];
+
+      default:
+        return timeArr[0] + " " + timeArr[1];
     }
 
-    const changeVolumeAxisTick = (value) => {
-        let suffixes = ["", "k", "m", "b","t"];
-        let suffixNum = Math.floor((""+value).length/3);
-        let shortValue = parseFloat((suffixNum !== 0 ? (value / Math.pow(1000,suffixNum)) : value).toPrecision(2));
-        if (shortValue % 1 !== 0) {
-            shortValue = shortValue.toFixed(1);
-        }
-        return shortValue+suffixes[suffixNum];
+  }
+
+  //replace really long numbers with shorter variants eg. 100.000 with 10k
+  const changeVolumeAxisTick = (value) => {
+    let suffixes = ["", "k", "m", "b", "t"];
+    let suffixNum = Math.floor(("" + value).length / 3);
+    let shortValue = parseFloat((suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toPrecision(2));
+    if (shortValue % 1 !== 0) {
+      shortValue = shortValue.toFixed(1);
     }
+    return shortValue + suffixes[suffixNum];
+  }
 
-    return (
-        <StyledSection className="column-1-2">
-            <TitleWrapper>
-                {(stockData.length > 0) ?
-                    <div>
-                        <GraphTitle timeInterval={timeInterval} main={true} comp={comp} data={stockData} />
-                        
-                    </div>
-                    : null }
-                <div className="interval-parent">
-                    {/* todo: check this guy out */}
-                    <div className="time-interval">
-                        <span 
-                            className={(timeInterval === yesterday + "/" + yesterday) ? "active":""}
-                            data-value={yesterday + "/" + yesterday} 
-                            name="gender" defaultChecked={true}
-                            onClick={(event) => {
-                                setOptionsState("1/minute");
-                                setTimeInterval(event.target.dataset.value)
-                            }}
-                        > 1D </span>
-                        <span     
-                            className={(timeInterval === oneWeekAgo + "/" + yesterday) ? "active":""}                       
-                            data-value={oneWeekAgo + "/" + yesterday} 
-                            name="gender"
-                            onClick={(event) => {
-                                setOptionsState("10/minute");
-                                setTimeInterval(event.target.dataset.value);
-                            }}
-                        > 1W </span>
-                        <span 
-                            className={(timeInterval === oneMonthAgo + "/" + yesterday) ? "active":""}
-                            data-value={oneMonthAgo + "/" + yesterday} 
-                            name="gender" 
-                            onClick={(event) => {
-                                setOptionsState("1/hour");
-                                setTimeInterval(event.target.dataset.value);
-                        }}
-                        > 1M </span>
-                        <span  
-                            className={(timeInterval === threeMonthsAgo + "/" + yesterday) ? "active":""}
-                            data-value={threeMonthsAgo + "/" + yesterday} 
-                            name="gender" 
-                            onClick={(event) => {
-                                setOptionsState("1/day");
-                                setTimeInterval(event.target.dataset.value)
-                            }}
-                        > 3M </span>
-                        <span 
-                            className={(timeInterval === oneYearAgo + "/" + yesterday) ? "active":""}
-                            data-value={oneYearAgo + "/" + yesterday} 
-                            name="gender" 
-                            onClick={(event) => {
-                                setOptionsState("1/month");
-                                setTimeInterval(event.target.dataset.value)
-                            }}
-                        > 1Y </span>
-                        <span  
-                            className={(timeInterval === fiveYearsAgo + "/" + yesterday) ? "active":""}
-                            data-value={fiveYearsAgo + "/" + yesterday} 
-                            name="gender"
-                            onClick={(event) => {
-                                setOptionsState("3/month");
-                                setTimeInterval(event.target.dataset.value)
-                            }}
-                        > 2Y </span>
-                    </div>
-                    <div className="graph-options">
-                        <div className="select">
-                            <select value={optionsState} onChange={(event) => setOptionsState(event.target.value)}>
-                                <option value="1/minute">1 minute</option>
-                                <option value="5/minute">5 minutes</option>
-                                <option value="10/minute">10 minutes</option>
-                                <option value="30/minute">30 minutes</option>
-                                <option value="1/hour">1 hour</option>
-                                <option value="1/day">1 day</option>
-                                <option value="1/week">1 week</option>
-                                <option value="1/month">1 month</option>
-                                <option value="3/month">3 months</option>
-                            </select>
-                        </div>
-                        <div title="Show min-max" className="min-max">
-                            <span className={minMaxLines ? "active": " " } onClick={() => setMinMaxLines(!minMaxLines)}>
-                                {!minMaxLines ? <img src={minMax} /> : <img src={minMaxActive} />}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </TitleWrapper>
-            <div>
-                {error && !(stockData.length > 0) && <h2>{error.error}</h2>}
-                {error && !(stockData.length > 0) && (error.resultsCount === 0) && <h4>There are no results for the specified interval. Please choose another interval.</h4>}
-                {(stockData.length > 0) ?
-                    <div>
-                        <ResponsiveContainer width="100%" height={300} >
+  return (
+    <StyledSection className="column-1-2">
+      {/*Contains graph settings and informative text about the selected ticker*/}
+      <TitleWrapper>
 
-                            <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 3 }}>
-                                <defs>
-                                    {/* Dessa värden kontrollerar färg och form på gradienten för grafen */}
-                                    <linearGradient id="graphGradient" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="var(--secColor)" stopOpacity={0.8}/>
-                                        <stop offset="95%" stopColor="var(--mainColor)" stopOpacity={0.2}/>
-                                    </linearGradient>
-                                </defs>
-                                <Area type="linear" dataKey="price" stroke="var(--textColor)" name={comp.currency} dot={false} fill="url(#graphGradient)" strokeWidth={2} />
+        {(stockData.length > 0) ?
+          <GraphTitle timeInterval={timeInterval} main={true} comp={comp} data={stockData} />
+          : null}
 
-                                <CartesianGrid stroke="var(--gray)" strokeDasharray="1 1" />
+        <div className="interval-parent">
+          {/* Used one component for interval buttons. This is where you set the period for which you want data. eg from 29 feb 2020 to 29 feb 2021 */}
+          <div className="time-interval">
+            <IntervalSpan timeInterval={timeInterval} yesterday={yesterday} startTime={yesterday} defaultChecked={true} frequency="1/minute" setOptionsState={setOptionsState} setTimeInterval={setTimeInterval} text="1D" />
 
-                                <XAxis 
-                                    dataKey="time"  
-                                    stroke="var(--textGray)" 
-                                    axisLine={false} 
-                                    minTickGap={40}
-                                    tickFormatter={(tick) => changeXAxisTick(tick)}  
-                                    style={{
-                                        fontSize: '12px',
-                                    }}
-                                />
+            <IntervalSpan timeInterval={timeInterval} yesterday={yesterday} startTime={oneWeekAgo} defaultChecked={false} frequency="10/minute" setOptionsState={setOptionsState} setTimeInterval={setTimeInterval} text="1W" />
 
-                                <YAxis 
-                                    tickLine={false} 
-                                    stroke="var(--textGray)" 
-                                    domain={[(twoDecim(minPrice*0.99)) , twoDecim(maxPrice*1.01)]} 
-                                    axisLine={false}  
-                                    style={{
-                                        fontSize: '12px',
-                                    }}
-                                />
+            <IntervalSpan timeInterval={timeInterval} yesterday={yesterday} startTime={oneMonthAgo} defaultChecked={false} frequency="1/hour" setOptionsState={setOptionsState} setTimeInterval={setTimeInterval} text="1M" />
 
-                                <Tooltip contentStyle={{
-                                    borderRadius: "10px",
-                                    background: "#fff",
-                                    fontWeight: "600",
-                                }} />
+            <IntervalSpan timeInterval={timeInterval} yesterday={yesterday} startTime={threeMonthsAgo} defaultChecked={false} frequency="1/day" setOptionsState={setOptionsState} setTimeInterval={setTimeInterval} text="3M" />
 
-                                <Scatter dataKey={minPrice} fill="red" />
+            <IntervalSpan timeInterval={timeInterval} yesterday={yesterday} startTime={oneYearAgo} defaultChecked={false} frequency="1/month" setOptionsState={setOptionsState} setTimeInterval={setTimeInterval} text="1Y" />
 
-                                {minMaxLines ?
-                                    <ReferenceLine y={minPrice} stroke="red" label={"Min: " + minPrice + "$"} /> : null}
-                                {minMaxLines ?
-                                    <ReferenceLine y={maxPrice} label={"Max: " + maxPrice + "$"} stroke="red" /> : null}
+            <IntervalSpan timeInterval={timeInterval} yesterday={yesterday} startTime={fiveYearsAgo} defaultChecked={false} frequency="3/month" setOptionsState={setOptionsState} setTimeInterval={setTimeInterval} text="2Y" />
+          </div>
 
-                            </AreaChart>
-
-                        </ResponsiveContainer>
-                        
-                        <ResponsiveContainer width="100%" height={150}>
-
-                            <BarChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 3 }}>
-
-                                <Bar type="monotone" dataKey="volume" fill="#6b633d" name="Volume" />
-
-                                <CartesianGrid stroke="var(--gray)" strokeDasharray="1 1" vertical={false} />
-
-                                <XAxis 
-                                    dataKey="time" 
-                                    tickLine={false} 
-                                    stroke="var(--textGray)" 
-                                    minTickGap={40}
-                                    tickFormatter={(tick) => changeXAxisTick(tick)}
-                                />
-
-                                <YAxis 
-                                    tickLine={false} 
-                                    axisLine={false} 
-                                    stroke="var(--textGray)" 
-                                    tickFormatter={(tick) => changeVolumeAxisTick(tick)} 
-                                />
-
-                                <Tooltip
-                                    cursor={{ fill: 'rgba(229, 229, 229, 0.4)' }}
-                                    contentStyle={{
-                                        borderRadius: "10px",
-                                        background: "#fff",
-                                        color: "var(--textLight)",
-                                        fontWeight: "600",
-                                    }} />
-
-                                <Legend />
-
-                            </BarChart>
-                            
-                        </ResponsiveContainer>
-                    </div>
-                    : null
-                }
-
+          <div className="graph-options">
+            {/* Used a select tag for data frequency selector and optionsState that changes API call */}
+            <div className="select">
+              <select value={optionsState} onChange={(event) => setOptionsState(event.target.value)}>
+                <option value="1/minute">1 minute</option>
+                <option value="5/minute">5 minutes</option>
+                <option value="10/minute">10 minutes</option>
+                <option value="30/minute">30 minutes</option>
+                <option value="1/hour">1 hour</option>
+                <option value="1/day">1 day</option>
+                <option value="1/week">1 week</option>
+                <option value="1/month">1 month</option>
+                <option value="3/month">3 months</option>
+              </select>
             </div>
-        </StyledSection>
-    )
+
+            {/*Shows min and max price lines on the graph*/}
+            <div title="Show min-max" className="min-max">
+              <span className={minMaxLines ? "active" : " "} onClick={() => setMinMaxLines(!minMaxLines)}>
+                {!minMaxLines ? <img src={minMax} alt="" /> : <img src={minMaxActive} alt="" />}
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </TitleWrapper>
+
+      {/*In case API returns error*/}
+      {error && !(stockData.length > 0) && <h2>{error.error}</h2>}
+      {error && !(stockData.length > 0) && (error.resultsCount === 0) && <h4>There are no results for the specified interval. Please choose another interval.</h4>}
+
+      {/*Recharts graphs with according data*/}
+      {(stockData.length > 0) ?
+        <>
+          <ResponsiveContainer width="100%" height={300} >
+            <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 3 }}>
+              <defs>
+                {/* Theese values control the graphs gradient colors */}
+                <linearGradient id="graphGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="var(--secColor)" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="var(--mainColor)" stopOpacity={0.2} />
+                </linearGradient>
+              </defs>
+
+              {/*Main graph line*/}
+              <Area type="linear" dataKey="price" stroke="var(--textColor)" name={comp.currency} dot={false} fill="url(#graphGradient)" strokeWidth={2} />
+
+              <CartesianGrid stroke="var(--gray)" strokeDasharray="1 1" />
+
+              <XAxis
+                dataKey="time"
+                stroke="var(--textGray)"
+                axisLine={false}
+                minTickGap={40}
+                tickFormatter={(tick) => changeXAxisTick(tick)}
+                style={{
+                  fontSize: '12px',
+                }}
+              />
+
+              <YAxis
+                tickLine={false}
+                stroke="var(--textGray)"
+                domain={[(twoDecim(minPrice * 0.99)), twoDecim(maxPrice * 1.01)]}
+                axisLine={false}
+                style={{
+                  fontSize: '12px',
+                }}
+              />
+
+              <Tooltip contentStyle={{
+                borderRadius: "10px",
+                background: "#fff",
+                fontWeight: "600",
+              }} />
+
+              <Scatter dataKey={minPrice} fill="red" />
+
+              {/*min price and mav price lines*/}
+              {minMaxLines ?
+                <ReferenceLine y={minPrice} stroke="red" label={"Min: " + minPrice + "$"} /> : null}
+              {minMaxLines ?
+                <ReferenceLine y={maxPrice} label={"Max: " + maxPrice + "$"} stroke="red" /> : null}
+            </AreaChart>
+          </ResponsiveContainer>
+
+          {/*This is the volume graph with bars*/}
+          <ResponsiveContainer width="100%" height={150}>
+            <BarChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 3 }}>
+
+              <Bar type="monotone" dataKey="volume" fill="#6b633d" name="Volume" />
+
+              <CartesianGrid stroke="var(--gray)" strokeDasharray="1 1" vertical={false} />
+
+              <XAxis
+                dataKey="time"
+                tickLine={false}
+                stroke="var(--textGray)"
+                minTickGap={40}
+                tickFormatter={(tick) => changeXAxisTick(tick)}
+              />
+
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                stroke="var(--textGray)"
+                tickFormatter={(tick) => changeVolumeAxisTick(tick)}
+              />
+
+              <Tooltip
+                cursor={{ fill: 'rgba(229, 229, 229, 0.4)' }}
+                contentStyle={{
+                  borderRadius: "10px",
+                  background: "#fff",
+                  color: "var(--textLight)",
+                  fontWeight: "600",
+                }} />
+
+              <Legend />
+
+            </BarChart>
+          </ResponsiveContainer>
+        </>
+        : null}
+    </StyledSection>
+  )
 }
 
 export default CompanyData

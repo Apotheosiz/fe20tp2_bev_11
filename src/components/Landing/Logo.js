@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
-    font-family: 'Wallpoet', sans-serif;
-    
+    font-family: 'Wallpoet', sans-serif;    
 
     h1 {
         color: var(--textColor);
@@ -18,15 +17,14 @@ const StyledDiv = styled.div`
         font-family:'Saira Condensed',sans-serif;
         font-weight:400;
     }
-
 `
 
-const Logo = ( {className} ) => {
+const Logo = ({ className }) => {
   return (
-  <StyledDiv className={className} >
-    <h1>FINK</h1>
-    <h2>Your financial dashboard!</h2>
-  </StyledDiv>)
+    <StyledDiv className={className} >
+      <h1>FINK</h1>
+      <h2>Your financial dashboard!</h2>
+    </StyledDiv>)
 }
 
 export default Logo;

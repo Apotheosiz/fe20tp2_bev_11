@@ -4,7 +4,7 @@ import withAuthorization from './withAuthorization';
 
 
 export {
-    AuthUserContext,
-    withAuthentication,
-    withAuthorization,
+  AuthUserContext,
+  withAuthentication,
+  withAuthorization,
 };

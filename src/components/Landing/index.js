@@ -6,7 +6,7 @@ import { LandingPic } from '../svgImg/WelcomePic.js';
 import Button from '../Button';
 import * as ROUTES from '../../constants/routes';
 import { Link } from 'react-router-dom';
-import { SignInLink} from '../SignIn';
+import { SignInLink } from '../SignIn';
 import { ArrowDown } from '../svgImg/WelcomePic';
 
 const Header = styled.div`
@@ -79,36 +79,39 @@ const ArrowButton = styled.button`
 `
 
 const Landing = () => {
-    const sectionEl = useRef(null);
-    return (
-    <PageContainer> 
-        <MainContent>
-            <Header>
-                <Logo />
-            </Header>
-            <LandingPic width='80%' maxWidth='500px' />
-            <div><Link to={ROUTES.SIGN_UP}><Button width='75%' maxWidth='400px' >Get started</Button></Link>
-            <SignInLink /></div>
-        </MainContent>
-        <ArrowButton onClick={(event) => {
-            sectionEl.current.scrollIntoView({ behavior: "smooth" });
-            event.target.remove();
-            } } >
-          <ArrowDown />
-        </ArrowButton>
-        <Section ref={sectionEl} >
-            <Title>WHY MARKET LEADERS ARE CHOOSING FINK</Title>
-            <Row>
-                <Bubble>
-                    <p>Scaling that goes up to the billions. More than having the broadest, most reliable connections across Europe, the Tink platform has the scale to suit big international customers. We handle over 1bn monthly API calls with 99.9%+ uptime</p>
-                </Bubble>
-                <Bubble>
-                    <p>One platform, endless possibilities. We offer a range of products that can help businesses achieve a series of different goals. From streamlining onboarding, attracting new users with award-winning apps – to processing millions in payments.</p>
-                </Bubble>
-            </Row>
-        </Section>
+
+  //used react ref in order to scroll to a specific element when clicking on down arrow
+  const sectionEl = useRef(null);
+
+  return (
+    <PageContainer>
+      <MainContent>
+        <Header>
+          <Logo />
+        </Header>
+        <LandingPic width='80%' maxWidth='500px' />
+        <Link to={ROUTES.SIGN_UP}><Button width='75%' maxWidth='400px' >Get started</Button></Link>
+        <SignInLink />
+      </MainContent>
+      <ArrowButton onClick={(event) => {
+        sectionEl.current.scrollIntoView({ behavior: "smooth" });
+        event.target.remove();
+      }} >
+        <ArrowDown />
+      </ArrowButton>
+      <Section ref={sectionEl} >
+        <Title>WHY MARKET LEADERS ARE CHOOSING FINK</Title>
+        <Row>
+          <Bubble>
+            <p>Scaling that goes up to the billions. More than having the broadest, most reliable connections across Europe, the Tink platform has the scale to suit big international customers. We handle over 1bn monthly API calls with 99.9%+ uptime</p>
+          </Bubble>
+          <Bubble>
+            <p>One platform, endless possibilities. We offer a range of products that can help businesses achieve a series of different goals. From streamlining onboarding, attracting new users with award-winning apps – to processing millions in payments.</p>
+          </Bubble>
+        </Row>
+      </Section>
     </PageContainer>
-    )
+  )
 };
 
 
