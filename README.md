@@ -25,9 +25,8 @@
 
 
 ## Demo 📸
-[CLICK HERE FOR HOSTED DEMO VERSION](http://finance_and_stocks_ladies.surge.sh/)**
+[CLICK HERE FOR HOSTED DEMO VERSION](http://finance_and_stocks_ladies.surge.sh/)
 ![enter image description here](image.png)
-**in the demo version news are not available
 
 
 
