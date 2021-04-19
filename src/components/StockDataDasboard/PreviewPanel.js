@@ -8,19 +8,19 @@ display:flex;
 flex-wrap:wrap;
 justify-content:center;
 @media screen and (min-width:550px) {
-    margin: 15px auto;
+  margin: 15px auto;
 }
 `;
 
-const PreviewPanel = ({graphTicker, user, setCompanyTicker, setComp, delTicker }) => {
+const PreviewPanel = ({ graphTicker, user, setCompanyTicker, setComp, delTicker }) => {
 
-    return (
-        <section className="preview-panel">
-            <Panel>                
-                {user && user.tickers && Object.keys(user.tickers).map(ticker => <PreviewItem graphTicker={graphTicker} user={user} comp={user.tickers[ticker]} ticker={ticker} setCompanyTicker={setCompanyTicker} setComp={setComp} delTicker={delTicker} key={ticker} />)}
-            </Panel>
-        </section>
-    )
+  return (
+    <section className="preview-panel">
+      <Panel>
+        {user && user.tickers && Object.keys(user.tickers).map(ticker => <PreviewItem graphTicker={graphTicker} user={user} comp={user.tickers[ticker]} ticker={ticker} setCompanyTicker={setCompanyTicker} setComp={setComp} delTicker={delTicker} key={ticker} />)}
+      </Panel>
+    </section>
+  )
 }
 
 

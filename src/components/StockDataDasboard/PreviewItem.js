@@ -63,6 +63,7 @@ const PreviewItem = ({graphTicker, user, comp, ticker, setCompanyTicker, setComp
     const [color, setColor] =useState("#f9897a");
     const interval =`10/minute/${yesterday}/${yesterday}`;
 
+    //using a different api key for previews
     useEffect(() => {
         fetch(`https://api.polygon.io/v2/aggs/ticker/${ticker}/range/${interval}?unadjusted=true&sort=asc&limit=5000&apiKey=xDToCZJHm7pBpVlUiM8vcrK75nKJrpGV`)
             .then(response => response.json())
@@ -96,8 +97,9 @@ const PreviewItem = ({graphTicker, user, comp, ticker, setCompanyTicker, setComp
 
                     setActualStockData(arrForTitle);
 
-                    data.results.map(result => {
-
+                    arr = data.results.map(result => {
+                        /*subtracting min price from all datapoints prices in order to 
+                        start graph from 0 to keep graphs relevent when pice differences are high*/
                         const closePrice = twoDecim(result.c - min);
 
                         const time = getDate(result.t);
@@ -107,9 +109,10 @@ const PreviewItem = ({graphTicker, user, comp, ticker, setCompanyTicker, setComp
                         point.time = time;
                         point.price = price;
                         point.volume = volume;
-                        arr.push(point);
+                        return point
                     });
 
+                    //make decreasing stocks red and increasing ones green
                     if (arr[arr.length - 1].price > arr[0].price) {
                         setColor('#137333');
                     } else if (arr[arr.length - 1].price < arr[0].price) {

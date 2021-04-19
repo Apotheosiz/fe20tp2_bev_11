@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+//a wacky way to send svg pictures throughout the app as react components
+
 const StyledDiv = styled.div`
     width:${props => props.width ? props.width : "40%"}; 
     ;
@@ -9,6 +11,7 @@ const StyledDiv = styled.div`
     } 
 `
 
+//customizable svg's main color 
 const mainColor = "var(--mainColor)";
 
 export const LandingPic = ({ width, maxWidth }) => {
@@ -114,12 +117,3 @@ export const SavePic = ({ width, maxWidth, margin }) => {
         <path fill="var(--textColor)" d="M433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941zM224 416c-35.346 0-64-28.654-64-64 0-35.346 28.654-64 64-64s64 28.654 64 64c0 35.346-28.654 64-64 64zm96-304.52V212c0 6.627-5.373 12-12 12H76c-6.627 0-12-5.373-12-12V108c0-6.627 5.373-12 12-12h228.52c3.183 0 6.235 1.264 8.485 3.515l3.48 3.48A11.996 11.996 0 0 1 320 111.48z"></path></svg>
     </StyledDiv>)
 }
-
-export const Profile = ({ profile }) => (<>
-  {(profile == 1) ? 
-  <svg width="200" height="200" viewBox="0 0 200 200">
-  </svg>
-  : null}
-  {/*Little svg guy >)*/}
-  <svg id="ab6d4b78-a8f6-485a-afcf-f519a4f8db63" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="650 150 300 400"><circle cx="795.07343" cy="405.2348" r="79" fill="#2f2e41" /><rect x="970.03671" y="568.90295" width="24" height="43" transform="translate(1801.11014 1079.13775) rotate(-180)" fill="#2f2e41" /><rect x="922.03671" y="568.90295" width="24" height="43" transform="translate(1705.11014 1079.13775) rotate(-180)" fill="#2f2e41" /><ellipse cx="811.07343" cy="510.7348" rx="20" ry="7.5" fill="#2f2e41" /><ellipse cx="763.07343" cy="509.7348" rx="20" ry="7.5" fill="#2f2e41" /><circle cx="793.07343" cy="385.2348" r="27" fill="#fff" /><circle cx="793.07343" cy="385.2348" r="9" fill="#3f3d56" /><path d="M1034.66938,433.43522c6.37889-28.56758-14.01185-57.43391-45.544-64.47476s-62.2651,10.41-68.644,38.97759S935,447.04185,966.53215,454.0827,1028.29049,462.0028,1034.66938,433.43522Z" transform="translate(-162.96329 -101.66814)" fill={mainColor} /></svg>
-</>);

@@ -135,10 +135,9 @@ const NavigationAuth = ({ authUser }) => (
     <ListInnerContainer>
       <ListItem>
         {/*when user signs up with no company he gets a userComp == 2 and the Fink logo*/}
-        {(authUser.userComp == 2) ? <Link to={ROUTES.LANDING}><Logo>F</Logo></Link> : null}
-
-        {/*when user signs up with a different company he gets (not 2) company's logo is rendered*/}
-        {authUser.userComp && (!authUser.userComp == 2) &&
+        {(authUser.userComp == 2)
+          ? <Link to={ROUTES.LANDING}><Logo>F</Logo></Link>
+          : authUser.userComp &&
           <UserLogo>
             <img
               style={{
@@ -147,7 +146,11 @@ const NavigationAuth = ({ authUser }) => (
               }}
               src={logoArr[authUser.userComp].logo}
               alt="CompanyLogo" />
-          </UserLogo>}
+          </UserLogo>
+        }
+
+        {/*when user signs up with a different company he gets (not 2) company's logo is rendered*/}
+
       </ListItem>
 
       <ListItem className="navbarItem">

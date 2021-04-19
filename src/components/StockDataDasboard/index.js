@@ -137,19 +137,16 @@ const StockDataDashboard = ({ companyTicker, setCompanyTicker, authUser, firebas
 
   useEffect(() => {
     console.log(authUser.uid);
-    firebase.user(authUser.uid).once('value', snapshot => {
+    firebase.user(authUser.uid).on('value', snapshot => {
       const dbUser = snapshot.val()
       setUser(dbUser);
     })
-  }, []);
+  }, [authUser, firebase]);
 
   const closeSearchList = () => {
     setResults(null);
     setSearchTerm('');
   }
-
-
-
 
   return (
     <StockDashboard className="column-1-2">
@@ -164,6 +161,8 @@ const StockDataDashboard = ({ companyTicker, setCompanyTicker, authUser, firebas
                                 c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17
                                 s-17-7.626-17-17S14.61,6,23.984,6z"/>
             </svg>
+
+            {/*search field*/}
             <input
               name="searchCompany"
               onChange={onChange}
@@ -171,6 +170,7 @@ const StockDataDashboard = ({ companyTicker, setCompanyTicker, authUser, firebas
               placeholder="Company name or ticker"
               value={searchTerm}
             />
+
             {results ?
               <div onClick={closeSearchList}>
                 <svg viewBox="0 0 329.26933 329" width="329pt" xmlns="http://www.w3.org/2000/svg">
@@ -179,13 +179,14 @@ const StockDataDashboard = ({ companyTicker, setCompanyTicker, authUser, firebas
                 </svg>
               </div>
               : null}
+
           </form>
         </div>
 
+        {/*result list*/}
         {results ?
           (results.length > 0) ?
-
-            <div>
+            <>
               {results.map(result =>
                 <ResultDiv
                   key={result['symbol']}
@@ -201,10 +202,12 @@ const StockDataDashboard = ({ companyTicker, setCompanyTicker, authUser, firebas
                     <span className="ticker">{result['symbol']}</span>: <span>{result['name']}</span>
                   </span>
 
+                  {/*a very complicated way to render favorite stars and limit the number of favorites between 1 and 5(all cannot be erased and you cannot have more than 5) */}
                   {Object.keys(user.tickers).includes(result['symbol'])
                     ? <>
                       {(Object.keys(user.tickers).length > 1)
-                        && <StyledButton
+                        &&
+                        <StyledButton
                           onClick={() => delTicker(result['symbol'])}
                         >
                           <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -226,15 +229,13 @@ const StockDataDashboard = ({ companyTicker, setCompanyTicker, authUser, firebas
                     </>}
 
                 </ResultDiv>)}
-            </div>
+            </>
             : <ResultDiv><span>Company not found.</span></ResultDiv>
           : null
         }
       </FormWrapper>
 
       {user && <PreviewPanel graphTicker={companyTicker} user={user} setCompanyTicker={setCompanyTicker} setComp={setComp} delTicker={delTicker} />}
-
-
 
     </StockDashboard>
   )

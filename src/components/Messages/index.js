@@ -203,9 +203,11 @@ class MessagesBase extends Component {
       }
     });
   }
+
   componentWillUnmount() {
     this.props.firebase.messages(this.props.authUser.userComp).off();
   }
+
   render() {
     const { text, messages, loading } = this.state;
 
