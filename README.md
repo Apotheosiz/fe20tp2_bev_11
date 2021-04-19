@@ -21,7 +21,7 @@
 
 <FINK logo here>
 
-****A functioning app with a sign-up page where you can search, favorite, unfavorite and show stock tickers last price and evolution while loged in. When selecting a ticker a graph will show you the stock evolution either by day, month or year, as well as news to chosen ticker. The app can be customized after a specific client's company and it also has a company chat. Eventually a few more features like a more polished admin page will be added in the future.****
+****A functioning app with a sign-up page where you can search, favorite, unfavorite and show stock tickers last price and evolution while signed in. When selecting a ticker a graph will show you the stock evolution either by day, month or year, as well as news related to chosen ticker. The app can be customized after a specific client's company and it also has a company chat. Eventually a few more features like a more polished admin page will be added in the future.****
 
 
 ## Demo 📸
@@ -34,13 +34,13 @@
 ## Features ✨
 **List of features available:**
 * Account page, sign up/sign in
-* Company log in with assigned styles
+* Company sign in with assigned styles
 * Search for tickers
 * Favorite/Unfavorite tickers
 * Shows closing price and graph for selected and followed tickes
 * Graph customization by day, month, year and time period 
-* Show highest and lowest price sold for the selected interval
-* News articles related to ticker which link to original source
+* Shows highest and lowest price sold for the selected interval
+* News articles related to ticker which link to the original source
 * Comment section per company with save, edit and remove function
 
 ## Future Features 🔮
