@@ -4,11 +4,9 @@ import SignOutButton from '../SignOut';
 import { AuthUserContext } from '../Session';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
-
 import { slide as Menu } from 'react-burger-menu';
 import styled from 'styled-components';
 import { StyledImg } from '../SignUp';
-
 import pic1 from '../../img/profiles/1.png';
 import pic2 from '../../img/profiles/2.png';
 import pic3 from '../../img/profiles/3.png';
@@ -68,98 +66,101 @@ const Logo = styled.h1`
     font-family: 'Wallpoet', cursive;
 `;
 
+//menu custom styles
 var styles = {
-    bmBurgerButton: {
-      position: 'fixed',
-      width: '36px',
-      height: '30px',
-      right: '20px',
-      top: '36px'
-    },
-    bmBurgerBars: {
-      background: 'var(--textColor)',
-      borderRadius: '5px'
-    },
-    bmCrossButton: {
-      height: '34px',
-      width: '34px'
-    },
-    bmCross: {
-      background: 'var(--textColor)'
-    },
-    bmMenuWrap: {
-      position: 'fixed',
-    },
-    bmMenu: {
-      background: 'var(--secColor)',
-      padding: '50px 30px 0',
-      fontSize: '22px'
-    },
-    bmMorphShape: {
-      fill: 'var(--textColor)'
-    },
-    bmItemList: {
-      color: 'var(--textLight)',
-      padding: '10px',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center'
-    },
-    bmOverlay: {
-      background: 'rgba(0, 0, 0, 0.3)',      
-      top: '0',
-      right: '0',
-    }
-  }  
+  bmBurgerButton: {
+    position: 'fixed',
+    width: '36px',
+    height: '30px',
+    right: '20px',
+    top: '36px'
+  },
+  bmBurgerBars: {
+    background: 'var(--textColor)',
+    borderRadius: '5px'
+  },
+  bmCrossButton: {
+    height: '34px',
+    width: '34px'
+  },
+  bmCross: {
+    background: 'var(--textColor)'
+  },
+  bmMenuWrap: {
+    position: 'fixed',
+  },
+  bmMenu: {
+    background: 'var(--secColor)',
+    padding: '50px 30px 0',
+    fontSize: '22px'
+  },
+  bmMorphShape: {
+    fill: 'var(--textColor)'
+  },
+  bmItemList: {
+    color: 'var(--textLight)',
+    padding: '10px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  bmOverlay: {
+    background: 'rgba(0, 0, 0, 0.3)',
+    top: '0',
+    right: '0',
+  }
+}
 
 class BurgerNav extends React.Component {
-  showSettings (event) {
+  showSettings(event) {
     event.preventDefault();
   }
 
-  render () {
+  render() {
     return (
-        <BM>        
-            <AuthUserContext.Consumer>
-                {authUser =>
-                    authUser ? <NavigationAuth authUser={authUser} /> : <NavigationNonAuth />
-                }
-            </AuthUserContext.Consumer>
-        </BM>
+      <BM>
+        <AuthUserContext.Consumer>
+          {authUser =>
+            authUser ? <NavigationAuth authUser={authUser} /> : <NavigationNonAuth />
+          }
+        </AuthUserContext.Consumer>
+      </BM>
     );
   }
 }
 
+//navigation for authenticated users
 const NavigationAuth = ({ authUser }) => (
-    <Menu right styles={styles} pageWrapId={ "pageWrap"} outerContainerId={ "outerWrap" } disableAutoFocus >
-            <BurgerItem className="navbarItem">
-                <Link to={ROUTES.HOME}>HOME</Link>
-            </BurgerItem>
-            {!!authUser.roles[ROLES.ADMIN] && (
-                <BurgerItem className="navbarItem">
-                    <Link to={ROUTES.ADMIN}>ADMIN</Link>
-                </BurgerItem>
-            )}
-            <BurgerItem className="navbarItem">
-                <Link to={ROUTES.ACCOUNT}>
-                  <StyledImg style={{marginRight: '0'}} src={picArr[authUser.profilePic - 1]} alt="profile"/>
-                </Link>
-            </BurgerItem>
-            <BurgerItem className="navbarItem">                
-                <SignOutButton />
-            </BurgerItem>
-    </Menu>
+  <Menu right styles={styles} pageWrapId={"pageWrap"} outerContainerId={"outerWrap"} disableAutoFocus >
+    <BurgerItem className="navbarItem">
+      <Link to={ROUTES.HOME}>HOME</Link>
+    </BurgerItem>
+    {!!authUser.roles[ROLES.ADMIN] && (
+      <BurgerItem className="navbarItem">
+        <Link to={ROUTES.ADMIN}>ADMIN</Link>
+      </BurgerItem>
+    )}
+    <BurgerItem className="navbarItem">
+      <Link to={ROUTES.ACCOUNT}>
+        <StyledImg style={{ marginRight: '0' }} src={picArr[authUser.profilePic - 1]} alt="profile" />
+      </Link>
+    </BurgerItem>
+    <BurgerItem className="navbarItem">
+      <SignOutButton />
+    </BurgerItem>
+  </Menu>
 );
 
+//navigation for non authenticated users
 const NavigationNonAuth = () => (
-    <BurgerList>
-        <BurgerItem>
-            <Link to={ROUTES.LANDING}><Logo>F</Logo></Link>
-        </BurgerItem>
-        <BurgerItem>
-            <Link to={ROUTES.SIGN_IN}>SIGN IN</Link>
-        </BurgerItem>
-    </BurgerList>
+  <BurgerList>
+    <BurgerItem>
+      <Link to={ROUTES.LANDING}><Logo>F</Logo></Link>
+    </BurgerItem>
+    <BurgerItem>
+      <Link to={ROUTES.SIGN_IN}>SIGN IN</Link>
+    </BurgerItem>
+  </BurgerList>
 );
 
 
