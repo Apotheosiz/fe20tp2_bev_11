@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import { compose } from 'recompose';
-
 import { withFirebase } from '../Firebase';
 import {
     withAuthorization,
@@ -22,8 +21,8 @@ const picArr = [pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8];
 
 const AdminPage = () => (
     <PageContainer>
-        <h1>Admin</h1>
-        <p>The Admin Page is accessible by every signed in admin user.</p>
+        <h1>Admin*</h1>
+        <small>*under construction</small>
         <Switch>
             <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
             <Route exact path={ROUTES.ADMIN} component={UserList} />
@@ -44,14 +43,17 @@ class UserListBase extends Component {
     componentDidMount() {
         this.setState({ loading: true });
 
+        //accesing firebase database to get users
         this.props.firebase.users().on('value', snapshot => {
             const usersObject = snapshot.val();
 
+            //creating an array with all users
             const usersList = Object.keys(usersObject).map(key => ({
                 ...usersObject[key],
                 uid: key,
             }));
 
+            //saving users array in state
             this.setState({
                 users: usersList,
                 loading: false,
@@ -66,36 +68,28 @@ class UserListBase extends Component {
     render() {
         const { users, loading } = this.state;
         return (
-            <div>
+            <>
                 <h2>Users</h2>
                 {loading && <div>Loading ...</div>}
                 <ul>
                     {users.map(user => (
                         <li key={user.uid}>
-                            <img src={picArr[user.profilePic - 1]} alt="profile"/>
-                            <span>
-                                <strong>ID:</strong> {user.uid}
-                            </span>
-                            <span>
-                                <strong>E-Mail:</strong> {user.email}
-                            </span>
-                            <span>
-                                <strong>Username:</strong> {user.username}
-                            </span>
-                            <span>
-                                <Link
-                                    to={{
-                                        pathname: `${ROUTES.ADMIN}/${user.uid}`,
-                                        state: { user },
-                                    }}
-                                >
-                                    Details
-                                </Link>
-                            </span>
+                            <img style={{ width: '30px' }} src={picArr[user.profilePic - 1]} alt="profile" />
+                            <strong>ID:</strong> {user.uid}
+                            <strong>E-Mail:</strong> {user.email}
+                            <strong>Username:</strong> {user.username}
+                            <Link
+                                to={{
+                                    pathname: `${ROUTES.ADMIN}/${user.uid}`,
+                                    state: { user },
+                                }}
+                            >
+                                Details
+                            </Link>
                         </li>
                     ))}
                 </ul>
-            </div>
+            </>
         );
     }
 }
@@ -135,31 +129,23 @@ class UserItemBase extends Component {
     render() {
         const { user, loading } = this.state;
         return (
-            <div>
+            <>
                 <h2>User ({this.props.match.params.id})</h2>
                 {loading && <div>Loading ...</div>}
                 {user && (
-                    <div>
-                        <span>
-                            <strong>ID:</strong> {user.uid}
-                        </span>
-                        <span>
-                            <strong>E-Mail:</strong> {user.email}
-                        </span>
-                        <span>
-                            <strong>Username:</strong> {user.username}
-                        </span>
-                        <span>
-                            <button
-                                type="button"
-                                onClick={this.onSendPasswordResetEmail}
-                            >
-                                Send Password Reset
+                    <>
+                        <strong>ID:</strong> {user.uid}
+                        <strong>E-Mail:</strong> {user.email}
+                        <strong>Username:</strong> {user.username}
+                        <button
+                            type="button"
+                            onClick={this.onSendPasswordResetEmail}
+                        >
+                            Send Password Reset
                             </button>
-                        </span>
-                    </div>
+                    </>
                 )}
-            </div>
+            </>
         );
     }
 }
