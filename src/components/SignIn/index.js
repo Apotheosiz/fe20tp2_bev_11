@@ -93,7 +93,8 @@ class SignInFormBase extends Component {
             value={email}
             onChange={this.onChange}
             type="text"
-            placeholder="email">
+            placeholder="email"
+            required>
           </FormControl>
           <FormControl
             name="password"
@@ -101,14 +102,15 @@ class SignInFormBase extends Component {
             onChange={this.onChange}
             type="password"
             placeholder="password"
+            required
           >
           </FormControl>
         </FormWrap>
         <PasswordForgetLink />
+        {error && <p style={{ color: "red" }}>{error.message}</p>}
         <Button disabled={isInvalid} type="submit">
           sign in
                 </Button>
-        {error && <p>{error.message}</p>}
       </form>
     );
   }

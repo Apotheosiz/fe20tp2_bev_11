@@ -239,6 +239,7 @@ class SignUpFormBase extends Component {
                 onChange={this.onChange}
                 type="text"
                 placeholder="full name"
+                required
             />
             <FormControl 
                 name="email"
@@ -246,6 +247,7 @@ class SignUpFormBase extends Component {
                 onChange={this.onChange}
                 type="text"
                 placeholder="email"
+                required
             />
         </StyledFormWrap>
         <StyledFormWrap>
@@ -258,6 +260,7 @@ class SignUpFormBase extends Component {
                 onChange={this.onChange}
                 type="password"
                 placeholder="password"
+                required
             />
             <FormControl
                 name="passwordTwo"
@@ -265,6 +268,7 @@ class SignUpFormBase extends Component {
                 onChange={this.onChange}
                 type="password"
                 placeholder="confirm password"
+                required
             />
             
         </StyledFormWrap>
@@ -296,9 +300,9 @@ class SignUpFormBase extends Component {
             </label>
         </BeAdmin>
 
+        {error && <p style={{ color: "red"}}>{error.message}</p>}
         <Button disabled={isInvalid} type="submit">register</Button>
 
-        {error && <p>{error.message}</p>}
       </form>
     );
   }

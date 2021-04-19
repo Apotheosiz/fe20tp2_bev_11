@@ -86,12 +86,13 @@ class PasswordForgetFormBase extends Component {
             onChange={this.onChange}
             type="text"
             placeholder="Email Address"
+            required
           />
         </FormWrap>
+        {error && <p style={{ color: "red" }}>{error.message}</p>}
         <Button disabled={isInvalid} width="fit-content" type="submit">
           Reset My Password
                 </Button>
-        {error && <p>{error.message}</p>}
       </StyledForm>
 
     );
