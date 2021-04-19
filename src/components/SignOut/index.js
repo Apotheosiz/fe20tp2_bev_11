@@ -26,4 +26,6 @@ const SignOutButton = ({ firebase }) => (
     </svg>
   </Button>
 );
+
+//adding firebase higher order component in order to acces the doSignOut method
 export default withFirebase(SignOutButton);
