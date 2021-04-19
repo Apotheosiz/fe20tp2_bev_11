@@ -233,6 +233,7 @@ const CompanyData = ({ comp, companyTicker }) => {
 
     return (
         <StyledSection className="column-1-2">
+            {/*Contains graph settings and informative text about the selected ticker*/}
             <TitleWrapper>
                 {(stockData.length > 0) ?
                     <div>
@@ -241,9 +242,8 @@ const CompanyData = ({ comp, companyTicker }) => {
                     </div>
                     : null}
                 <div className="interval-parent">
-                    {/* Used one component for interval buttons */}
+                    {/* Used one component for interval buttons. This is where you set the period for which you want data. eg from 29 feb 2020 to 29 feb 2021 */}
                     <div className="time-interval">
-
                         <IntervalSpan timeInterval={timeInterval} yesterday={yesterday} startTime={yesterday} defaultChecked={true} frequency="1/minute" setOptionsState={setOptionsState} setTimeInterval={setTimeInterval} text="1D" />
 
                         <IntervalSpan timeInterval={timeInterval} yesterday={yesterday} startTime={oneWeekAgo} defaultChecked={false} frequency="10/minute" setOptionsState={setOptionsState} setTimeInterval={setTimeInterval} text="1W" />
@@ -255,9 +255,10 @@ const CompanyData = ({ comp, companyTicker }) => {
                         <IntervalSpan timeInterval={timeInterval} yesterday={yesterday} startTime={oneYearAgo} defaultChecked={false} frequency="1/month" setOptionsState={setOptionsState} setTimeInterval={setTimeInterval} text="1Y" />
 
                         <IntervalSpan timeInterval={timeInterval} yesterday={yesterday} startTime={fiveYearsAgo} defaultChecked={false} frequency="3/month" setOptionsState={setOptionsState} setTimeInterval={setTimeInterval} text="2Y" />
-
                     </div>
+
                     <div className="graph-options">
+                        {/* Used a select tag for data frequency selector and optionsState that changes API call */}
                         <div className="select">
                             <select value={optionsState} onChange={(event) => setOptionsState(event.target.value)}>
                                 <option value="1/minute">1 minute</option>
@@ -271,29 +272,37 @@ const CompanyData = ({ comp, companyTicker }) => {
                                 <option value="3/month">3 months</option>
                             </select>
                         </div>
+
+                        {/*Shows min and max price lines on the graph*/}
                         <div title="Show min-max" className="min-max">
                             <span className={minMaxLines ? "active" : " "} onClick={() => setMinMaxLines(!minMaxLines)}>
-                                {!minMaxLines ? <img src={minMax} /> : <img src={minMaxActive} />}
+                                {!minMaxLines ? <img src={minMax} alt="" /> : <img src={minMaxActive} alt="" />}
                             </span>
                         </div>
+
                     </div>
                 </div>
             </TitleWrapper>
+
             <div>
+                {/*In case API returns error*/}
                 {error && !(stockData.length > 0) && <h2>{error.error}</h2>}
                 {error && !(stockData.length > 0) && (error.resultsCount === 0) && <h4>There are no results for the specified interval. Please choose another interval.</h4>}
-                {(stockData.length > 0) ?
-                    <div>
-                        <ResponsiveContainer width="100%" height={300} >
 
+                {/*Recharts graphs with according data*/}
+                {(stockData.length > 0) ?
+                    <>
+                        <ResponsiveContainer width="100%" height={300} >
                             <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 3 }}>
                                 <defs>
-                                    {/* Dessa värden kontrollerar färg och form på gradienten för grafen */}
+                                    {/* Theese values control the graphs gradient colors */}
                                     <linearGradient id="graphGradient" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="var(--secColor)" stopOpacity={0.8} />
                                         <stop offset="95%" stopColor="var(--mainColor)" stopOpacity={0.2} />
                                     </linearGradient>
                                 </defs>
+
+                                {/*Main graph line*/}
                                 <Area type="linear" dataKey="price" stroke="var(--textColor)" name={comp.currency} dot={false} fill="url(#graphGradient)" strokeWidth={2} />
 
                                 <CartesianGrid stroke="var(--gray)" strokeDasharray="1 1" />
@@ -327,17 +336,16 @@ const CompanyData = ({ comp, companyTicker }) => {
 
                                 <Scatter dataKey={minPrice} fill="red" />
 
+                                {/*min price and mav price lines*/}
                                 {minMaxLines ?
                                     <ReferenceLine y={minPrice} stroke="red" label={"Min: " + minPrice + "$"} /> : null}
                                 {minMaxLines ?
                                     <ReferenceLine y={maxPrice} label={"Max: " + maxPrice + "$"} stroke="red" /> : null}
-
                             </AreaChart>
-
                         </ResponsiveContainer>
 
+                        {/*This is the volume graph with bars*/}
                         <ResponsiveContainer width="100%" height={150}>
-
                             <BarChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 3 }}>
 
                                 <Bar type="monotone" dataKey="volume" fill="#6b633d" name="Volume" />
@@ -371,9 +379,8 @@ const CompanyData = ({ comp, companyTicker }) => {
                                 <Legend />
 
                             </BarChart>
-
                         </ResponsiveContainer>
-                    </div>
+                    </>
                     : null
                 }
 
