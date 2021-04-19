@@ -2,43 +2,58 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { today } from '../DatesAndTimes';
 
-const NewsDashbord = ({comp, newsDivClasses}) => {
-const [newsData, setNewsData] = useState(null);
+const NewsDashbord = ({ comp, newsDivClasses }) => {
+  //state to store the news api data
+  const [newsData, setNewsData] = useState(null);
 
-    useEffect(() => {
-        comp ? fetch(`http://newsapi.org/v2/everything?q=${comp.name}&from=${today}&language=en&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742`)
+  //sorts out repeating news by comparing first 30 characters in news title
+  const keepUnique = (articles) => {
+    let uniqueArticles = [];
+
+    articles.forEach(article => {
+      let isUnique = true;
+      const artTitle = article.title.substring(0, 30);
+
+      uniqueArticles.forEach(uniArt => {
+        if (uniArt.title.substring(0, 30) === artTitle) {
+          isUnique = false;
+        }
+      })
+
+      if (isUnique) {
+        uniqueArticles.push(article)
+      }
+    })
+    return uniqueArticles;
+  };
+
+  useEffect(() => {
+    //fetching today's news by company name
+    //api has a lot of errors in data 
+    fetch(`http://newsapi.org/v2/everything?q=${comp.name}&from=${today}&language=en&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742`)
+      .then(response => response.json())
+      .then(data => {
+        //check if there are any articles, and get top headlines if there aren't
+        if (data.articles.length > 0) {
+          setNewsData(keepUnique(data.articles));
+        } else {
+          fetch(`http://newsapi.org/v2/top-headlines?country=us&category=business&language=en&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742`)
             .then(response => response.json())
-            .then(data => { 
-                let uniqueArticles = [];
-                data.articles.forEach(article => {
-                    let isUnique = true;
-                    const artTitle = article.title.substring(0,30);
+            .then(data => {
+              console.log(data);
+              setNewsData(keepUnique(data.articles));
+            })
+        }
+      });
+  }, [comp]);
 
-                    uniqueArticles.forEach(uniArt => {
-                        if (uniArt.title.substring(0,30) === artTitle) {
-                            isUnique = false;
-                        }
-                    })
-
-                    if (isUnique) {
-                        uniqueArticles.push(article)
-                    } 
-
-                   
-                })
-                setNewsData(uniqueArticles);  
-
-            }) : fetch(`http://newsapi.org/v2/top-headlines?country=us&category=business&language=en&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742`)
-                .then(response => response.json())
-                .then(data => {
-                    setNewsData(data);
-                })
-    }, [comp])
-    return (<div className={newsDivClasses}>
-        {newsData ? <Article articles={newsData}/> : null }
-        </div>)
+  return (<div className={newsDivClasses}>
+    {newsData ? <Article articles={newsData} /> : null}
+  </div>)
 
 }
+
+
 const ArticlesWrapper = styled.div`
 width: 95%;
 margin: 0 auto;
@@ -106,41 +121,41 @@ margin-bottom: 25px;
         }
     }
   }
-` 
+`
 
-const Article = ({articles}) => {
+const Article = ({ articles }) => {
 
-    return (<ArticlesWrapper>
-        {articles && articles.map(article => 
+  return (
+    <ArticlesWrapper>
+      {articles && articles.map(article =>
         <div key={article.publishedAt + article.title}>
-            <a target="_blank" href={article.url}>
-                <div className="sourceDate">
-                    {article.source.name} • <span>{new Date(article.publishedAt).toLocaleString('en-US', {
-                        month: 'long', // "June"
-                        day: '2-digit', // "01"
-                        year: 'numeric', // "2019"
-                        hour: '2-digit',
-                        minute: '2-digit',
-                    })}</span>
+          <a target="_blank" rel="noreferrer" href={article.url}>
+            <div className="sourceDate">
+              {/*using toLocaleString to format articles date and time*/}
+              {article.source.name} • <span>{new Date(article.publishedAt).toLocaleString('en-US', {
+                month: 'long', // "June"
+                day: '2-digit', // "01"
+                year: 'numeric', // "2019"
+                hour: '2-digit',
+                minute: '2-digit',
+              })}</span>
+            </div>
+            <StyledArticle>
+              <div className="articleDiv">
+                {article.urlToImage && <img src={article.urlToImage} alt={article.title.substring(0, 20)} />}
+                <div>
+                  {article.title && <h1>{article.title}</h1>}
+                  {article.description ?
+                    <p>{article.description.split('… [+')[0]}…</p>
+                    : null
+                  }
                 </div>
-                <StyledArticle>
-                    <div className="articleDiv">
-                        {article.urlToImage && <img src={article.urlToImage} />}
-                        <div>
-                            {article.title && <h1>{article.title}</h1>}
-                            {article.description ? 
-                                    <p>{article.description.split('… [+')[0]}…</p>
-                                    : null
-                            } 
-                        </div>                
-                    </div>
-                    
-
-                </StyledArticle>
-            </a>
-            <hr></hr>
+              </div>
+            </StyledArticle>
+          </a>
+          <hr></hr>
         </div>)}
-        
+
     </ArticlesWrapper>)
 }
 

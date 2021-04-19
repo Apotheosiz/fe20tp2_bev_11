@@ -78,7 +78,10 @@ const ArrowButton = styled.button`
 `
 
 const Landing = () => {
+
+  //used react ref in order to scroll to a specific element when clicking on down arrow
   const sectionEl = useRef(null);
+
   return (
     <PageContainer>
       <MainContent>
@@ -86,8 +89,8 @@ const Landing = () => {
           <Logo />
         </Header>
         <LandingPic width='80%' maxWidth='500px' />
-        <div><Link to={ROUTES.SIGN_UP}><Button width='75%' maxWidth='400px' >Get started</Button></Link>
-          <SignInLink /></div>
+        <Link to={ROUTES.SIGN_UP}><Button width='75%' maxWidth='400px' >Get started</Button></Link>
+        <SignInLink />
       </MainContent>
       <ArrowButton onClick={(event) => {
         sectionEl.current.scrollIntoView({ behavior: "smooth" });
