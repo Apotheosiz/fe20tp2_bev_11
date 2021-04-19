@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 const ChangePassButton = styled(StyledButton)`
 margin-top:10px;
-//border: 1px solid var(--textColor);
+
 `
 
 const INITIAL_STATE = {

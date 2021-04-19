@@ -50,7 +50,7 @@ const GraphTitle = ({ timeInterval, main, comp, data }) => {
     const diff = twoDecim(current-former);
 
 return (<MainTitleWrapper main={main}>
-{/* {console.log(prev)} */}
+
     {main ? <>
         <MainTitle>{comp.name} <span> {comp.symbol}</span></MainTitle>
         {comp.exchangeShortName &&

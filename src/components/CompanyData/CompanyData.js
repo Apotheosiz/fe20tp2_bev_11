@@ -128,30 +128,43 @@ small{
 
 const CompanyData = ({ comp, companyTicker }) => {
     
+    //state for graph data
     const [stockData, setStockData] = useState([]);
+
+    //states for minimum and maximum prices in the selected period
     const [maxPrice, setMaxPrice] = useState(0);
     const [minPrice, setMinPrice] = useState(0);
+
+    //state to show lines on graph related to maximum and minimum stock price
     const [minMaxLines, setMinMaxLines] = useState(false);
+
+    //state for interval between datapoints
     const [optionsState, setOptionsState] = useState("1/minute");
+
+    //state for entire time interval of graph data
     const [timeInterval, setTimeInterval] = useState(yesterday + "/" + yesterday);
+
+    //APIs error is saved in a state
     const [error, setError] = useState(null);
 
 
     useEffect(() => {
+        //API call for graph data
         fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/${optionsState}/${timeInterval}?unadjusted=true&sort=asc&limit=5000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
             .then(response => response.json())
             .then(data => {
 
                 let arr = [];
 
-                if (data.status === "OK" && data.results) {
-                    // console.log('data status ok');
+                if (data.status === "OK" && data.results) {                   
 
+                    //setting max price initial value to 0
                     let max = 0;
+                    //setting min price initial value to first price in API data 
                     let min = twoDecim(data.results[0].c);
-
-                    // console.log(data);
-                    data.results.map(result => {
+                    
+                    //mapping through rsults to create one graph point for each result object
+                   arr = data.results.map(result => {
 
                     const closePrice = result.c;
 
@@ -170,7 +183,7 @@ const CompanyData = ({ comp, companyTicker }) => {
                         point.time = time;
                         point.price = price;
                         point.volume = volume;
-                        arr.push(point);
+                        return point
                     })
 
                     setMaxPrice(max);

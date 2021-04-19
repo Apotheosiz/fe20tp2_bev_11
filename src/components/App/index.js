@@ -37,11 +37,6 @@ const logoArr = [{
     maxWidth:'fit-content',
   }];
 
-// export const fluidFontSize = 'font-size: calc(16px + 6 * ((100vw - 320px) / 680))';
-// export const fluidFontTitle = 'font-size: calc(20px + 15 * ((100vw - 320px) / 880))';
-
-//Change both gray texts to one variable: #5f6368, #5c6065, #757575 (underline?) #a4a4a4 (deleteicon row 48 preview items)
-
 const customStyles =[{
     name:"0",
     details: "ErciasDaughter",

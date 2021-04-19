@@ -12,12 +12,9 @@ import {
 import GraphTitle from './GraphTitle';
 import { twoDecim } from './GraphTitle';
 
-// console.log(yesterday);
-
 
 const CompanyData = ({ comp, companyTicker }) => {
 
-    console.log('rendered company data');
 
     const [stockData, setStockData] = useState([]);
     const [maxPrice, setMaxPrice] = useState(0);
@@ -29,7 +26,7 @@ const CompanyData = ({ comp, companyTicker }) => {
 
 
     useEffect(() => {
-        console.log('useEffect in company Data');
+       
         fetch(`https://api.polygon.io/v2/aggs/ticker/${companyTicker}/range/${optionsState}/${timeInterval}?unadjusted=true&sort=asc&limit=5000&apiKey=skUrtuzSI4Dp7Zd6NOK8rEdIrxXHlq7Y`)
             .then(response => response.json())
             .then(data => {
@@ -37,12 +34,12 @@ const CompanyData = ({ comp, companyTicker }) => {
                 let arr = [];
 
                 if (data.status === "OK" && data.results) {
-                    // console.log('data status ok');
+                   
 
                     let max = 0;
                     let min = twoDecim(data.results[0].c);
 
-                    // console.log(data);
+                   
                     data.results.map(result => {
 
                     const closePrice = result.c;
@@ -175,7 +172,7 @@ const CompanyData = ({ comp, companyTicker }) => {
                 {error && !(stockData.length > 0) && (error.resultsCount === 0) && <h4>There are no results for the specified interval. Please choose another interval.</h4>}
                 {(stockData.length > 0) ?
                     <div>
-                        {/* {console.log(stockData)} */}
+                        
                         <ResponsiveContainer width="100%" height={300} >
 
                             <AreaChart width={600} height={300} data={stockData} margin={{ top: 5, right: 20, bottom: 20, left: 3 }}>

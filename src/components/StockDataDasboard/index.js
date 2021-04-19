@@ -110,14 +110,14 @@ const StockDataDashboard = ({ companyTicker, setCompanyTicker, authUser, firebas
 
     const onChange = event => {
         setSearchTerm(event.target.value);
-        //console.log(searchTerm);
+        
         fetch(`https://financialmodelingprep.com/api/v3/search?query=${event.target.value}&limit=4&exchange=NASDAQ&apikey=909a30a0b9971c3dfd378bba83efb9ac`)
             .then(response => response.json())
             .then(data => {
                 setResults(data);
-                //console.log(results);
+                
             });
-            //console.log(results);
+           
     };
 
     const addTicker = (ticker, comp) => {
@@ -141,21 +141,16 @@ const StockDataDashboard = ({ companyTicker, setCompanyTicker, authUser, firebas
             setUser(dbUser);
         })
 
-        //window.addEventListener('mouseup', closeSearchList);
-        //return () => window.removeEventListener('mouseup', closeSearchList);
+
     }, []);
 
     const closeSearchList = () => {
-        /*if (!searchList.current.contains(event.target)) {
-            setResults(null);
-            setSearchTerm('');
-        }*/
         setResults(null);
         setSearchTerm('');
     }
 
-    // const contextDataObject = { user, setCompanyTicker, setComp, delTicker };
-    // console.log(contextDataObject);
+ 
+    
 
     return (
         <StockDashboard className="column-1-2">

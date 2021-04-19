@@ -66,8 +66,7 @@ cursor:pointer;
 `
 
 const StyledLogo = styled.img`
-// max-width: 50px;
-// max-height: 20px;
+
 `
 
 const StyledFormWrap = styled(FormWrap)`
@@ -279,8 +278,7 @@ class SignUpFormBase extends Component {
                             alt="profile pic" 
                             onClick={(event) => { 
                                 this.setState({ profilePic: event.target.dataset.value });
-                                // event.target.parentNode.childNodes.classList.remove('active');
-                                // event.target.classList.add('active');
+                                
                             } }  
                             className={this.state.profilePic == (index + 1) ? "active":""} 
                         />

@@ -36,7 +36,7 @@ const AccountPage = () => {
     <AuthUserContext.Consumer>
         {authUser => (
             <PageContainer>
-                <StyledTitle>Account settings {/*Object.keys(authUser.symbols)*/}</StyledTitle>
+                <StyledTitle>Account settings</StyledTitle>
                 <SettingsPic />
                 <StyledFormWrap>{authUser.email}</StyledFormWrap>
                 <AccountStyledButton width="250px" color={isActive? "var(--mainColor)" : false} onClick={() => {

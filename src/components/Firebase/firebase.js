@@ -69,10 +69,7 @@ class Firebase {
     // *** Message API ***
     message = (userComp, uid) => this.db.ref(`companies/${userComp}/messages/${uid}`);
     messages = userComp => this.db.ref(`companies/${userComp}/messages`);
-
-    // // ** Symbols API **
-    // symbol = (uid, symbol) => this.db.ref(`users/${uid}/symbols/${symbol}`);
-    // symbols = (uid) => this.db.ref(`users/${uid}/symbols`);
+    
 }
 
 export default Firebase;
