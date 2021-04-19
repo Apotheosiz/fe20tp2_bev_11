@@ -119,18 +119,18 @@ display:flex;
 align-items:center;
 `
 
-const Navigation = () => (
+const Navigation = ({ setCustomStyle }) => (
   <div>
     {/*navigation content is different for authenticated users*/}
     <AuthUserContext.Consumer>
       {authUser =>
-        authUser ? <NavigationAuth authUser={authUser} /> : <NavigationNonAuth />
+        authUser ? <NavigationAuth setCustomStyle={setCustomStyle} authUser={authUser} /> : <NavigationNonAuth />
       }
     </AuthUserContext.Consumer>
   </div>
 );
 
-const NavigationAuth = ({ authUser }) => (
+const NavigationAuth = ({ setCustomStyle, authUser }) => (
   <List>
     <ListInnerContainer>
       <ListItem>
@@ -170,7 +170,7 @@ const NavigationAuth = ({ authUser }) => (
           <StyledImg title="Account" src={picArr[authUser.profilePic - 1]} alt="profile" />
         </Link>
 
-        <SignOutButton />
+        <SignOutButton setCustomStyle={setCustomStyle} />
       </ListItemRight>
     </ListInnerContainer>
 

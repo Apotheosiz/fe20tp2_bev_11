@@ -156,7 +156,7 @@ const App = () => {
       }
 
       <ContentWrap>
-        <Navigation />
+        <Navigation setCustomStyle={setCustomStyle} />
         <div id="pageWrap">
           <Route exact path={ROUTES.LANDING} component={LandingPage} />
           <Route path={ROUTES.SIGN_UP} component={SignUpPage} />

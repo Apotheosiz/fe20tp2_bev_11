@@ -15,6 +15,7 @@ margin: 0 7px 7px 0;
 background: var(--gray);
 border-radius: 10px;
 position: relative;
+cursor: pointer;
 border: ${props => props.isActive ? "2px solid var(--textColor);" : "none"};
 
 .seeInGraph{
