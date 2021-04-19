@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { today } from '../DatesAndTimes';
+import { news } from './news';
 
 const NewsDashbord = ({ comp, newsDivClasses }) => {
   //state to store the news api data
@@ -30,21 +31,22 @@ const NewsDashbord = ({ comp, newsDivClasses }) => {
   useEffect(() => {
     //fetching today's news by company name
     //api has a lot of errors in data 
-    fetch(`http://newsapi.org/v2/everything?q=${comp.name}&from=${today}&language=en&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742`)
-      .then(response => response.json())
-      .then(data => {
-        //check if there are any articles, and get top headlines if there aren't
-        if (data.articles.length > 0) {
-          setNewsData(keepUnique(data.articles));
-        } else {
-          fetch(`http://newsapi.org/v2/top-headlines?country=us&category=business&language=en&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742`)
-            .then(response => response.json())
-            .then(data => {
-              console.log(data);
-              setNewsData(keepUnique(data.articles));
-            })
-        }
-      });
+    // fetch(`http://newsapi.org/v2/everything?q=${comp.name}&from=${today}&language=en&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742`)
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     //check if there are any articles, and get top headlines if there aren't
+    //     if (data.articles.length > 0) {
+    //       setNewsData(keepUnique(data.articles));
+    //     } else {
+    //       fetch(`http://newsapi.org/v2/top-headlines?country=us&category=business&language=en&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742`)
+    //         .then(response => response.json())
+    //         .then(data => {
+    //           console.log(data);
+    //           setNewsData(keepUnique(data.articles));
+    //         })
+    //     }
+    //   });
+    setNewsData(keepUnique(news.articles));
   }, [comp]);
 
   return (<div className={newsDivClasses}>
