@@ -136,7 +136,6 @@ const StockDataDashboard = ({ companyTicker, setCompanyTicker, authUser, firebas
   const searchList = useRef(null);
 
   useEffect(() => {
-    console.log(authUser.uid);
     firebase.user(authUser.uid).on('value', snapshot => {
       const dbUser = snapshot.val()
       setUser(dbUser);

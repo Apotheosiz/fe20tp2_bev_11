@@ -138,7 +138,6 @@ const NavigationAuth = ({ setCustomStyle, authUser }) => {
   }
   const closeMenu = () => {
     setMenuOpen(false);
-    // console.log("clicked on home, menuOpen is:", menuOpen);
   }
   return (
     <Menu right isOpen={menuOpen} onStateChange={(state) => handleStateChange(state)} styles={styles} pageWrapId={"pageWrap"} outerContainerId={"outerWrap"} disableAutoFocus >

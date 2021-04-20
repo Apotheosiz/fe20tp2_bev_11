@@ -40,7 +40,6 @@ const NewsDashbord = ({ comp, newsDivClasses }) => {
           fetch(`http://newsapi.org/v2/top-headlines?country=us&category=business&language=en&sortBy=publishedAt&apiKey=86d99eeb79074acfbbd3afee92831742`)
             .then(response => response.json())
             .then(data => {
-              console.log(data);
               setNewsData(keepUnique(data.articles));
             })
         }
