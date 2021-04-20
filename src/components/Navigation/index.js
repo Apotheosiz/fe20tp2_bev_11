@@ -47,34 +47,41 @@ const List = styled.ul`
 `;
 
 const ListInnerContainer = styled.div`
-    width: 100%;
-    align-items: center;
-    display: flex;
+width: 100%;
+align-items: center;
+display: flex;
 
-    background: none;
-	border: none;
-    svg{
-        width:30px;
-    }
+background: none;
+border: none;
+svg{
+  width:30px;
+}
 
-    @media (max-width: 680px) {
-        display: none;
-        padding-left: 0;
-    }
+@media (max-width: 680px) {
+  display: none;
+  padding-left: 0;
+}
+&:after { 
+  content: "."; 
+  visibility: hidden; 
+  display: block; 
+  height: 0; 
+  clear: both;
+}
 `;
 
 const ListItem = styled.li`
-    font-size: 22px;
-    font-weight: bold;
-    
-    a {
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 18px;
-        text-decoration: none;
-        cursor: pointer;
-    }
+font-size: 22px;
+font-weight: bold;
+
+a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 18px;
+  text-decoration: none;
+  cursor: pointer;
+}
 `;
 
 const ListItemRight = styled.li`
