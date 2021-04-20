@@ -254,7 +254,7 @@ class MessagesBase extends Component {
 
               {/*create message textarea field*/}
               <StyledLi>
-                <StyledImg src={picArr[authUser.profilePic - 1]} alt="profile" />
+                <StyledImg style={{ maxHeight: "50px" }} src={picArr[authUser.profilePic - 1]} alt="profile" />
                 <form onSubmit={event => this.onCreateMessage(event, authUser)}>
                   <textarea
                     type="text"

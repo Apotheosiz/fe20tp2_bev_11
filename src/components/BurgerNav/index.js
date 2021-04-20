@@ -121,7 +121,7 @@ class BurgerNav extends React.Component {
       <BM>
         <AuthUserContext.Consumer>
           {authUser =>
-            authUser ? <NavigationAuth authUser={authUser} /> : <NavigationNonAuth />
+            authUser ? <NavigationAuth authUser={authUser} setCustomStyle={this.props.setCustomStyle} /> : <NavigationNonAuth />
           }
         </AuthUserContext.Consumer>
       </BM>
@@ -130,7 +130,7 @@ class BurgerNav extends React.Component {
 }
 
 //navigation for authenticated users
-const NavigationAuth = ({ authUser }) => (
+const NavigationAuth = ({ setCustomStyle, authUser }) => (
   <Menu right styles={styles} pageWrapId={"pageWrap"} outerContainerId={"outerWrap"} disableAutoFocus >
     <BurgerItem className="navbarItem">
       <Link to={ROUTES.HOME}>HOME</Link>
@@ -146,7 +146,7 @@ const NavigationAuth = ({ authUser }) => (
       </Link>
     </BurgerItem>
     <BurgerItem className="navbarItem">
-      <SignOutButton />
+      <SignOutButton setCustomStyle={setCustomStyle} />
     </BurgerItem>
   </Menu>
 );
