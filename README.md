@@ -1,4 +1,5 @@
-![fink_logo](https://user-images.githubusercontent.com/63733493/115456740-ce157580-a223-11eb-9cb5-f65eca3c0915.png)
+
+![fink_logo](https://user-images.githubusercontent.com/63733493/115457105-4ed47180-a224-11eb-9544-8005cf5b4089.png)
 
 # Your Financial Dashboard App
 
