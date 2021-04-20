@@ -30,7 +30,7 @@ class PasswordChangeForm extends Component {
     this.props.firebase
       .doPasswordUpdate(passwordOne)
       .then(() => {
-        this.setState({ ...INITIAL_STATE });
+        this.setState({ ...INITIAL_STATE, message: "Your password was successfully changed!" });
       })
       .catch(error => {
         this.setState({ error });
@@ -76,7 +76,8 @@ class PasswordChangeForm extends Component {
         {!isInvalid && <ChangePassButton type="submit">
           Reset My Password
                 </ChangePassButton>}
-        {error && <p>{error.message}</p>}
+        {this.state.message && <p style={{ color: "red" }}>{this.state.message}</p>}
+        {error && <p style={{ color: "red" }}>{error.message}</p>}
       </form>
     );
   }

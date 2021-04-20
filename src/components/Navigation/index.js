@@ -181,7 +181,7 @@ const NavigationAuth = ({ setCustomStyle, authUser }) => (
       </ListItemRight>
     </ListInnerContainer>
 
-    <BurgerNav></BurgerNav>
+    <BurgerNav setCustomStyle={setCustomStyle}></BurgerNav>
   </List>
 );
 
