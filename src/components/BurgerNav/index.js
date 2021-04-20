@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom';
 import SignOutButton from '../SignOut';
 import { AuthUserContext } from '../Session';
@@ -68,6 +68,33 @@ const Logo = styled.h1`
     font-family: 'Wallpoet', cursive;
 `;
 
+const BurgerBar = styled.span`
+    position: absolute; 
+    height: 20%; 
+    left: 0px; 
+    right: 0px; 
+    top: 0%; 
+    opacity: 1; 
+    background: var(--textColor); 
+    border-radius: 5px;
+
+    &:nth-child(2) {
+      top: 40%;
+    }
+
+    &:nth-child(3) {
+      top: 80%;
+    }
+`;
+
+const StyledBurgerButton = styled.div`
+      position: fixed;
+      width: 36px;
+      height: 30px;
+      right: 20px;
+      top: 36px;
+`;
+
 var styles = {
     bmBurgerButton: {
       position: 'fixed',
@@ -118,39 +145,85 @@ class BurgerNav extends React.Component {
   }
 
   render () {
-    // NOTE: You also need to provide styles, see https://github.com/negomi/react-burger-menu#styling
     return (
-        <BM>        
+      <MyProvider>
+          <BM> 
+            <BurgerButton />
             <AuthUserContext.Consumer>
-                {authUser =>
-                    authUser ? <NavigationAuth authUser={authUser} /> : <NavigationNonAuth />
-                }
+                {authUser => authUser ? <NavigationAuth authUser={authUser} /> : <NavigationNonAuth />}
             </AuthUserContext.Consumer>
-        </BM>
+          </BM>
+        </MyProvider>
     );
   }
 }
 
-const NavigationAuth = ({ authUser }) => (
-    <Menu right styles={styles} pageWrapId={ "pageWrap"} outerContainerId={ "outerWrap" } disableAutoFocus >
-            <BurgerItem className="navbarItem">
+// make a new context
+const MyContext = React.createContext();
+
+// create the provider
+const MyProvider = (props) => {
+  const [menuOpenState, setMenuOpenState] = useState(false)
+  
+  return (
+    <MyContext.Provider value={{
+      isMenuOpen: menuOpenState,
+      toggleMenu: () => setMenuOpenState(!menuOpenState),
+      stateChangeHandler: (newState) => setMenuOpenState(newState.isOpen)
+    }}>
+      {props.children}
+    </MyContext.Provider>
+  )
+}
+
+// create a button that calls a context function to set a new open state when clicked
+const BurgerButton = () => {
+  const ctx = useContext(MyContext)
+  return (
+    <StyledBurgerButton>
+      <button id="react-burger-menu-btn" onClick={ctx.toggleMenu}></button>
+      <span>
+        <BurgerBar class="bm-burger-bars"></BurgerBar>
+        <BurgerBar class="bm-burger-bars"></BurgerBar>
+        <BurgerBar class="bm-burger-bars"></BurgerBar>
+      </span>
+    </StyledBurgerButton>
+  )
+}
+
+const NavigationAuth = ({ authUser }) => {
+  const ctx = useContext(MyContext)
+
+  return (
+    <Menu 
+    right 
+    styles={styles} 
+    pageWrapId={ "pageWrap"} 
+    outerContainerId={ "outerWrap" } 
+    disableAutoFocus 
+    isOpen={ false } 
+    customBurgerIcon={false}
+    isOpen={ctx.isMenuOpen}
+    onStateChange={(state) => ctx.stateChangeHandler(state)}>
+            <BurgerItem className="navbarItem" onClick={ctx.toggleMenu}>
                 <Link to={ROUTES.HOME}>HOME</Link>
             </BurgerItem>
             {!!authUser.roles[ROLES.ADMIN] && (
-                <BurgerItem className="navbarItem">
+                <BurgerItem className="navbarItem" onClick={ctx.toggleMenu}>
                     <Link to={ROUTES.ADMIN}>ADMIN</Link>
                 </BurgerItem>
             )}
             <BurgerItem className="navbarItem">
-                <Link to={ROUTES.ACCOUNT}>
+                <Link to={ROUTES.ACCOUNT} onClick={ctx.toggleMenu}>
                   <StyledImg style={{marginRight: '0'}} src={picArr[authUser.profilePic - 1]} alt="profile"/>
                 </Link>
             </BurgerItem>
-            <BurgerItem className="navbarItem">                
+            <BurgerItem className="navbarItem" onClick={ctx.toggleMenu}>                
                 <SignOutButton />
             </BurgerItem>
     </Menu>
-);
+  )
+}
 
 const NavigationNonAuth = () => (
     <BurgerList>
