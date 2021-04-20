@@ -1,7 +1,6 @@
-
-# FINK Your Financial Dashboard App
-
 ![fink_logo](https://user-images.githubusercontent.com/63733493/115456740-ce157580-a223-11eb-9cb5-f65eca3c0915.png)
+
+# Your Financial Dashboard App
 
 ## Developers 👷
 
