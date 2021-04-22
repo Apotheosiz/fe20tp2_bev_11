@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SignOutButton from '../SignOut';
 import { AuthUserContext } from '../Session';
@@ -130,26 +130,36 @@ class BurgerNav extends React.Component {
 }
 
 //navigation for authenticated users
-const NavigationAuth = ({ setCustomStyle, authUser }) => (
-  <Menu right styles={styles} pageWrapId={"pageWrap"} outerContainerId={"outerWrap"} disableAutoFocus >
-    <BurgerItem className="navbarItem">
-      <Link to={ROUTES.HOME}>HOME</Link>
-    </BurgerItem>
-    {!!authUser.roles[ROLES.ADMIN] && (
+const NavigationAuth = ({ setCustomStyle, authUser }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleStateChange = state => {
+    setMenuOpen(state.isOpen);
+  }
+  const closeMenu = () => {
+    setMenuOpen(false);
+  }
+  return (
+    <Menu right isOpen={menuOpen} onStateChange={(state) => handleStateChange(state)} styles={styles} pageWrapId={"pageWrap"} outerContainerId={"outerWrap"} disableAutoFocus >
       <BurgerItem className="navbarItem">
-        <Link to={ROUTES.ADMIN}>ADMIN</Link>
+        <Link to={ROUTES.HOME} onClick={closeMenu}>HOME</Link>
       </BurgerItem>
-    )}
-    <BurgerItem className="navbarItem">
-      <Link to={ROUTES.ACCOUNT}>
-        <StyledImg style={{ marginRight: '0' }} src={picArr[authUser.profilePic - 1]} alt="profile" />
-      </Link>
-    </BurgerItem>
-    <BurgerItem className="navbarItem">
-      <SignOutButton setCustomStyle={setCustomStyle} />
-    </BurgerItem>
-  </Menu>
-);
+      {!!authUser.roles[ROLES.ADMIN] && (
+        <BurgerItem className="navbarItem">
+          <Link to={ROUTES.ADMIN} onClick={closeMenu}>ADMIN</Link>
+        </BurgerItem>
+      )}
+      <BurgerItem className="navbarItem">
+        <Link to={ROUTES.ACCOUNT} onClick={closeMenu}>
+          <StyledImg style={{ marginRight: '0' }} src={picArr[authUser.profilePic - 1]} alt="profile" />
+        </Link>
+      </BurgerItem>
+      <BurgerItem className="navbarItem">
+        <SignOutButton setCustomStyle={setCustomStyle} onClick={closeMenu} />
+      </BurgerItem>
+    </Menu>
+  )
+};
 
 //navigation for non authenticated users
 const NavigationNonAuth = () => (
