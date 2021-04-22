@@ -27,6 +27,8 @@
 
 ## Demo 📸
 [CLICK HERE FOR HOSTED DEMO VERSION](http://finance_and_stocks_ladies.surge.sh/)
+
+![GitHub Logo](/images/logo.png)
 ![enter image description here](image.png)
 
 
