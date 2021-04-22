@@ -30,6 +30,8 @@
 
 ![Fink_Demo](src/img/readme-pics/Fink_demo.gif)
 
+![Fink_landing_page](src/img/readme-pics/Fink_m_landing.png) ![Fink_mobile_sign_in](src/img/readme-pics/Fink_m_signIn.png) ![Fink_mobile_home_page](src/img/readme-pics/Fink_m_home.png)
+
 ## Features ✨
 **List of features available:**
 * Account page, sign up/sign in
