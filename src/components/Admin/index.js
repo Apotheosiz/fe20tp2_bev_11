@@ -138,6 +138,7 @@ class UserItemBase extends Component {
             <strong>E-Mail:</strong> {user.email}
             <strong>Username:</strong> {user.username}
             <button
+              name="send password reset"
               type="button"
               onClick={this.onSendPasswordResetEmail}
             >

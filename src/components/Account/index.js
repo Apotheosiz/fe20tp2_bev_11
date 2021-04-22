@@ -40,7 +40,7 @@ const AccountPage = () => {
           <StyledTitle>Account settings</StyledTitle>
           <SettingsPic />
           <StyledFormWrap>{authUser.email}</StyledFormWrap>
-          <AccountStyledButton width="250px" onClick={() => {
+          <AccountStyledButton name="change my password" width="250px" onClick={() => {
             setIsActive(!isActive);
           }}>change my password{isActive ? <span>▲</span> : <span>▼</span>}</AccountStyledButton>
           {isActive ? <PasswordChangeForm /> : null}

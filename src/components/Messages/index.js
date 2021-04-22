@@ -261,7 +261,7 @@ class MessagesBase extends Component {
                     value={text}
                     onChange={this.onChangeText}
                   />
-                  <ChatButton type="Submit message">
+                  <ChatButton name="submit message" type="Submit message">
                     <SendPic width="100%" margin="0 auto" />
                   </ChatButton>
                 </form>
@@ -348,21 +348,21 @@ class MessageItem extends Component {
           <span className="buttons-wrapper">
             {editMode ? (
               <span>
-                <ChatButton title="Save message" onClick={() => this.onSaveEditText(authUser)}>
+                <ChatButton name="Save message" title="Save message" onClick={() => this.onSaveEditText(authUser)}>
                   <SavePic width="100%" margin="0 auto" />
                 </ChatButton>
-                <ChatButton title="Restore message" onClick={this.onToggleEditMode}>
+                <ChatButton name="Restore message" title="Restore message" onClick={this.onToggleEditMode}>
                   <UndoPic width="100%" margin="0 auto" />
                 </ChatButton>
               </span>
             ) : (
-              <ChatButton onClick={this.onToggleEditMode}>
+              <ChatButton name="edit message" onClick={this.onToggleEditMode}>
                 <EditPic width="100%" margin="0 auto" />
               </ChatButton>
             )}
 
             {!editMode && (
-              <ChatButton onClick={() => onRemoveMessage(authUser, message.uid)}>
+              <ChatButton name="delete message" onClick={() => onRemoveMessage(authUser, message.uid)}>
                 <DeletePic width="70%" margin="0 auto" />
               </ChatButton>
             )}
