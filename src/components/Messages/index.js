@@ -18,22 +18,23 @@ import { SendPic, DeletePic, EditPic, SavePic, UndoPic } from '../svgImg/Welcome
 import logo2 from '../../img/logoU2.png';
 import logo1long from '../../img/logoU1long.png';
 
+//added the logo array to access company logo images
 const logoArr = [{
-    name: '',
-    logo:logo1long,
-    display: 'inline', 
-    height: '25px',      
-  }, {
-    name: 'IBWomen',
-    logo:logo2,
-    display: 'inline',
-    height: '40px', 
-  }, {
-    name: 'No company',
-    logo:'',
-    display: 'none',
-    height: '',
-  }];
+  name: '',
+  logo: logo1long,
+  display: 'inline',
+  height: '25px',
+}, {
+  name: 'IBWomen',
+  logo: logo2,
+  display: 'inline',
+  height: '40px',
+}, {
+  name: 'No company',
+  logo: '',
+  display: 'none',
+  height: '',
+}];
 
 const picArr = [pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8];
 
@@ -152,7 +153,7 @@ class MessagesBase extends Component {
   };
 
   onCreateMessage = (event, authUser) => {
-
+    //sending authUser.userComp to access messages from a specific company
     this.props.firebase.messages(authUser.userComp).push({
       text: this.state.text,
       userId: authUser.uid,
@@ -172,7 +173,7 @@ class MessagesBase extends Component {
   onEditMessage = (authUser, message, text) => {
     const { uid, ...messageSnapshot } = message;
 
-    this.props.firebase.message(message.uid).set({
+    this.props.firebase.message(authUser.userComp, message.uid).set({
       ...messageSnapshot,
       text,
       editedAt: this.props.firebase.serverValue.TIMESTAMP,
@@ -181,7 +182,7 @@ class MessagesBase extends Component {
 
   componentDidMount() {
     this.setState({ loading: true });
-
+    //populating the message list with company messages from firebase when mounting,if there are any
     this.props.firebase.messages(this.props.authUser.userComp).on('value', snapshot => {
 
       const messageObject = snapshot.val();
@@ -202,9 +203,11 @@ class MessagesBase extends Component {
       }
     });
   }
+
   componentWillUnmount() {
     this.props.firebase.messages(this.props.authUser.userComp).off();
   }
+
   render() {
     const { text, messages, loading } = this.state;
 
@@ -212,25 +215,32 @@ class MessagesBase extends Component {
       <AuthUserContext.Consumer>
         {authUser => (
           <StyledDiv className={this.props.messagesDivClasses}>
+
+            {/*hardcoded image with most followed tickers*/}
             <Wrapper>
               <img src={mostFollowed} alt="most followed actions" />
             </Wrapper>
-              {(window.innerWidth > 1024) ? <img src={add2} alt="add" /> : null}
+
+            {/*adds only appear on big screens*/}
+            {(window.innerWidth > 1024) ? <img src={add2} alt="add" /> : null}
             <Wrapper>
               {loading && <div>Loading ...</div>}
-              
-            {authUser.userComp  ?
+
+              {/*dinamically changing company logo to loged in user's company logo*/}
+              {authUser.userComp ?
                 <UserCompLogo>
-                    <img 
-                    style={{ 
-                        display: logoArr[authUser.userComp].display,
-                        height: logoArr[authUser.userComp].height,
-                    }} 
-                    src={logoArr[authUser.userComp].logo} 
-                    alt="CompanyLogo"/>
+                  <img
+                    style={{
+                      display: logoArr[authUser.userComp].display,
+                      height: logoArr[authUser.userComp].height,
+                    }}
+                    src={logoArr[authUser.userComp].logo}
+                    alt="CompanyLogo" />
                 </UserCompLogo>
                 : null
-            }
+              }
+
+              {/*populating messages in message list*/}
               {messages ? (
                 <MessageList
                   authUser={authUser}
@@ -241,31 +251,35 @@ class MessagesBase extends Component {
               ) : (
                 null
               )}
+
+              {/*create message textarea field*/}
               <StyledLi>
-                <StyledImg src={picArr[authUser.profilePic - 1]} alt="profile" />
+                <StyledImg style={{ maxHeight: "50px" }} src={picArr[authUser.profilePic - 1]} alt="profile" />
                 <form onSubmit={event => this.onCreateMessage(event, authUser)}>
                   <textarea
                     type="text"
                     value={text}
                     onChange={this.onChangeText}
                   />
-                  <ChatButton type="Submit message">
+                  <ChatButton name="submit message" type="Submit message">
                     <SendPic width="100%" margin="0 auto" />
                   </ChatButton>
                 </form>
               </StyledLi>
             </Wrapper>
+
+            {/*adds only appear on big screens*/}
             {(window.innerWidth > 1024) ? <img src={add1} alt="add" /> : null}
           </StyledDiv>
         )}
       </AuthUserContext.Consumer>
     );
-
   }
 }
 
 const MessageList = ({ authUser, messages, onEditMessage, onRemoveMessage }) => (
   <>
+    {/*mapping through messages to list each one in message item component*/}
     {messages.map(message => (
       <MessageItem
         authUser={authUser}
@@ -289,6 +303,7 @@ class MessageItem extends Component {
   }
 
   onToggleEditMode = () => {
+    //toggle edit mode
     this.setState(state => ({
       editMode: !state.editMode,
       editText: this.props.message.text,
@@ -312,6 +327,7 @@ class MessageItem extends Component {
 
     return (
       <StyledLi>
+
         <span className="profile-and-text">
           <StyledImg src={picArr[message.profilePic - 1]} alt="profile" />
           {editMode ? (
@@ -327,25 +343,26 @@ class MessageItem extends Component {
             </div>
           )}
         </span>
+
         {authUser.uid === message.userId && (
           <span className="buttons-wrapper">
             {editMode ? (
               <span>
-                <ChatButton title="Save message" onClick={() => this.onSaveEditText(authUser)}>
+                <ChatButton name="Save message" title="Save message" onClick={() => this.onSaveEditText(authUser)}>
                   <SavePic width="100%" margin="0 auto" />
                 </ChatButton>
-                <ChatButton title="Restore message" onClick={this.onToggleEditMode}>
+                <ChatButton name="Restore message" title="Restore message" onClick={this.onToggleEditMode}>
                   <UndoPic width="100%" margin="0 auto" />
                 </ChatButton>
               </span>
             ) : (
-              <ChatButton onClick={this.onToggleEditMode}>
+              <ChatButton name="edit message" onClick={this.onToggleEditMode}>
                 <EditPic width="100%" margin="0 auto" />
               </ChatButton>
             )}
 
             {!editMode && (
-              <ChatButton onClick={() => onRemoveMessage(authUser, message.uid)}>
+              <ChatButton name="delete message" onClick={() => onRemoveMessage(authUser, message.uid)}>
                 <DeletePic width="70%" margin="0 auto" />
               </ChatButton>
             )}

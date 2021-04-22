@@ -14,10 +14,11 @@ a{
 }
 `
 
+//very simple footer containing link to github repo
 const Footer = () => (
-        <Wrapper>
-            <a target="_blank" rel="noreferrer" href="https://github.com/Apotheosiz/fe20tp2_bev_11">Github</a>
-        </Wrapper>
+  <Wrapper>
+    <a target="_blank" rel="noreferrer" href="https://github.com/Apotheosiz/fe20tp2_bev_11">Github</a>
+  </Wrapper>
 );
 
 export default Footer;

@@ -20,20 +20,20 @@ import logo1long from '../../img/logoU1long.png';
 const picArr = [pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8];
 
 const logoArr = [{
-    name: '',
-    logo:logo1long,
-    display: 'inline', 
-    height: '20px',      
+  name: '',
+  logo: logo1long,
+  display: 'inline',
+  height: '20px',
 }, {
-    name: 'IBWomen',
-    logo:logo2,
-    display: 'inline',
-    height: '25px', 
+  name: 'IBWomen',
+  logo: logo2,
+  display: 'inline',
+  height: '25px',
 }, {
-    name: 'No company',
-    logo:'',
-    display: 'none',
-    height: '',
+  name: 'No company',
+  logo: '',
+  display: 'none',
+  height: '',
 }];
 
 const List = styled.ul`
@@ -47,34 +47,41 @@ const List = styled.ul`
 `;
 
 const ListInnerContainer = styled.div`
-    width: 100%;
-    align-items: center;
-    display: flex;
+width: 100%;
+align-items: center;
+display: flex;
 
-    background: none;
-	border: none;
-	cursor: pointer;
-    svg{
-        width:30px;
-    }
+background: none;
+border: none;
+svg{
+  width:30px;
+}
 
-    @media (max-width: 680px) {
-        display: none;
-        padding-left: 0;
-    }
+@media (max-width: 680px) {
+  display: none;
+  padding-left: 0;
+}
+&:after { 
+  content: "."; 
+  visibility: hidden; 
+  display: block; 
+  height: 0; 
+  clear: both;
+}
 `;
 
 const ListItem = styled.li`
-    font-size: 22px;
-    font-weight: bold;
-    
-    a {
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 18px;
-        text-decoration: none;
-    }
+font-size: 22px;
+font-weight: bold;
+
+a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 18px;
+  text-decoration: none;
+  cursor: pointer;
+}
 `;
 
 const ListItemRight = styled.li`
@@ -119,64 +126,76 @@ display:flex;
 align-items:center;
 `
 
-const Navigation = () => (
-    <div>
-        <AuthUserContext.Consumer>
-            {authUser =>
-                authUser ? <NavigationAuth authUser={authUser} /> : <NavigationNonAuth />
-            }
-        </AuthUserContext.Consumer>
-    </div>
+const Navigation = ({ setCustomStyle }) => (
+  <div>
+    {/*navigation content is different for authenticated users*/}
+    <AuthUserContext.Consumer>
+      {authUser =>
+        authUser ? <NavigationAuth setCustomStyle={setCustomStyle} authUser={authUser} /> : <NavigationNonAuth />
+      }
+    </AuthUserContext.Consumer>
+  </div>
 );
 
-const NavigationAuth = ({ authUser }) => (
-    <List>
-        <ListInnerContainer>
-            <ListItem>
-                {(authUser.userComp === 2)?<Link to={ROUTES.LANDING}><Logo>F</Logo></Link>:null}
-               {authUser.userComp ?
-                <UserLogo>
-                        <img 
-                        style={{ 
-                            display: logoArr[authUser.userComp].display,
-                            height: logoArr[authUser.userComp].height,
-                        }} 
-                        src={logoArr[authUser.userComp].logo} 
-                        alt="CompanyLogo"/>
-                    </UserLogo> 
-                : null} 
-            </ListItem>
-            <ListItem className="navbarItem">
-                <Link to={ROUTES.HOME}>HOME</Link>
-            </ListItem>
-            
-            {!!authUser.roles[ROLES.ADMIN] && (
-                <ListItem className="navbarItem">
-                    <Link to={ROUTES.ADMIN}>ADMIN</Link>
-                </ListItem>
-            )}
-            <ListItemRight className="navbarItem">
-                <Link to={ROUTES.ACCOUNT}>
-                    <StyledImg title="Account" src={picArr[authUser.profilePic - 1]} alt="profile"/>
-                </Link>
-                <SignOutButton />
-            </ListItemRight>
-        </ListInnerContainer>
-        <BurgerNav></BurgerNav>
-    </List>
+const NavigationAuth = ({ setCustomStyle, authUser }) => (
+  <List>
+    <ListInnerContainer>
+      <ListItem>
+        {/*when user signs up with no company he gets a userComp == 2 and the Fink logo*/}
+        {(authUser.userComp == 2)
+          ? <Link to={ROUTES.LANDING}><Logo>F</Logo></Link>
+          : authUser.userComp &&
+          <UserLogo>
+            <img
+              style={{
+                display: logoArr[authUser.userComp].display,
+                height: logoArr[authUser.userComp].height,
+              }}
+              src={logoArr[authUser.userComp].logo}
+              alt="CompanyLogo" />
+          </UserLogo>
+        }
+
+        {/*when user signs up with a different company he gets (not 2) company's logo is rendered*/}
+
+      </ListItem>
+
+      <ListItem className="navbarItem">
+        <Link to={ROUTES.HOME}>HOME</Link>
+      </ListItem>
+
+      {/*only logged in admins can see admin page*/}
+      {!!authUser.roles[ROLES.ADMIN] && (
+        <ListItem className="navbarItem">
+          <Link to={ROUTES.ADMIN}>ADMIN</Link>
+        </ListItem>
+      )}
+
+      {/*user profile picture becomes a link to his account*/}
+      <ListItemRight className="navbarItem">
+        <Link to={ROUTES.ACCOUNT}>
+          <StyledImg title="Account" src={picArr[authUser.profilePic - 1]} alt="profile" />
+        </Link>
+
+        <SignOutButton name="sign out" setCustomStyle={setCustomStyle} />
+      </ListItemRight>
+    </ListInnerContainer>
+
+    <BurgerNav setCustomStyle={setCustomStyle}></BurgerNav>
+  </List>
 );
 
 const NavigationNonAuth = () => (
-    <List>
-        <ListInnerContainer>
-            <ListItem>
-                <Link to={ROUTES.LANDING}><Logo>F</Logo></Link>
-            </ListItem>
-            <ListItem>
-                <Link to={ROUTES.SIGN_IN}>SIGN IN</Link>
-            </ListItem>
-        </ListInnerContainer>
-    </List>
+  <List>
+    <ListInnerContainer>
+      <ListItem>
+        <Link to={ROUTES.LANDING}><Logo>F</Logo></Link>
+      </ListItem>
+      <ListItem>
+        <Link to={ROUTES.SIGN_IN}>SIGN IN</Link>
+      </ListItem>
+    </ListInnerContainer>
+  </List>
 );
 
 export default Navigation;
