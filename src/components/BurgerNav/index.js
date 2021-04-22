@@ -155,7 +155,7 @@ const NavigationAuth = ({ setCustomStyle, authUser }) => {
         </Link>
       </BurgerItem>
       <BurgerItem className="navbarItem">
-        <SignOutButton setCustomStyle={setCustomStyle} onClick={closeMenu} />
+        <SignOutButton name="sign out" setCustomStyle={setCustomStyle} onClick={closeMenu} />
       </BurgerItem>
     </Menu>
   )

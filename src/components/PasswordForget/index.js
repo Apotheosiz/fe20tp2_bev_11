@@ -90,7 +90,7 @@ class PasswordForgetFormBase extends Component {
           />
         </FormWrap>
         {error && <p style={{ color: "red" }}>{error.message}</p>}
-        <Button disabled={isInvalid} width="fit-content" type="submit">
+        <Button disabled={isInvalid} name="reset my password" width="fit-content" type="submit">
           Reset My Password
                 </Button>
       </StyledForm>

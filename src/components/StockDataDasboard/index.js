@@ -208,6 +208,7 @@ const StockDataDashboard = ({ companyTicker, setCompanyTicker, authUser, firebas
                         &&
                         <StyledButton
                           onClick={() => delTicker(result['symbol'])}
+                          name="remove favorite"
                         >
                           <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                             <title>Remove</title>
@@ -219,6 +220,7 @@ const StockDataDashboard = ({ companyTicker, setCompanyTicker, authUser, firebas
                       {(Object.keys(user.tickers).length < 5)
                         && <StyledButton
                           onClick={() => addTicker(result['symbol'], result)}
+                          name="add to favorites"
                         >
                           <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                             <title>Add to Favorites</title>

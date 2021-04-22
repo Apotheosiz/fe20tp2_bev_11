@@ -46,12 +46,13 @@ const withEmailVerification = Component => {
                 )}
 
                 <button
+                  name="send confirmation email"
                   type="button"
                   onClick={this.onSendEmailVerification}
                   disabled={this.state.isSent}
                 >
                   Send confirmation E-Mail
-                                </button>
+                </button>
               </div>
             ) : (
               <Component {...this.props} />

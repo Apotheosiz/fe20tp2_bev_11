@@ -73,7 +73,7 @@ class PasswordChangeForm extends Component {
         </FormWrap>
 
         {/*using the isInvalid variable as boolean for the disabled attribute*/}
-        {!isInvalid && <ChangePassButton type="submit">
+        {!isInvalid && <ChangePassButton name="Reset My Password" type="submit">
           Reset My Password
                 </ChangePassButton>}
         {this.state.message && <p style={{ color: "red" }}>{this.state.message}</p>}

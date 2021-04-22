@@ -177,7 +177,7 @@ const NavigationAuth = ({ setCustomStyle, authUser }) => (
           <StyledImg title="Account" src={picArr[authUser.profilePic - 1]} alt="profile" />
         </Link>
 
-        <SignOutButton setCustomStyle={setCustomStyle} />
+        <SignOutButton name="sign out" setCustomStyle={setCustomStyle} />
       </ListItemRight>
     </ListInnerContainer>
 

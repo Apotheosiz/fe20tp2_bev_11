@@ -301,7 +301,7 @@ class SignUpFormBase extends Component {
         </BeAdmin>
 
         {error && <p style={{ color: "red"}}>{error.message}</p>}
-        <Button disabled={isInvalid} type="submit">register</Button>
+        <Button disabled={isInvalid} name="register" type="submit">register</Button>
 
       </form>
     );

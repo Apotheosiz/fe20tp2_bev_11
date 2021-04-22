@@ -90,13 +90,16 @@ const Landing = () => {
           <Logo />
         </Header>
         <LandingPic width='80%' maxWidth='500px' />
-        <Link to={ROUTES.SIGN_UP}><Button width='75%' maxWidth='400px' >Get started</Button></Link>
+        <Link to={ROUTES.SIGN_UP}><Button name="get started" width='75%' maxWidth='400px' >Get started</Button></Link>
         <SignInLink />
       </MainContent>
-      <ArrowButton onClick={(event) => {
-        sectionEl.current.scrollIntoView({ behavior: "smooth" });
-        event.target.remove();
-      }} >
+      <ArrowButton
+        onClick={(event) => {
+          sectionEl.current.scrollIntoView({ behavior: "smooth" });
+          event.target.remove();
+        }}
+        name="scroll down"
+      >
         <ArrowDown />
       </ArrowButton>
       <Section ref={sectionEl} >

@@ -108,9 +108,9 @@ class SignInFormBase extends Component {
         </FormWrap>
         <PasswordForgetLink />
         {error && <p style={{ color: "red" }}>{error.message}</p>}
-        <Button disabled={isInvalid} type="submit">
+        <Button disabled={isInvalid} name="sign in" type="submit">
           sign in
-                </Button>
+        </Button>
       </form>
     );
   }
