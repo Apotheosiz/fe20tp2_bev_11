@@ -30,13 +30,7 @@
 
 ![Fink_Demo](src/img/readme-pics/Fink_demo.gif)
 
-<img src="src/img/readme-pics/Fink_m_landing.png" alt="drawing" width="100px"/><img src="src/img/readme-pics/Fink_m_signIn.png" alt="drawing" width="100px"/>
-
-![Fink_landing_page](src/img/readme-pics/Fink_m_landing.png)
-
-![Fink_mobile_sign_in](src/img/readme-pics/Fink_m_signIn.png)
-
-![Fink_mobile_home_page](src/img/readme-pics/Fink_m_home.png)
+<img src="src/img/readme-pics/Fink_m_landing.png" alt="landing page" width="100px"/> <img src="src/img/readme-pics/Fink_m_signIn.png" alt="sign in page" width="100px"/> <img src="src/img/readme-pics/Fink_m_home.png" alt="home page" width="100px"/>
 
 ## Features ✨
 **List of features available:**
